@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31402.337
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaraokePayment.Test", "KaraokePayment.Test\KaraokePayment.Test.csproj", "{5D9A5E24-CD13-49B2-9927-EF00DED5B5B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaraokePayment", "KaraokePayment\KaraokePayment.csproj", "{B126396C-4D11-4CEF-8411-534A6110766D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D9A5E24-CD13-49B2-9927-EF00DED5B5B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D9A5E24-CD13-49B2-9927-EF00DED5B5B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D9A5E24-CD13-49B2-9927-EF00DED5B5B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D9A5E24-CD13-49B2-9927-EF00DED5B5B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B126396C-4D11-4CEF-8411-534A6110766D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B126396C-4D11-4CEF-8411-534A6110766D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B126396C-4D11-4CEF-8411-534A6110766D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B126396C-4D11-4CEF-8411-534A6110766D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2137B745-3FA4-47E5-98B7-FEFE09A5FD34}
+	EndGlobalSection
+EndGlobal
