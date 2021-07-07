@@ -6,7 +6,8 @@ using KaraokePayment.Data.Entity;
 
 namespace KaraokePayment.DAO.Interface
 {
-    public interface IHangHoaDAO : IBaseDAO<HangHoa>
+    public interface IHangHoaDAO : IDAO<HangHoa>
     {
+        Task<List<HangHoa>> GetHangHoaTheoTen(string tenHH);
     }
 }

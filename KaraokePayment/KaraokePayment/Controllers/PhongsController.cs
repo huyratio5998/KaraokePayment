@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KaraokePayment.DAO.Implement;
+using KaraokePayment.DAO.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +15,18 @@ namespace KaraokePayment.Controllers
     public class PhongsController : Controller
     {
         private readonly KaraokeDbContext _context;
+        private IPhongDAO _phongDao;
 
-        public PhongsController(KaraokeDbContext context)
+        public PhongsController(KaraokeDbContext context, IPhongDAO phongDao)
         {
             _context = context;
+            _phongDao = phongDao;
+        }
+
+        public ActionResult GetPhongDaBook()
+        {
+            var result = _phongDao.GetPhongDaBook();
+            return View(result);
         }
 
         // GET: Phongs

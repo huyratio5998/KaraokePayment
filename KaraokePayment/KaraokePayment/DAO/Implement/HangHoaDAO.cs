@@ -8,7 +8,21 @@ using KaraokePayment.Data.Entity;
 
 namespace KaraokePayment.DAO.Implement
 {
-    public class HangHoaDAO : BaseDAO<HangHoa>,IHangHoaDAO
+    public class HangHoaDAO : DAO<HangHoa>,IHangHoaDAO
     {
+        public async Task<List<HangHoa>> GetHangHoaTheoTen(string tenHH)
+        {
+            if (!string.IsNullOrEmpty(tenHH))
+            {
+                var result = _context.HangHoas.Where(x => x.Ten.Contains(tenHH, StringComparison.OrdinalIgnoreCase)).ToList();
+                if (result != null && result.Any()) return result;
+            }
+            var hanghoas = await GetAll();
+            return hanghoas.ToList();
+        }
+
+        protected HangHoaDAO(KaraokeDbContext context) : base(context)
+        {
+        }
     }
 }

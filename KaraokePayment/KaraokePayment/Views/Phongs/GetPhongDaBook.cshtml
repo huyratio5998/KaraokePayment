@@ -1,0 +1,55 @@
+﻿@model System.Collections.Generic.List<KaraokePayment.Data.Entity.Phong>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+<div>
+    <h1>Danh sach phong da book</h1>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Ten Phong
+        </th>
+        <th>
+            Co Phong
+        </th>
+        <th>
+            IsVIP
+        </th>
+        <th>
+            Gia
+        </th>
+        <th>
+            Trang Thai
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenPhong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoPhong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsVIP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrangThai)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Chon</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

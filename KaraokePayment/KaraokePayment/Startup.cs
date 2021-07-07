@@ -28,11 +28,11 @@ namespace KaraokePayment
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRepositories();
             services.AddDbContext<KaraokeDbContext>(
         options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<KaraokeDbContext>();
-            services.AddRepositories();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

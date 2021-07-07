@@ -8,14 +8,19 @@ using KaraokePayment.Data.Entity;
 
 namespace KaraokePayment.DAO.Implement
 {
-    public class BookPhongOrderDAO : BaseDAO<BookPhongOrder> , IBookPhongOrderDAO
+    public class BookPhongOrderDAO : DAO<BookPhongOrder> , IBookPhongOrderDAO
     {
+        protected BookPhongOrderDAO(KaraokeDbContext context) : base(context)
+        {
+        }
         public async Task<bool> CheckOrderFinish(int bookPhongOrderId)
         {
-            var order =await GetSingleById(bookPhongOrderId);
+            var order =await GetById(bookPhongOrderId);
             if (order == null) return false;
             if (order.TrangThai.Equals("paid")) return true;
             return false;
         }
+
+        
     }
 }

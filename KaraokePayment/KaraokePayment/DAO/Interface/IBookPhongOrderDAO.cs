@@ -6,7 +6,7 @@ using KaraokePayment.Data.Entity;
 
 namespace KaraokePayment.DAO.Interface
 {
-    public interface IBookPhongOrderDAO : IBaseDAO<BookPhongOrder>
+    public interface IBookPhongOrderDAO : IDAO<BookPhongOrder>
     {
         Task<bool> CheckOrderFinish(int bookPhongOrderId);
     }

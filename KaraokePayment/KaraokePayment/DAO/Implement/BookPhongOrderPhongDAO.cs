@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KaraokePayment.DAO.Implement
 {
-    public class BookPhongOrderPhongDAO: BaseDAO<BookPhongOrderPhong>, IBookPhongOrderPhongDAO
+    public class BookPhongOrderPhongDAO: DAO<BookPhongOrderPhong>, IBookPhongOrderPhongDAO
     {
         
         public bool ThemHangHoaPhong(int bookPhongOrderPhongId, int hangHoaId, int soLuong)
@@ -36,7 +36,7 @@ namespace KaraokePayment.DAO.Implement
 
         public async Task<bool> ThanhToanPhong(int bookPhongOrderPhongId)
         {
-            var bookPhong=await GetSingleById(bookPhongOrderPhongId);
+            var bookPhong=await GetById(bookPhongOrderPhongId);
             if (bookPhong == null) return false;
             bookPhong.TrangThai = "paid";
             _context.Entry(bookPhong).State = EntityState.Modified;
@@ -45,12 +45,12 @@ namespace KaraokePayment.DAO.Implement
 
         }
 
-        public async Task<List<BookPhongOrderPhong>> GetHoaDon(List<int> bookPhongOrderPhongId)
+        public List<BookPhongOrderPhong> GetHoaDon(List<int> bookPhongOrderPhongId)
         {
             var lstHoaDon = new List<BookPhongOrderPhong>();
             foreach (var item in bookPhongOrderPhongId)
             {
-                var hoaDon = await GetMulti(x => x.Id == item);
+                var hoaDon =_context.BookPhongOrderPhongs.Where(x => x.Id == item).ToList();
                 if(hoaDon!=null && hoaDon.Any()) lstHoaDon.AddRange(hoaDon);
             }
 
@@ -59,8 +59,12 @@ namespace KaraokePayment.DAO.Implement
 
         public Task<BookPhongOrderPhong> GetBookPhongInfo(int bookPhongOrderPhongId)
         {
-            var bookPhongInfo = GetSingleById(bookPhongOrderPhongId);
+            var bookPhongInfo = GetById(bookPhongOrderPhongId);
             return bookPhongInfo;
+        }
+
+        protected BookPhongOrderPhongDAO(KaraokeDbContext context) : base(context)
+        {
         }
     }
 }
