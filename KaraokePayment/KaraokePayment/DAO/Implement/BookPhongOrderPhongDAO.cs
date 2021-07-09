@@ -12,7 +12,9 @@ namespace KaraokePayment.DAO.Implement
 {
     public class BookPhongOrderPhongDAO: DAO<BookPhongOrderPhong>, IBookPhongOrderPhongDAO
     {
-        
+        public BookPhongOrderPhongDAO(KaraokeDbContext context) : base(context)
+        {
+        }
         public bool ThemHangHoaPhong(int bookPhongOrderPhongId, int hangHoaId, int soLuong)
         {
             try
@@ -61,10 +63,6 @@ namespace KaraokePayment.DAO.Implement
         {
             var bookPhongInfo = GetById(bookPhongOrderPhongId);
             return bookPhongInfo;
-        }
-
-        protected BookPhongOrderPhongDAO(KaraokeDbContext context) : base(context)
-        {
         }
     }
 }

@@ -10,7 +10,7 @@ namespace KaraokePayment.DAO.Implement
 {
     public class PhongDAO : DAO<Phong>, IPhongDAO
     {
-        protected PhongDAO(KaraokeDbContext context) : base(context)
+        public PhongDAO(KaraokeDbContext context) : base(context)
         {
         }
         public List<Phong> GetPhongDaBook()

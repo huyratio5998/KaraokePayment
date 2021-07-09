@@ -10,6 +10,9 @@ namespace KaraokePayment.DAO.Implement
 {
     public class HangHoaDAO : DAO<HangHoa>,IHangHoaDAO
     {
+        public HangHoaDAO(KaraokeDbContext context) : base(context)
+        {
+        }
         public async Task<List<HangHoa>> GetHangHoaTheoTen(string tenHH)
         {
             if (!string.IsNullOrEmpty(tenHH))
@@ -19,10 +22,6 @@ namespace KaraokePayment.DAO.Implement
             }
             var hanghoas = await GetAll();
             return hanghoas.ToList();
-        }
-
-        protected HangHoaDAO(KaraokeDbContext context) : base(context)
-        {
         }
     }
 }

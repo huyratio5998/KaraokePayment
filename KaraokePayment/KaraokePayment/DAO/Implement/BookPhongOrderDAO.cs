@@ -10,7 +10,7 @@ namespace KaraokePayment.DAO.Implement
 {
     public class BookPhongOrderDAO : DAO<BookPhongOrder> , IBookPhongOrderDAO
     {
-        protected BookPhongOrderDAO(KaraokeDbContext context) : base(context)
+        public BookPhongOrderDAO(KaraokeDbContext context) : base(context)
         {
         }
         public async Task<bool> CheckOrderFinish(int bookPhongOrderId)
