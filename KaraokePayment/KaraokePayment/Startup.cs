@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KaraokePayment.DAO;
+using Microsoft.AspNetCore.Http;
 
 namespace KaraokePayment
 {
@@ -30,8 +31,9 @@ namespace KaraokePayment
         {
             services.AddDbContext<KaraokeDbContext>(
         options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<KaraokeDbContext>();
+            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddRepositories();
             services.AddControllersWithViews();
             services.AddRazorPages();

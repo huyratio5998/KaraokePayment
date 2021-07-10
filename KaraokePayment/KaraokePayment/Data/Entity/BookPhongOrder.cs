@@ -18,8 +18,8 @@ namespace KaraokePayment.Data.Entity
         [ForeignKey("KhachHangId")]
         public string KhachHangId { get; set; }
         public KhachHang KhachHang { get; set; }
-        [ForeignKey("NhanVienAdminCaLV")]
-        public int NhanVienAdminCaLV { get; set; }
+        [ForeignKey("NhanVienCaLVId")]
+        public int NhanVienCaLVId { get; set; }
         public NhanVienCaLV NhanVienCaLV { get; set; }
     }
 }

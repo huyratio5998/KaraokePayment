@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KaraokePayment.Data.Migrations
 {
     [DbContext(typeof(KaraokeDbContext))]
-    [Migration("20210702035414_add-entity")]
-    partial class addentity
+    [Migration("20210710160701_add-table")]
+    partial class addtable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,10 +31,7 @@ namespace KaraokePayment.Data.Migrations
                     b.Property<string>("KhachHangId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("NhanVienAdminCaLV")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("NhanVienCaLVId")
+                    b.Property<int>("NhanVienCaLVId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("TongTT")
@@ -54,7 +51,7 @@ namespace KaraokePayment.Data.Migrations
 
             modelBuilder.Entity("KaraokePayment.Data.Entity.BookPhongOrderPhong", b =>
                 {
-                    b.Property<int>("NhanVienBook1Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -67,6 +64,9 @@ namespace KaraokePayment.Data.Migrations
 
                     b.Property<DateTime>("NgayTao")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("NhanVienBook1Id")
+                        .HasColumnType("int");
 
                     b.Property<int>("NhanVienBook2Id")
                         .HasColumnType("int");
@@ -89,7 +89,7 @@ namespace KaraokePayment.Data.Migrations
                     b.Property<string>("TrangThai")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("NhanVienBook1Id");
+                    b.HasKey("Id");
 
                     b.HasIndex("BookPhongOrderId");
 
@@ -120,6 +120,40 @@ namespace KaraokePayment.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CaLV");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Den = 11.0,
+                            HeSoLuong = 1.0,
+                            TenCa = "Ca 1",
+                            Tu = 7.0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Den = 18.0,
+                            HeSoLuong = 1.0,
+                            TenCa = "Ca 2",
+                            Tu = 11.0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Den = 22.0,
+                            HeSoLuong = 1.5,
+                            TenCa = "Ca 3",
+                            Tu = 18.0
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Den = 2.0,
+                            HeSoLuong = 2.0,
+                            TenCa = "Ca 4",
+                            Tu = 22.0
+                        });
                 });
 
             modelBuilder.Entity("KaraokePayment.Data.Entity.DiaChi", b =>
@@ -138,6 +172,38 @@ namespace KaraokePayment.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DiaChi");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Huyen = "Nam Sach",
+                            Tinh = "Hai Duong"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Huyen = "Tan Trieu",
+                            Tinh = "Ha Noi"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Huyen = "Ha Dong",
+                            Tinh = "Ha Noi"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Huyen = "Nam Tan",
+                            Tinh = "Hai Duong"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Huyen = "Cam Giang",
+                            Tinh = "Hai Duong"
+                        });
                 });
 
             modelBuilder.Entity("KaraokePayment.Data.Entity.HangHoa", b =>
@@ -168,6 +234,58 @@ namespace KaraokePayment.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HangHoa");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Gia = 10000m,
+                            HanSuDung = new DateTime(2022, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MaHH = "HH001",
+                            NgayNhap = new DateTime(2021, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoLuong = 50,
+                            Ten = "Bim Bim Oshi Cay"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Gia = 20000m,
+                            HanSuDung = new DateTime(2022, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MaHH = "HH002",
+                            NgayNhap = new DateTime(2021, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoLuong = 50,
+                            Ten = "Dia Hoa Qua"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Gia = 20000m,
+                            HanSuDung = new DateTime(2022, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MaHH = "HH003",
+                            NgayNhap = new DateTime(2021, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoLuong = 50,
+                            Ten = "Bim Bim Ostar"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Gia = 40000m,
+                            HanSuDung = new DateTime(2022, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MaHH = "HH004",
+                            NgayNhap = new DateTime(2021, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoLuong = 1000,
+                            Ten = "Bia Sai Gon"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Gia = 45000m,
+                            HanSuDung = new DateTime(2022, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MaHH = "HH005",
+                            NgayNhap = new DateTime(2021, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoLuong = 1000,
+                            Ten = "Bia Heineken"
+                        });
                 });
 
             modelBuilder.Entity("KaraokePayment.Data.Entity.NhanVienCaLV", b =>
@@ -220,6 +338,89 @@ namespace KaraokePayment.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Phong");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CoPhong = "small",
+                            Gia = 150000m,
+                            IsVIP = false,
+                            TenPhong = "P 101",
+                            TrangThai = "empty"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CoPhong = "small",
+                            Gia = 300000m,
+                            IsVIP = true,
+                            TenPhong = "P 102",
+                            TrangThai = "empty"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CoPhong = "small",
+                            Gia = 150000m,
+                            IsVIP = false,
+                            TenPhong = "P 103",
+                            TrangThai = "empty"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CoPhong = "medium",
+                            Gia = 300000m,
+                            IsVIP = false,
+                            TenPhong = "P 201",
+                            TrangThai = "empty"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CoPhong = "medium",
+                            Gia = 600000m,
+                            IsVIP = true,
+                            TenPhong = "P 202",
+                            TrangThai = "empty"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CoPhong = "medium",
+                            Gia = 300000m,
+                            IsVIP = false,
+                            TenPhong = "P 203",
+                            TrangThai = "empty"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CoPhong = "big",
+                            Gia = 600000m,
+                            IsVIP = false,
+                            TenPhong = "P 301",
+                            TrangThai = "empty"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CoPhong = "big",
+                            Gia = 1200000m,
+                            IsVIP = true,
+                            TenPhong = "P 302",
+                            TrangThai = "empty"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CoPhong = "big",
+                            Gia = 600000m,
+                            IsVIP = false,
+                            TenPhong = "P 303",
+                            TrangThai = "empty"
+                        });
                 });
 
             modelBuilder.Entity("KaraokePayment.Data.Entity.ThemHangHoa", b =>
@@ -487,6 +688,93 @@ namespace KaraokePayment.Data.Migrations
                     b.HasIndex("DiaChiId");
 
                     b.HasDiscriminator().HasValue("KhachHang");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "270f9859-7e96-4cbe-880b-9fa9c3df87ea",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "9be66c76-5d4f-4a46-bb68-1c17d0b2052b",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "812cc1d4-0beb-4f49-8aaf-94d3e7c6ee02",
+                            TwoFactorEnabled = false,
+                            Ho = "Ngo Ba",
+                            IsVIP = true,
+                            MaKH = "KH001",
+                            NgaySinh = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SDT = "0665324444",
+                            Ten = "Hung"
+                        },
+                        new
+                        {
+                            Id = "7e2a44c9-4990-40c3-86ed-47880c11ca3e",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "b130d152-1c24-435d-8f6d-e115ed38862f",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "1883a210-271b-4258-9e4b-dae1d397c44e",
+                            TwoFactorEnabled = false,
+                            Ho = "Kieu Dang",
+                            IsVIP = false,
+                            MaKH = "KH002",
+                            NgaySinh = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SDT = "0554513222",
+                            Ten = "Thang"
+                        },
+                        new
+                        {
+                            Id = "1c1b0576-1637-440a-9fa2-7078f63fd7d3",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "26b8b80f-1a14-4540-b0a8-f951ba0af442",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "35c75df6-5e0d-4632-90f4-d2a6eefad192",
+                            TwoFactorEnabled = false,
+                            Ho = "Nguyen Chung",
+                            IsVIP = true,
+                            MaKH = "KH003",
+                            NgaySinh = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SDT = "09999999",
+                            Ten = "Dung"
+                        },
+                        new
+                        {
+                            Id = "abc90950-b7f8-4750-aa77-4789373928bb",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "20ec8e3a-e2f4-4dfa-a6f5-10bad9560d59",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "8b3e104c-31ae-411e-a6e5-5c52078870ba",
+                            TwoFactorEnabled = false,
+                            Ho = "Ngo Ba",
+                            IsVIP = false,
+                            MaKH = "KH004",
+                            NgaySinh = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SDT = "065332255",
+                            Ten = "Duc"
+                        },
+                        new
+                        {
+                            Id = "b024c420-806c-4630-a1ac-76db0f2d382c",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "51e7f336-f899-49a3-a297-68a766c9db2f",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "621b8860-5281-4ac0-9dc6-00d781d74e3e",
+                            TwoFactorEnabled = false,
+                            Ho = "Ngo Ba",
+                            IsVIP = false,
+                            MaKH = "KH005",
+                            NgaySinh = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SDT = "0977470999",
+                            Ten = "Nam"
+                        });
                 });
 
             modelBuilder.Entity("KaraokePayment.Data.Entity.NhanVien", b =>
@@ -530,6 +818,118 @@ namespace KaraokePayment.Data.Migrations
                     b.HasIndex("DiaChiId");
 
                     b.HasDiscriminator().HasValue("NhanVien");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "88cfe559-4a68-45c2-82b5-4ec8071540b1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a8689549-cb9a-46a3-8425-5a629b4a0d3c",
+                            Email = "huynguyen98.clc@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "a79879df-8ae4-4013-99ea-ac3859b416f0",
+                            TwoFactorEnabled = false,
+                            CMT = "142829244",
+                            DiaChiChiTiet = "10N01 - khu tai dinh cu",
+                            Ho = "Nguyen Van",
+                            LoaiNV = "phucvu",
+                            Luong = 10000000m,
+                            MaNV = "NV001",
+                            NgaySinh = new DateTime(1998, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayTao = new DateTime(2020, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SDT = "0977470992",
+                            Ten = "Huy"
+                        },
+                        new
+                        {
+                            Id = "41f50fb1-d73c-461a-b788-ee3dbac4b5ef",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "9bc9b24c-99b4-436d-8468-f5f1e569e6d2",
+                            Email = "hung@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "48ec08e5-44b9-482a-8b9f-f7ab9623a2a1",
+                            TwoFactorEnabled = false,
+                            CMT = "123456789",
+                            DiaChiChiTiet = "khu tai dinh cu",
+                            Ho = "Nguyen Van",
+                            LoaiNV = "phucvu",
+                            Luong = 9000000m,
+                            MaNV = "NV002",
+                            NgaySinh = new DateTime(1998, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayTao = new DateTime(2020, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SDT = "099457645",
+                            Ten = "Hung"
+                        },
+                        new
+                        {
+                            Id = "0b8ccd03-8076-4e32-9754-93497ca6d9f5",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d13deec5-9d42-4906-92fb-4c1e273b8a22",
+                            Email = "duc@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "efe65f34-a0ff-4e7b-9df1-da0d86fa0ece",
+                            TwoFactorEnabled = false,
+                            CMT = "115487982",
+                            DiaChiChiTiet = "khu tai dinh cu",
+                            Ho = "Nguyen Minh",
+                            LoaiNV = "phucvu",
+                            Luong = 9000000m,
+                            MaNV = "NV003",
+                            NgaySinh = new DateTime(1998, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayTao = new DateTime(2020, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SDT = "031231232",
+                            Ten = "Duc"
+                        },
+                        new
+                        {
+                            Id = "62572cad-20e3-49bf-972e-9d26ba4171c2",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "5fe07214-7274-426c-a5fd-fb4397ae941a",
+                            Email = "thang@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "9764d41e-d0c5-488c-bb92-fbb31a2907dd",
+                            TwoFactorEnabled = false,
+                            CMT = "465487982",
+                            DiaChiChiTiet = "khu tai dinh cu",
+                            Ho = "Nguyen Minh",
+                            LoaiNV = "phucvu",
+                            Luong = 9000000m,
+                            MaNV = "NV004",
+                            NgaySinh = new DateTime(1998, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayTao = new DateTime(2020, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SDT = "031231232",
+                            Ten = "Thang"
+                        },
+                        new
+                        {
+                            Id = "e707250e-16f8-4744-a69a-e67bbd24b37e",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "de4a3b71-5e67-4ec2-ac66-5b10ddc9aa1d",
+                            Email = "lannp@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "c6464a37-13c2-4106-88e5-0676fe15636a",
+                            TwoFactorEnabled = false,
+                            CMT = "213123123",
+                            DiaChiChiTiet = "khu tai dinh cu",
+                            Ho = "Ngo Phuong",
+                            LoaiNV = "phucvu",
+                            Luong = 9000000m,
+                            MaNV = "NV005",
+                            NgaySinh = new DateTime(1998, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayTao = new DateTime(2020, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SDT = "0989456122",
+                            Ten = "Lan"
+                        });
                 });
 
             modelBuilder.Entity("KaraokePayment.Data.Entity.BookPhongOrder", b =>
@@ -540,7 +940,9 @@ namespace KaraokePayment.Data.Migrations
 
                     b.HasOne("KaraokePayment.Data.Entity.NhanVienCaLV", "NhanVienCaLV")
                         .WithMany("BookPhongOrder")
-                        .HasForeignKey("NhanVienCaLVId");
+                        .HasForeignKey("NhanVienCaLVId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("KaraokePayment.Data.Entity.BookPhongOrderPhong", b =>

@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using KaraokePayment.Data.Entity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace KaraokePayment.Data
 {
@@ -25,5 +27,10 @@ namespace KaraokePayment.Data
         public virtual DbSet<NhanVienCaLV> NhanVienCaLvs{ get; set; }
         public virtual DbSet<Phong> Phongs{ get; set; }
         public virtual DbSet<ThemHangHoa> ThemHangHoas{ get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Seed();
+        }
     }
 }
