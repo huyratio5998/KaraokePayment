@@ -8,11 +8,11 @@ using KaraokePayment.Data;
 
 namespace KaraokePayment.Controllers
 {
-    public class BookPhongOrderPhongController : Controller
+    public class BookPhongOrderPhong1Controller : Controller
     {
         private IBookPhongOrderPhongDAO _bookPhongOrderPhongDao;
 
-        public BookPhongOrderPhongController(IBookPhongOrderPhongDAO bookPhongOrderPhongDao)
+        public BookPhongOrderPhong1Controller(IBookPhongOrderPhongDAO bookPhongOrderPhongDao)
         {
             _bookPhongOrderPhongDao = bookPhongOrderPhongDao;
         }

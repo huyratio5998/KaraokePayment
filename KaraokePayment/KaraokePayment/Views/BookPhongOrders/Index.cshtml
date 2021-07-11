@@ -1,4 +1,4 @@
-﻿@model IEnumerable<KaraokePayment.Data.Entity.NhanVienCaLV>
+﻿@model IEnumerable<KaraokePayment.Data.Entity.BookPhongOrder>
 
 @{
     ViewData["Title"] = "Index";
@@ -15,13 +15,16 @@
     <tr>
         <th>Id</th>
         <th>
-            @Html.DisplayNameFor(model => model.NgayLV)
+            @Html.DisplayNameFor(model => model.TongTT)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.NhanVien)
+            @Html.DisplayNameFor(model => model.TrangThai)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CaLv)
+            @Html.DisplayNameFor(model => model.KhachHang)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NhanVienCaLV)
         </th>
         <th></th>
     </tr>
@@ -29,22 +32,18 @@
     <tbody>
 @foreach (var item in Model) {
     <tr>
-        <td>@Html.DisplayFor(x=>item.Id)</td>
+        <td>@item.Id</td>
         <td>
-            @Html.DisplayFor(modelItem => item.NgayLV)
+            @Html.DisplayFor(modelItem => item.TongTT)
         </td>
         <td>
-            @{
-                var name = $"{item.NhanVien?.Ho} {item.NhanVien?.Ten}";
-                if (item.NhanVien == null && item.NhanVienId != null)
-                {
-                    name = item.NhanVienId;
-                }
-            }
-            @name
+            @Html.DisplayFor(modelItem => item.TrangThai)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CaLv.TenCa)
+            @Html.DisplayFor(modelItem => item.KhachHang.Ten)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NhanVienCaLV.Id)
         </td>
         <td>
             <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

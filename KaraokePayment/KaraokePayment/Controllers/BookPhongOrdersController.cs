@@ -7,27 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KaraokePayment.Data;
 using KaraokePayment.Data.Entity;
-using Microsoft.AspNetCore.Identity;
 
 namespace KaraokePayment.Controllers
 {
-    public class NhanVienCaLVsController : Controller
+    public class BookPhongOrdersController : Controller
     {
         private readonly KaraokeDbContext _context;
 
-        public NhanVienCaLVsController(KaraokeDbContext context)
+        public BookPhongOrdersController(KaraokeDbContext context)
         {
             _context = context;
         }
 
-        // GET: NhanVienCaLVs
+        // GET: BookPhongOrders
         public async Task<IActionResult> Index()
         {
-            var karaokeDbContext = _context.NhanVienCaLvs.Include(n => n.CaLv).Include(n => n.NhanVien);
+            var karaokeDbContext = _context.BookPhongOrders.Include(b => b.KhachHang).Include(b => b.NhanVienCaLV);
             return View(await karaokeDbContext.ToListAsync());
         }
 
-        // GET: NhanVienCaLVs/Details/5
+        // GET: BookPhongOrders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,45 +34,45 @@ namespace KaraokePayment.Controllers
                 return NotFound();
             }
 
-            var nhanVienCaLV = await _context.NhanVienCaLvs
-                .Include(n => n.CaLv)
-                .Include(n => n.NhanVien)
+            var bookPhongOrder = await _context.BookPhongOrders
+                .Include(b => b.KhachHang)
+                .Include(b => b.NhanVienCaLV)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (nhanVienCaLV == null)
+            if (bookPhongOrder == null)
             {
                 return NotFound();
             }
 
-            return View(nhanVienCaLV);
+            return View(bookPhongOrder);
         }
 
-        // GET: NhanVienCaLVs/Create
+        // GET: BookPhongOrders/Create
         public IActionResult Create()
         {
-            ViewData["CaLvId"] = new SelectList(_context.CaLvs, "Id", "TenCa");
-            ViewData["NhanVienId"] = new SelectList(_context.Set<NhanVien>(), "Id", "Ten");
+            ViewData["KhachHangId"] = new SelectList(_context.Set<KhachHang>(), "Id", "Ten");
+            ViewData["NhanVienCaLVId"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
             return View();
         }
 
-        // POST: NhanVienCaLVs/Create
+        // POST: BookPhongOrders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NgayLV,NhanVienId,CaLvId")] NhanVienCaLV nhanVienCaLV)
+        public async Task<IActionResult> Create([Bind("Id,TongTT,TrangThai,KhachHangId,NhanVienCaLVId")] BookPhongOrder bookPhongOrder)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(nhanVienCaLV);
+                _context.Add(bookPhongOrder);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CaLvId"] = new SelectList(_context.CaLvs, "Id", "Id", nhanVienCaLV.CaLvId);
-            ViewData["NhanVienId"] = new SelectList(_context.Set<NhanVien>(), "Id", "Id", nhanVienCaLV.NhanVienId);
-            return View(nhanVienCaLV);
+            ViewData["KhachHangId"] = new SelectList(_context.Set<KhachHang>(), "Id", "Id", bookPhongOrder.KhachHangId);
+            ViewData["NhanVienCaLVId"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id", bookPhongOrder.NhanVienCaLVId);
+            return View(bookPhongOrder);
         }
 
-        // GET: NhanVienCaLVs/Edit/5
+        // GET: BookPhongOrders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,24 +80,24 @@ namespace KaraokePayment.Controllers
                 return NotFound();
             }
 
-            var nhanVienCaLV = await _context.NhanVienCaLvs.FindAsync(id);
-            if (nhanVienCaLV == null)
+            var bookPhongOrder = await _context.BookPhongOrders.FindAsync(id);
+            if (bookPhongOrder == null)
             {
                 return NotFound();
             }
-            ViewData["CaLvId"] = new SelectList(_context.CaLvs, "Id", "Id", nhanVienCaLV.CaLvId);
-            ViewData["NhanVienId"] = new SelectList(_context.Set<NhanVien>(), "Id", "Id", nhanVienCaLV.NhanVienId);
-            return View(nhanVienCaLV);
+            ViewData["KhachHangId"] = new SelectList(_context.Set<KhachHang>(), "Id", "Id", bookPhongOrder.KhachHangId);
+            ViewData["NhanVienCaLVId"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id", bookPhongOrder.NhanVienCaLVId);
+            return View(bookPhongOrder);
         }
 
-        // POST: NhanVienCaLVs/Edit/5
+        // POST: BookPhongOrders/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,NgayLV,NhanVienId,CaLvId")] NhanVienCaLV nhanVienCaLV)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TongTT,TrangThai,KhachHangId,NhanVienCaLVId")] BookPhongOrder bookPhongOrder)
         {
-            if (id != nhanVienCaLV.Id)
+            if (id != bookPhongOrder.Id)
             {
                 return NotFound();
             }
@@ -107,12 +106,12 @@ namespace KaraokePayment.Controllers
             {
                 try
                 {
-                    _context.Update(nhanVienCaLV);
+                    _context.Update(bookPhongOrder);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!NhanVienCaLVExists(nhanVienCaLV.Id))
+                    if (!BookPhongOrderExists(bookPhongOrder.Id))
                     {
                         return NotFound();
                     }
@@ -123,12 +122,12 @@ namespace KaraokePayment.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CaLvId"] = new SelectList(_context.CaLvs, "Id", "Id", nhanVienCaLV.CaLvId);
-            ViewData["NhanVienId"] = new SelectList(_context.Set<NhanVien>(), "Id", "Id", nhanVienCaLV.NhanVienId);
-            return View(nhanVienCaLV);
+            ViewData["KhachHangId"] = new SelectList(_context.Set<KhachHang>(), "Id", "Id", bookPhongOrder.KhachHangId);
+            ViewData["NhanVienCaLVId"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id", bookPhongOrder.NhanVienCaLVId);
+            return View(bookPhongOrder);
         }
 
-        // GET: NhanVienCaLVs/Delete/5
+        // GET: BookPhongOrders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,32 +135,32 @@ namespace KaraokePayment.Controllers
                 return NotFound();
             }
 
-            var nhanVienCaLV = await _context.NhanVienCaLvs
-                .Include(n => n.CaLv)
-                .Include(n => n.NhanVien)
+            var bookPhongOrder = await _context.BookPhongOrders
+                .Include(b => b.KhachHang)
+                .Include(b => b.NhanVienCaLV)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (nhanVienCaLV == null)
+            if (bookPhongOrder == null)
             {
                 return NotFound();
             }
 
-            return View(nhanVienCaLV);
+            return View(bookPhongOrder);
         }
 
-        // POST: NhanVienCaLVs/Delete/5
+        // POST: BookPhongOrders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var nhanVienCaLV = await _context.NhanVienCaLvs.FindAsync(id);
-            _context.NhanVienCaLvs.Remove(nhanVienCaLV);
+            var bookPhongOrder = await _context.BookPhongOrders.FindAsync(id);
+            _context.BookPhongOrders.Remove(bookPhongOrder);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool NhanVienCaLVExists(int id)
+        private bool BookPhongOrderExists(int id)
         {
-            return _context.NhanVienCaLvs.Any(e => e.Id == id);
+            return _context.BookPhongOrders.Any(e => e.Id == id);
         }
     }
 }
