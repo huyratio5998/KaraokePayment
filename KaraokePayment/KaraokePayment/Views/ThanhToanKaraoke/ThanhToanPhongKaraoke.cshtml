@@ -1,0 +1,156 @@
+﻿@model ThanhToanKaraokeViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    decimal tongTienPhong = 0;
+    decimal tongTienHangHoa = 0;
+}
+
+<h1>Thanh Toan Phong Karaoke</h1>
+@if (Model == null)
+{
+    <p>Khong co du lieu</p>
+}
+else
+{
+    <div style="margin-top: 50px;">
+        <h3>Phong Thanh Toan</h3>
+        @Html.ActionLink("Chon Phong", "GetPhongDaBook", "Phongs")
+        @if (Model.PhongThanhToan != null && Model.PhongThanhToan.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Ten Phong
+                        </th>
+                        <th>
+                            Co Phong
+                        </th>
+                        <th>
+                            Is Vip
+                        </th>
+                        <th>
+                            Gia
+                        </th>
+                        <th>
+                            Trang Thai
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.PhongThanhToan)
+                    {
+                        tongTienPhong += item.Phong.Gia;
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phong.TenPhong)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phong.CoPhong)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phong.IsVIP)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phong.Gia)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phong.TrangThai)
+                            </td>
+                            <td>
+                                <a href="#">Xoa</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <h3>Tong Tien Phong: @tongTienPhong</h3>
+        }
+    </div>
+    @if (Model.PhongThanhToan != null && Model.PhongThanhToan.Any())
+    {
+        <div>
+            <h3>Danh sach hang hoa su dung</h3>
+            @if (Model.PhongThanhToan != null && Model.PhongThanhToan.Any())
+            {
+                foreach (var item in Model.PhongThanhToan)
+                {
+                    decimal tongTienHangHoaPhong = 0;
+                    <h3>Phong @item.Phong.TenPhong</h3>
+                    @Html.ActionLink("Them Hang Hoa", "ThemHangHoaPhong", "BookPhongOrderPhongs")
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    HinhAnh
+                                </th>
+                                <th>
+                                    Ten
+                                </th>
+                                <th>
+                                    So Luong
+                                </th>
+                                <th>
+                                    Gia
+                                </th>
+                                <th>
+                                    Tong Tien
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (item.HangHoaSuDung != null && item.HangHoaSuDung.Any())
+                            {
+                                foreach (var hangHoa in item.HangHoaSuDung)
+                                {
+                                    var tienHangHoa = hangHoa.SoLuongSuDung * hangHoa.HangHoaInfo.Gia;
+                                    tongTienHangHoaPhong += tienHangHoa;
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => hangHoa.HangHoaInfo.Ten)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => hangHoa.SoLuongSuDung)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => hangHoa.HangHoaInfo.Gia)
+                                        </td>
+                                        <td>
+                                            @tienHangHoa
+                                        </td>
+                                        <td>
+                                            <a href="#">Xoa</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                    <h3>Tong Tien Hang Hoa: @tongTienHangHoaPhong</h3>
+                    tongTienHangHoa += tongTienHangHoaPhong;
+                }
+            }
+
+        </div>
+        <div>
+            <h3>Phuong Thuc Thanh Toan</h3>
+            <ul>
+                <li>Tien Mat</li>
+                <li>Vi dien tu</li>
+            </ul>
+            <h3>Tong Tien Phong: @tongTienPhong</h3>
+            <h3>Tong Tien Hang Hoa: @tongTienHangHoa</h3>
+            <h3>Tong Thanh Toan: @(tongTienPhong + tongTienHangHoa)</h3>
+
+        </div>
+    }
+
+}
+
+

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KaraokePayment.DAO.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +14,22 @@ namespace KaraokePayment.Controllers
     public class BookPhongOrderPhongsController : Controller
     {
         private readonly KaraokeDbContext _context;
-
-        public BookPhongOrderPhongsController(KaraokeDbContext context)
+        private IBookPhongOrderPhongDAO _bookPhongOrderPhongDao;
+        public BookPhongOrderPhongsController(KaraokeDbContext context, IBookPhongOrderPhongDAO bookPhongOrderPhongDao)
         {
             _context = context;
+            _bookPhongOrderPhongDao = bookPhongOrderPhongDao;
         }
-
+        public IActionResult ThanhToanKaraoke(int bookPhongOrderPhongId)
+        {
+            _bookPhongOrderPhongDao.ThanhToanPhong(bookPhongOrderPhongId);
+            return View();
+        }
+        public IActionResult ThemHangHoaPhong(int bookPhongOrderPhongId, int hangHoaId, int soLuong)
+        {
+            _bookPhongOrderPhongDao.ThemHangHoaPhong(bookPhongOrderPhongId, hangHoaId, soLuong);
+            return View();
+        }
         // GET: BookPhongOrderPhongs
         public async Task<IActionResult> Index()
         {
@@ -50,7 +61,7 @@ namespace KaraokePayment.Controllers
         public IActionResult Create()
         {
             ViewData["BookPhongOrderId"] = new SelectList(_context.BookPhongOrders, "Id", "Id");
-            ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "Id");
+            ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "TenPhong");
             return View();
         }
 

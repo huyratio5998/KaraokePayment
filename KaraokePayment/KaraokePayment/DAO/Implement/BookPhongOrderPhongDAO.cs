@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using KaraokePayment.DAO.Interface;
 using KaraokePayment.Data;
 using KaraokePayment.Data.Entity;
+using KaraokePayment.Enums;
+using KaraokePayment.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace KaraokePayment.DAO.Implement
@@ -63,6 +65,25 @@ namespace KaraokePayment.DAO.Implement
         {
             var bookPhongInfo = GetById(bookPhongOrderPhongId);
             return bookPhongInfo;
+        }
+
+        public List<BookPhongOrderPhong> GetPhongDangThanhToan()
+        {
+
+            var result = _context.BookPhongOrderPhongs
+                .Where(x => x.TrangThai.Equals(BookPhongOrderPhongStatus.Paying.ToString())).ToList();
+            return result.Any() ? result : new List<BookPhongOrderPhong>();
+        }
+
+        public List<HangHoaViewModel> GetHangHoaTheoPhong(int phongId)
+        {
+            var themHangHoa = _context.ThemHangHoas.Where(x => x.BookPhongOrderPhongId == phongId).Select(x =>
+                new HangHoaViewModel()
+                {
+                    HangHoaInfo = _context.HangHoas.FirstOrDefault(t => t.Id == x.HangHoaId),
+                    SoLuongSuDung = x.SoLuong,
+                });
+            return themHangHoa.ToList();
         }
     }
 }
