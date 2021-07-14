@@ -70,17 +70,15 @@ else
             <h3>Tong Tien Phong: @tongTienPhong</h3>
         }
     </div>
-    @if (Model.PhongThanhToan != null && Model.PhongThanhToan.Any())
+    @if (Model.PhongThanhToan?.Any()==true)
     {
         <div>
             <h3>Danh sach hang hoa su dung</h3>
-            @if (Model.PhongThanhToan != null && Model.PhongThanhToan.Any())
-            {
-                foreach (var item in Model.PhongThanhToan)
+            @foreach (var item in Model.PhongThanhToan)
                 {
                     decimal tongTienHangHoaPhong = 0;
                     <h3>Phong @item.Phong.TenPhong</h3>
-                    @Html.ActionLink("Them Hang Hoa", "ThemHangHoaPhong", "BookPhongOrderPhongs")
+                    @Html.ActionLink("Them Hang Hoa", "ThemHangHoaPhong", "HangHoas",new {bookPhongOrderPhongId=item.BookPhongOrderPhongId})
                     <table class="table">
                         <thead>
                             <tr>
@@ -103,7 +101,7 @@ else
                             </tr>
                         </thead>
                         <tbody>
-                            @if (item.HangHoaSuDung != null && item.HangHoaSuDung.Any())
+                            @if (item.HangHoaSuDung?.Any()==true)
                             {
                                 foreach (var hangHoa in item.HangHoaSuDung)
                                 {
@@ -135,7 +133,6 @@ else
                     <h3>Tong Tien Hang Hoa: @tongTienHangHoaPhong</h3>
                     tongTienHangHoa += tongTienHangHoaPhong;
                 }
-            }
 
         </div>
         <div>

@@ -8,6 +8,10 @@ namespace KaraokePayment.Models
 {
     public class ThanhToanKaraokeViewModel
     {
+        public ThanhToanKaraokeViewModel()
+        {
+            PhongThanhToan = new List<PhongViewModel>();
+        }
         public List<PhongViewModel> PhongThanhToan{ get; set; }
         //public decimal TongTienPhong { get; set; }
         //public decimal TongTienHangHoa { get; set; }

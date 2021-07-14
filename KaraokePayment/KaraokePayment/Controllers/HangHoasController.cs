@@ -2,23 +2,41 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KaraokePayment.DAO.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KaraokePayment.Data;
 using KaraokePayment.Data.Entity;
+using KaraokePayment.Models;
 
 namespace KaraokePayment.Controllers
 {
     public class HangHoasController : Controller
     {
         private readonly KaraokeDbContext _context;
+        public IHangHoaDAO _hangHoaDao;
 
-        public HangHoasController(KaraokeDbContext context)
+        public HangHoasController(KaraokeDbContext context, IHangHoaDAO hangHoaDao)
         {
             _context = context;
+            _hangHoaDao = hangHoaDao;
         }
 
+        public IActionResult ThemHangHoaPhong(int bookPhongOrderPhongId)
+        {
+            ViewBag.BookPhongOrderPhongId = bookPhongOrderPhongId;
+            var hangHoas = _hangHoaDao.GetHangHoaAvailable();
+            return View(hangHoas);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ThemHangHoaPhong(int bookPhongOrderPhongId, int hangHoaId, int soLuong)
+        {
+            var check = _hangHoaDao.ThemHangHoaPhong(bookPhongOrderPhongId, hangHoaId, soLuong);
+            if (!check) return BadRequest();
+            return RedirectToAction("ThanhToanPhongKaraoke","ThanhToanKaraoke");
+        }
         // GET: HangHoas
         public async Task<IActionResult> Index()
         {

@@ -16,15 +16,15 @@ namespace KaraokePayment.Controllers
         {
             _bookPhongOrderPhongDao = bookPhongOrderPhongDao;
         }
-        public IActionResult ThanhToanKaraoke(int bookPhongOrderPhongId)
-        {
-            _bookPhongOrderPhongDao.ThanhToanPhong(bookPhongOrderPhongId);
-            return View();
-        }
-        public IActionResult ThemHangHoaPhong(int bookPhongOrderPhongId,int hangHoaId,int soLuong)
-        {
-            _bookPhongOrderPhongDao.ThemHangHoaPhong(bookPhongOrderPhongId,hangHoaId,soLuong);
-            return View();
-        }
+        //public IActionResult ThanhToanKaraoke(int bookPhongOrderPhongId)
+        //{
+        //    _bookPhongOrderPhongDao.ThanhToanPhong(bookPhongOrderPhongId);
+        //    return View();
+        //}
+        //public IActionResult ThemHangHoaPhong(int bookPhongOrderPhongId,int hangHoaId,int soLuong)
+        //{
+        //    _bookPhongOrderPhongDao.ThemHangHoaPhong(bookPhongOrderPhongId,hangHoaId,soLuong);
+        //    return View();
+        //}
     }
 }

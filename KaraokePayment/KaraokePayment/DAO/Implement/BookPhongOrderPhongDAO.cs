@@ -14,28 +14,9 @@ namespace KaraokePayment.DAO.Implement
 {
     public class BookPhongOrderPhongDAO: DAO<BookPhongOrderPhong>, IBookPhongOrderPhongDAO
     {
+
         public BookPhongOrderPhongDAO(KaraokeDbContext context) : base(context)
         {
-        }
-        public bool ThemHangHoaPhong(int bookPhongOrderPhongId, int hangHoaId, int soLuong)
-        {
-            try
-            {
-                var themHang = new ThemHangHoa()
-                {
-                    SoLuong = soLuong,
-                    HangHoaId = hangHoaId,
-                    BookPhongOrderPhongId = bookPhongOrderPhongId
-                };
-                _context.ThemHangHoas.Add(themHang);
-                _context.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return false;
-            }
         }
 
         public async Task<bool> ThanhToanPhong(int bookPhongOrderPhongId)
@@ -75,15 +56,29 @@ namespace KaraokePayment.DAO.Implement
             return result.Any() ? result : new List<BookPhongOrderPhong>();
         }
 
-        public List<HangHoaViewModel> GetHangHoaTheoPhong(int phongId)
+        public List<HangHoaViewModel> GetHangHoaTheoBookPhong(int bookPhongOrderPhongId)
         {
-            var themHangHoa = _context.ThemHangHoas.Where(x => x.BookPhongOrderPhongId == phongId).Select(x =>
+            var themHangHoa = _context.ThemHangHoas.Where(x => x.BookPhongOrderPhongId == bookPhongOrderPhongId).Select(x =>
                 new HangHoaViewModel()
                 {
                     HangHoaInfo = _context.HangHoas.FirstOrDefault(t => t.Id == x.HangHoaId),
                     SoLuongSuDung = x.SoLuong,
                 });
             return themHangHoa.ToList();
+        }
+
+        public async Task ThemPhongThanhToan(int phongId, decimal giaPhong)
+        {
+            var bookPhongOrderPhong =  _context.BookPhongOrderPhongs.AsEnumerable().Where(x=>x.PhongId==phongId).FirstOrDefault(x =>
+                (x.TrangThai.Equals(BookPhongOrderPhongStatus.Using.ToString(), StringComparison.OrdinalIgnoreCase) ||
+                 x.TrangThai.Equals(BookPhongOrderPhongStatus.Paying.ToString(), StringComparison.OrdinalIgnoreCase)));
+            if(bookPhongOrderPhong==null) return;
+            bookPhongOrderPhong.NgaySua=DateTime.Now;
+            bookPhongOrderPhong.ThoiGianKetThuc=DateTime.Now;
+            bookPhongOrderPhong.TrangThai = BookPhongOrderPhongStatus.Paying.ToString();
+            var hours = (bookPhongOrderPhong.ThoiGianKetThuc - bookPhongOrderPhong.ThoiGianBatDau).TotalHours;
+            bookPhongOrderPhong.TongTien = Convert.ToDecimal(Math.Round(hours, 1)) * giaPhong;
+            await Update(bookPhongOrderPhong);
         }
     }
 }

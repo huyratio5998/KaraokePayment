@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using KaraokePayment.DAO.Interface;
 using KaraokePayment.Data.Entity;
+using KaraokePayment.Enums;
 using KaraokePayment.Models;
 
 namespace KaraokePayment.Controllers
@@ -32,10 +33,20 @@ namespace KaraokePayment.Controllers
                     var phongItem = new PhongViewModel();
                     var phongId = phong.PhongId;
                     phongItem.Phong = await _phongDao.GetById(phongId);
-                    phongItem.HangHoaSuDung = _bookPhongOrderPhong.GetHangHoaTheoPhong(phongId);
+                    phongItem.HangHoaSuDung = _bookPhongOrderPhong.GetHangHoaTheoBookPhong(phong.BookPhongOrderId);
+                    phongItem.BookPhongOrderPhongId = phong.BookPhongOrderId;
+                    result.PhongThanhToan.Add(phongItem);
                 }
             }
             return View(result);
+        }
+
+        public async Task<IActionResult> ThemPhongThanhToan(int phongId)
+        {
+            if(phongId<=0) return BadRequest();
+            var giaPhong = _phongDao.GetById(phongId).Result.Gia;
+            await _bookPhongOrderPhong.ThemPhongThanhToan(phongId,giaPhong);
+            return RedirectToAction("ThanhToanPhongKaraoke");
         }
 
         // Chon phuong thuc thanh toan

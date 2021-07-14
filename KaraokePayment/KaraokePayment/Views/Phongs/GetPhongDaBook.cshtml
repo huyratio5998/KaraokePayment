@@ -47,7 +47,7 @@
                 @Html.DisplayFor(modelItem => item.TrangThai)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Chon</a>
+                <a asp-action="ThemPhongThanhToan" asp-controller="ThanhToanKaraoke" asp-route-phongId="@item.Id">Chon</a>
             </td>
         </tr>
     }
