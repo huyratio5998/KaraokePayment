@@ -57,7 +57,7 @@
                 @Html.DisplayFor(modelItem => item.HanSuDung)
             </td>
             <td>
-                @using (Html.BeginForm("ThemHangHoaPhong", "HangHoas", FormMethod.Post))
+                @using (Html.BeginForm("ThemHangHoaPhong", "ThanhToanKaraoke", FormMethod.Post))
                 {
                     <input type="hidden" name="bookPhongOrderPhongId" value="@ViewBag.BookPhongOrderPhongId" />
                     <input type="hidden" name="hangHoaId" value="@item.Id" />

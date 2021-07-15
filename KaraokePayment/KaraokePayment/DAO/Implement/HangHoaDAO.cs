@@ -29,34 +29,5 @@ namespace KaraokePayment.DAO.Implement
             var hanghoas = await GetAll();
             return hanghoas.ToList();
         }
-        public bool ThemHangHoaPhong(int bookPhongOrderPhongId, int hangHoaId, int soLuong)
-        {
-            try
-            {
-                var themHang = new ThemHangHoa()
-                {
-                    SoLuong = soLuong,
-                    HangHoaId = hangHoaId,
-                    BookPhongOrderPhongId = bookPhongOrderPhongId
-                };
-                var hangHoaExist = _context.ThemHangHoas.FirstOrDefault(x => x.BookPhongOrderPhongId == bookPhongOrderPhongId && x.HangHoaId == hangHoaId);
-                if (hangHoaExist != null)
-                {
-                    _context.ThemHangHoas.Attach(hangHoaExist);
-                    hangHoaExist.SoLuong += themHang.SoLuong;
-                }
-                else
-                {
-                    _context.ThemHangHoas.Add(themHang);
-                }
-                _context.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return false;
-            }
-        }
     }
 }

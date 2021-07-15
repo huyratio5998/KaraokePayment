@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using KaraokePayment.DAO.Interface;
 using KaraokePayment.Data;
 using KaraokePayment.Data.Entity;
+using KaraokePayment.Enums;
 
 namespace KaraokePayment.DAO.Implement
 {
@@ -15,7 +16,7 @@ namespace KaraokePayment.DAO.Implement
         }
         public List<Phong> GetPhongDaBook()
         {
-            var phongs = _context.Phongs.AsEnumerable().Where(x => x.TrangThai.Equals("occupied",StringComparison.OrdinalIgnoreCase)).ToList();
+            var phongs = _context.Phongs.AsEnumerable().Where(x => x.TrangThai.Equals(PhongStatus.Occupied.ToString(),StringComparison.OrdinalIgnoreCase)).ToList();
             if (phongs != null && phongs.Any())
             {
                 return phongs;

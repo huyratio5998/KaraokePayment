@@ -16,6 +16,13 @@
     public enum PhongStatus
     {
         Empty,
+        Paying,
         Occupied,
+    }
+
+    public static class KieuThanhToan
+    {
+        public static string TienMat="TienMat";
+        public static string ViDienTu = "ViDienTu";
     }
 }

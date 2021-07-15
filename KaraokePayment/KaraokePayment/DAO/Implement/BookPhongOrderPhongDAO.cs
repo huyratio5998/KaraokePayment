@@ -7,6 +7,7 @@ using KaraokePayment.DAO.Interface;
 using KaraokePayment.Data;
 using KaraokePayment.Data.Entity;
 using KaraokePayment.Enums;
+using KaraokePayment.Helpers;
 using KaraokePayment.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -67,18 +68,46 @@ namespace KaraokePayment.DAO.Implement
             return themHangHoa.ToList();
         }
 
-        public async Task ThemPhongThanhToan(int phongId, decimal giaPhong)
+        public async Task<bool> ThemPhongThanhToan(int phongId, decimal giaPhong)
         {
             var bookPhongOrderPhong =  _context.BookPhongOrderPhongs.AsEnumerable().Where(x=>x.PhongId==phongId).FirstOrDefault(x =>
-                (x.TrangThai.Equals(BookPhongOrderPhongStatus.Using.ToString(), StringComparison.OrdinalIgnoreCase) ||
-                 x.TrangThai.Equals(BookPhongOrderPhongStatus.Paying.ToString(), StringComparison.OrdinalIgnoreCase)));
-            if(bookPhongOrderPhong==null) return;
+                (x.TrangThai.Equals(BookPhongOrderPhongStatus.Using.ToString(), StringComparison.OrdinalIgnoreCase)));
+            if(bookPhongOrderPhong==null) return false;
             bookPhongOrderPhong.NgaySua=DateTime.Now;
             bookPhongOrderPhong.ThoiGianKetThuc=DateTime.Now;
             bookPhongOrderPhong.TrangThai = BookPhongOrderPhongStatus.Paying.ToString();
             var hours = (bookPhongOrderPhong.ThoiGianKetThuc - bookPhongOrderPhong.ThoiGianBatDau).TotalHours;
             bookPhongOrderPhong.TongTien = Convert.ToDecimal(Math.Round(hours, 1)) * giaPhong;
             await Update(bookPhongOrderPhong);
+            return true;
+        }
+
+        public async Task<bool> XoaPhongThanhToan(BookPhongOrderPhong phongThanhToan)
+        {
+            if (phongThanhToan == null) return false;
+            phongThanhToan.TongTien = 0;
+            phongThanhToan.TrangThai = BookPhongOrderPhongStatus.Using.ToString();
+            phongThanhToan.NgaySua = DateTime.Now;
+            phongThanhToan.ThoiGianKetThuc=DateTime.Now;
+            await Update(phongThanhToan);
+            return true;
+        }
+
+        public BookPhongOrder CheckBookPhongOrderFinish(int bookPhongOrderId)
+        {
+            if (bookPhongOrderId <= 0) return null;
+            var phongOrderNotDone = _context.BookPhongOrderPhongs.AsEnumerable().FirstOrDefault(x =>
+                x.BookPhongOrderId == bookPhongOrderId && !x.TrangThai.Equals(BookPhongOrderPhongStatus.Paid.ToString(),
+                    StringComparison.OrdinalIgnoreCase));
+            if (phongOrderNotDone != null) return null;
+            var tongTT = _context.BookPhongOrderPhongs.Where(x => x.BookPhongOrderId == bookPhongOrderId)
+                .Sum(x => x.TongTien);
+            var result = new BookPhongOrder()
+            {
+                TrangThai = BookPhongOrderStatus.Paid.ToString(),
+                TongTT = tongTT
+            };
+            return result;
         }
     }
 }

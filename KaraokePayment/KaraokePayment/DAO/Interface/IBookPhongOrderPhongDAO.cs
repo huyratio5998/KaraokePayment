@@ -14,6 +14,8 @@ namespace KaraokePayment.DAO.Interface
         Task<BookPhongOrderPhong> GetBookPhongInfo(int bookPhongOrderPhongId);
         List<BookPhongOrderPhong> GetPhongDangThanhToan();
         List<HangHoaViewModel> GetHangHoaTheoBookPhong(int bookPhongOrderPhongId);
-        Task ThemPhongThanhToan(int phongId, decimal giaPhong);
+        Task<bool> ThemPhongThanhToan(int phongId, decimal giaPhong);
+        Task<bool> XoaPhongThanhToan(BookPhongOrderPhong phongThanhToan);
+        BookPhongOrder CheckBookPhongOrderFinish(int bookPhongOrderId);
     }
 }

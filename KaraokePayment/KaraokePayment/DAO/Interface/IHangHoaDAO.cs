@@ -10,6 +10,5 @@ namespace KaraokePayment.DAO.Interface
     {
         List<HangHoa> GetHangHoaAvailable();
         Task<List<HangHoa>> GetHangHoaTheoTen(string tenHH);
-        bool ThemHangHoaPhong(int bookPhongOrderPhongId, int hangHoaId, int soLuong);
     }
 }

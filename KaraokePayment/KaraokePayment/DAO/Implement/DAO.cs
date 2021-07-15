@@ -23,6 +23,7 @@ namespace KaraokePayment.DAO
         public virtual void Add(T entity)
         {
             _dbSet.Add(entity);
+            _context.SaveChanges();
         }
 
         public virtual async Task Update(T entity)
@@ -36,6 +37,7 @@ namespace KaraokePayment.DAO
         public virtual void Delete(T entity)
         {
             _dbSet.Remove(entity);
+            _context.SaveChanges();
         }
 
         public virtual async Task<T> GetById(int id)

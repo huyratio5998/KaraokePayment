@@ -16,5 +16,7 @@ namespace KaraokePayment.Models
         public Phong Phong { get; set; }
         public List<HangHoaViewModel> HangHoaSuDung { get; set; }
         public int BookPhongOrderPhongId { get; set; }
+        public double ThoiGianSuDung { get; set; }
+        public decimal TongTienSuDung { get; set; }
     }
 }

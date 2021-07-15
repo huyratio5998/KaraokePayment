@@ -23,20 +23,6 @@ namespace KaraokePayment.Controllers
             _hangHoaDao = hangHoaDao;
         }
 
-        public IActionResult ThemHangHoaPhong(int bookPhongOrderPhongId)
-        {
-            ViewBag.BookPhongOrderPhongId = bookPhongOrderPhongId;
-            var hangHoas = _hangHoaDao.GetHangHoaAvailable();
-            return View(hangHoas);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult ThemHangHoaPhong(int bookPhongOrderPhongId, int hangHoaId, int soLuong)
-        {
-            var check = _hangHoaDao.ThemHangHoaPhong(bookPhongOrderPhongId, hangHoaId, soLuong);
-            if (!check) return BadRequest();
-            return RedirectToAction("ThanhToanPhongKaraoke","ThanhToanKaraoke");
-        }
         // GET: HangHoas
         public async Task<IActionResult> Index()
         {
