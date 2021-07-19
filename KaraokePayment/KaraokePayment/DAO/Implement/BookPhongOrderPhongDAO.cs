@@ -62,7 +62,7 @@ namespace KaraokePayment.DAO.Implement
             var themHangHoa = _context.ThemHangHoas.Where(x => x.BookPhongOrderPhongId == bookPhongOrderPhongId).Select(x =>
                 new HangHoaViewModel()
                 {
-                    HangHoaInfo = _context.HangHoas.FirstOrDefault(t => t.Id == x.HangHoaId),
+                    HangHoaInfo = new HangHoaInfoViewModel(_context.HangHoas.FirstOrDefault(t => t.Id == x.HangHoaId)),
                     SoLuongSuDung = x.SoLuong,
                 });
             return themHangHoa.ToList();

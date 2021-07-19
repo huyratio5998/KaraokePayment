@@ -5,72 +5,115 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.MaHH)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ten)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoLuong)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayNhap)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HanSuDung)
-            </th>
-            <th>So luong them</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaHH)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ten)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoLuong)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayNhap)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HanSuDung)
-            </td>
-            <td>
-                @using (Html.BeginForm("ThemHangHoaPhong", "ThanhToanKaraoke", FormMethod.Post))
-                {
-                    <input type="hidden" name="bookPhongOrderPhongId" value="@ViewBag.BookPhongOrderPhongId" />
-                    <input type="hidden" name="hangHoaId" value="@item.Id" />
-                    <input type="number" name="soLuong" />
-                    <button>Them hang</button>
-                }
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Danh Sách Phòng Chưa Thanh Toan</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.MaHH)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Ten)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.SoLuong)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Gia)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.NgayNhap)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.HanSuDung)
+                                        </th>
+                                        <th>So luong them</th>                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MaHH)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Ten)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SoLuong)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Gia)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.NgayNhap)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.HanSuDung)
+                                            </td>
+                                            <td>
+                                                @using (Html.BeginForm("ThemHangHoaPhong", "ThanhToanKaraoke", FormMethod.Post))
+                                                {
+                                                    <input type="hidden" name="bookPhongOrderPhongId" value="@ViewBag.BookPhongOrderPhongId" />
+                                                    <input type="hidden" name="hangHoaId" value="@item.Id" />
+                                                    <input type="number" name="soLuong" />
+                                                    <button class="btn btn-primary btn-sm">
+                                                        <i class="fas fa-folder">
+                                                        </i>
+                                                        Thêm hàng
+                                                    </button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }                                  
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>
+                                            Ten Phong
+                                        </th>
+                                        <th>
+                                            Co Phong
+                                        </th>
+                                        <th>
+                                            IsVIP
+                                        </th>
+                                        <th>
+                                            Gia
+                                        </th>
+                                        <th>
+                                            Trang Thai
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </div>
+    </div>
+    <!-- /.content-wrapper -->
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>

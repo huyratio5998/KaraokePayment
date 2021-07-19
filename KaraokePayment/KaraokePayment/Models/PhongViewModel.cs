@@ -13,7 +13,7 @@ namespace KaraokePayment.Models
         {
             HangHoaSuDung = new List<HangHoaViewModel>();
         }
-        public Phong Phong { get; set; }
+        public PhongInfoViewModel Phong { get; set; }
         public List<HangHoaViewModel> HangHoaSuDung { get; set; }
         public int BookPhongOrderPhongId { get; set; }
         public double ThoiGianSuDung { get; set; }

@@ -4,52 +4,83 @@
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
-<div>
-    <h1>Danh sach phong da book</h1>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Danh Sách Phòng Chưa Thanh Toan</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Ten Phong
+                                        </th>
+                                        <th>
+                                            Co Phong
+                                        </th>
+                                        <th>
+                                            IsVIP
+                                        </th>
+                                        <th>
+                                            Gia
+                                        </th>
+                                        <th>
+                                            Trang Thai
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TenPhong)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CoPhong)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.IsVIP)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Gia)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TrangThai)
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm" asp-action="ThemPhongThanhToan" asp-controller="ThanhToanKaraoke" asp-route-phongId="@item.Id">
+                                                    <i class="fas fa-folder">
+                                                    </i>
+                                                    Thêm
+                                                </a>                                                
+                                            </td>
+                                        </tr>
+                                    }                                   
+                                </tbody>                               
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </div>
+    </div>
+    <!-- /.content-wrapper -->
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
 </div>
-<table class="table">
-    <thead>
-    <tr>
-        <th>
-            Ten Phong
-        </th>
-        <th>
-            Co Phong
-        </th>
-        <th>
-            IsVIP
-        </th>
-        <th>
-            Gia
-        </th>
-        <th>
-            Trang Thai
-        </th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenPhong)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CoPhong)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsVIP)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrangThai)
-            </td>
-            <td>
-                <a asp-action="ThemPhongThanhToan" asp-controller="ThanhToanKaraoke" asp-route-phongId="@item.Id">Chon</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>

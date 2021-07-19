@@ -1,0 +1,87 @@
+﻿@model HoaDonViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+    var tongSL = 0;
+}
+
+@if (Model == null)
+{
+    <p>Khong co du lieu</p>
+}
+else
+{
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper hoa-don">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid hoa-don-wrap">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Hóa Đơn</h2>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="item">- Nhâm Viên Admin: @Model.NhanVien</div>
+                                <div class="item">- Mã Đơn Hàng: B00101</div>
+                                <div>- Ngày Thanh Toán : @Model.NgayThanhToan</div>
+                                <div class="item">- Phương Thức Thanh Toán: @Model.PhuongThucThanhToan</div>
+                                <div>Khach hang tra tien: @Model.NguoiThanhToan</div>
+                                @foreach (var item in Model.HoaDonChiTiet)
+                                {
+                                    <div class="row" style="margin: 30px 0 10px;">
+                                        <div class="col-md-6">Tên KH: @(item.KhachHang.Ho+" "+item.KhachHang.Ten)</div>
+                                        <div class="col-md-6">SDT: @item.KhachHang.SDT</div>
+                                    </div>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Sản Phẩm</th>
+                                                <th>Số Lượng </th>
+                                                <th>Giá</th>
+                                                <th>Thời Gian Sử Dụng</th>
+                                                <th>Tổng Tiền</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var sp in item.DanhSachSanPham)
+                                            {
+                                                tongSL += sp.SoLuong;
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => sp.Ten)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => sp.SoLuong)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => sp.Gia)
+                                                    </td>
+                                                    <td>
+                                                        @(sp.ThoiGian>0? $"{sp.ThoiGian} (gio)": "")
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(x => sp.TongTien)
+                                                    </td>
+                                                </tr>
+
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                }
+                                <div class="row" style="margin-top: 30px;">
+                                    <div class="col-md-6" style="font-weight: 600;">Tổng Số Lượng @tongSL</div>
+                                    <div class="col-md-6" style="font-weight: 600;">Tổng Tiền : @Model.TongTienTT</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.row -->
+        </div>
+    </div>
+}

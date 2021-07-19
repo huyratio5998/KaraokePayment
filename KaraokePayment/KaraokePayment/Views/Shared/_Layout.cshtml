@@ -1,52 +1,195 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@{ 
+    var currentUrl = Context.Request.Path;
+    var enableDataTable = false;
+    var urlEnableDataTable =new List<string>() { "/Phongs/GetPhongDaBook", "/ThanhToanKaraoke/ThemHangHoaPhong", "/Phongs", "/BookPhongOrderPhongs"};
+    enableDataTable = urlEnableDataTable.FirstOrDefault(x => x.Equals(currentUrl)) != null ? true : false;    
+    var activePrepare = false;
+    List<string> urlPrepareData =new List<string>() { "/CaLVs","/Phongs/GetPhongDaBook","/NhanVienCaLVs","/BookPhongOrders","/BookPhongOrderPhongs","/Phongs" };
+    activePrepare = urlPrepareData.FirstOrDefault(x => x.Equals(currentUrl)) != null ? true : false;
+}
+<!DOCTYPE html>
+<html lang="en" style="height: 100% !important;">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - KaraokePayment</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>karaoke</title>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/Karaoke-assest/plugins/fontawesome-free/css/all.min.css">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Karaoke-assest/dist/css/adminlte.min.css">
+    <!-- jQuery -->
+    <script src="~/Karaoke-assest/plugins/jquery/jquery.min.js"></script>
+<link href="~/css/karaoke-layout.css" rel="stylesheet" />
+    @if (enableDataTable)
+    {       
+        <!-- DataTables -->
+        <link rel="stylesheet" href="~/Karaoke-assest/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="~/Karaoke-assest/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+        <link rel="stylesheet" href="~/Karaoke-assest/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">      
+    }
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">KaraokePayment</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="HangHoas" asp-action="Index">HangHoa</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Phongs" asp-action="Index">Phong</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <partial name="_LoginPartial" />
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a class="navbar-brand brand-link" asp-area="" asp-controller="Home" asp-action="Index">
+                <img src="~/Karaoke-assest/images/karaoke.png" alt="karaoke" style="width: 50px; height: 50px; border-radius: 50px; object-fit: cover;">
+                <span class="brand-text font-weight-light">Quản lý karaoke</span>
+            </a>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - KaraokePayment - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>    
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                        <li class="nav-item ">
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link @(!string.IsNullOrEmpty(currentUrl) && currentUrl.Equals("/") ? "active" : "")">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    Trang chủ
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="ThanhToanKaraoke" asp-action="ThanhToanPhongKaraoke" class="nav-link @(!string.IsNullOrEmpty(currentUrl) && currentUrl.Equals("/ThanhToanKaraoke/ThanhToanPhongKaraoke") ? "active" : "")">
+                                <i class="nav-icon fas fa-edit"></i>
+                                <p>
+                                    Thanh Toán Karaoke
+                                    <span class="right badge badge-danger"></span>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item @(activePrepare?"menu-open":"")">
+                            <a href="#" class="nav-link @(activePrepare ? "active" : "")">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    Chuẩn bị dữ liệu
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-area="" asp-controller="CaLVs" asp-action="Index" class="nav-link @(!string.IsNullOrEmpty(currentUrl) && currentUrl.Equals("/CaLVs") ? "active" : "")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Ca Làm Việc
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="" asp-controller="Phongs" asp-action="GetPhongDaBook" class="nav-link @(!string.IsNullOrEmpty(currentUrl) && currentUrl.Equals("/Phongs/GetPhongDaBook") ? "active" : "")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Phòng đã book
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="" asp-controller="NhanVienCaLVs" asp-action="Index" class="nav-link @(!string.IsNullOrEmpty(currentUrl) && currentUrl.Equals("/NhanVienCaLVs") ? "active" : "")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Nhân viên ca làm việc
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="" asp-controller="BookPhongOrders" asp-action="Index" class="nav-link @(!string.IsNullOrEmpty(currentUrl) && currentUrl.Equals("/BookPhongOrders") ? "active" : "")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Book Phong Order
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="" asp-controller="BookPhongOrderPhongs" asp-action="Index" class="nav-link @(!string.IsNullOrEmpty(currentUrl) && currentUrl.Equals("/BookPhongOrderPhongs") ? "active" : "")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Book Phong Order Phong
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="" asp-controller="Phongs" asp-action="Index" class="nav-link @(!string.IsNullOrEmpty(currentUrl) && currentUrl.Equals("/Phongs") ? "active" : "")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Danh sách phòng
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Content here ------------------------------ Contains page content -->
+        @RenderBody()
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+    <!-- REQUIRED SCRIPTS -->
+    <!-- Bootstrap -->
+    <script src="~/Karaoke-assest/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE -->
+    <script src="~/Karaoke-assest/dist/js/adminlte.js"></script>
+
+    <!-- OPTIONAL SCRIPTS -->
+    <script src="~/Karaoke-assest/plugins/chart.js/Chart.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/Karaoke-assest/dist/js/demo.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="~/Karaoke-assest/dist/js/pages/dashboard3.js"></script>
+    @if (enableDataTable)
+    {
+        <!-- DataTables  & Plugins -->
+        <script src="~/Karaoke-assest/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/Karaoke-assest/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="~/Karaoke-assest/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="~/Karaoke-assest/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+        <script src="~/Karaoke-assest/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+        <script src="~/Karaoke-assest/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+        <script src="~/Karaoke-assest/plugins/jszip/jszip.min.js"></script>
+        <script src="~/Karaoke-assest/plugins/pdfmake/pdfmake.min.js"></script>
+        <script src="~/Karaoke-assest/plugins/pdfmake/vfs_fonts.js"></script>
+        <script src="~/Karaoke-assest/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+        <script src="~/Karaoke-assest/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+        <script src="~/Karaoke-assest/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+        <script>
+              $(function () {
+                $("#example1").DataTable({
+                  "responsive": true, "lengthChange": false, "autoWidth": false,
+                  "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                $('#example2').DataTable({
+                  "paging": true,
+                  "lengthChange": false,
+                  "searching": false,
+                  "ordering": true,
+                  "info": true,
+                  "autoWidth": false,
+                  "responsive": true,
+                });
+              });
+        </script>
+    }
     @RenderSection("Scripts", required: false)
 </body>
 </html>

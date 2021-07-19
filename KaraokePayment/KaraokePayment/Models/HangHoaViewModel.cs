@@ -8,7 +8,8 @@ namespace KaraokePayment.Models
 {
     public class HangHoaViewModel
     {
-        public HangHoa HangHoaInfo { get; set; }
+        public HangHoaInfoViewModel HangHoaInfo { get; set; }
         public int SoLuongSuDung { get; set; }
+        public decimal TongTienHHPhong { get; set; }
     }
 }

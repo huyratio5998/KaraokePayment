@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using KaraokePayment.Data.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

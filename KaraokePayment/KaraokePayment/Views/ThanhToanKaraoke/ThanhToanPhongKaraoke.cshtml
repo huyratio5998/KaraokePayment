@@ -6,187 +6,321 @@
     decimal tongTienPhong = 0;
     decimal tongTienHangHoa = 0;
     var lstPhongThanhToanId = new List<int>();
-    var str = new int[10];
+    var str = "";
 }
+<style>    
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */        
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        overflow:auto;
+    }
 
-<h1>Thanh Toan Phong Karaoke</h1>
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 60%;
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaaaaa;
+        text-align: right;
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }    
+    .hoa-don {
+        margin-left: 0 !important;
+        min-height:600px !important;
+    }    
+
+    .btn-group {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom:8px;
+    }
+    button {
+        max-width: 150px;        
+    }
+</style>
 @if (Model == null)
 {
     <p>Khong co du lieu</p>
 }
 else
 {
-    <div style="margin-top: 50px;">
-        <h3>Phong Thanh Toan</h3>
-        @Html.ActionLink("Chon Phong", "GetPhongDaBook", "Phongs")
-        @if (Model.PhongThanhToan?.Any() == true)
-        {
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Ten Phong
-                        </th>
-                        <th>
-                            Co Phong
-                        </th>
-                        <th>
-                            Is Vip
-                        </th>
-                        <th>
-                            Gia
-                        </th>
-                        <th>
-                            Thoi gian su dung
-                        </th>
-                        <th>
-                            Tong Tien
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.PhongThanhToan)
-                    {
-                        tongTienPhong += item.TongTienSuDung;
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Phong.TenPhong)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Phong.CoPhong)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Phong.IsVIP)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Phong.Gia)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(x => item.ThoiGianSuDung) (hours)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TongTienSuDung)
-                            </td>
-                            <td>
-                                <a asp-action="XoaPhongThanhToan" asp-controller="ThanhToanKaraoke" asp-route-bookPhongOrderPhongId="@item.BookPhongOrderPhongId">Xoa</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            <h3>Tong Tien Phong: @tongTienPhong</h3>
-        }
-    </div>
-    @if (Model.PhongThanhToan?.Any() == true)
-    {
-        <div>
-            <h3>Danh sach hang hoa su dung</h3>
-            @foreach (var item in Model.PhongThanhToan)
-            {
-                decimal tongTienHangHoaPhong = 0;
-                <h3>Phong @item.Phong.TenPhong</h3>
-                @Html.ActionLink("Them Hang Hoa", "ThemHangHoaPhong", "ThanhToanKaraoke", new { bookPhongOrderPhongId = item.BookPhongOrderPhongId })
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                HinhAnh
-                            </th>
-                            <th>
-                                Ten
-                            </th>
-                            <th>
-                                So Luong
-                            </th>
-                            <th>
-                                Gia
-                            </th>
-                            <th>
-                                Tong Tien
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (item.HangHoaSuDung?.Any() == true)
-                        {
-                            foreach (var hangHoa in item.HangHoaSuDung)
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <!-- ds phòng -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-md-11">
+                                        <h3 class="card-title" style="font-size:20px">Phòng Thanh Toán</h3>
+                                    </div>
+                                    <div class="col-md-1">
+                                        @Html.ActionLink("Chọn Phòng", "GetPhongDaBook", "Phongs", null, new { Class = "btn btn-block btn-primary btn-md" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            @if (Model.PhongThanhToan?.Any() == true)
                             {
-                                var tienHangHoa = hangHoa.SoLuongSuDung * hangHoa.HangHoaInfo.Gia;
-                                tongTienHangHoaPhong += tienHangHoa;
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => hangHoa.HangHoaInfo.Ten)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => hangHoa.SoLuongSuDung)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => hangHoa.HangHoaInfo.Gia)
-                                    </td>
-                                    <td>
-                                        @tienHangHoa
-                                    </td>
-                                    <td>
-                                        <a asp-action="XoaHangHoaThanhToan" asp-controller="ThanhToanKaraoke" asp-route-bookPhongOrderPhongId="@item.BookPhongOrderPhongId"
-                                           asp-route-hangHoaId="@hangHoa.HangHoaInfo.Id">Xoa</a>
-                                    </td>
-                                </tr>
+                                <div class="card-body">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Tên Phòng</th>
+                                                <th>Cỡ Phòng</th>
+                                                <th>isVip</th>
+                                                <th>Thời Gian Sử Dụng</th>
+                                                <th>Giá Phòng</th>
+                                                <th>Tổng Tiền</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.PhongThanhToan)
+                                            {
+                                                tongTienPhong += item.TongTienSuDung;
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Phong.TenPhong)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Phong.CoPhong)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Phong.IsVIP)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Phong.Gia)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(x => item.ThoiGianSuDung) (hours)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.TongTienSuDung)
+                                                    </td>
+                                                    <td>
+                                                        <a asp-action="XoaPhongThanhToan" asp-controller="ThanhToanKaraoke" asp-route-bookPhongOrderPhongId="@item.BookPhongOrderPhongId" class="btn btn-danger btn-sm">
+                                                            <i class="fas fa-trash">
+                                                            </i>
+                                                            Xóa
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <h3>Tong Tien Phong: @tongTienPhong</h3>
                             }
-                        }
+                        </div>
+                    </div>
+                </div>
+                <!-- ds hanghoa -->
+                @if (Model.PhongThanhToan?.Any() == true)
+                {
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-md-11">
+                                            <h3 class="card-title" style="font-size:20px">Danh Sách Hàng Hóa Sử Dụng</h3>
+                                        </div>
+                                        <div class="col-md-1">
 
-                    </tbody>
-                </table>
-                <h3>Tong Tien Hang Hoa: @tongTienHangHoaPhong</h3>
-                tongTienHangHoa += tongTienHangHoaPhong;
-            }
+                                        </div>
+                                    </div>
+                                </div>
+                                @foreach (var item in Model.PhongThanhToan)
+                                {
+                                    decimal tongTienHangHoaPhong = 0;
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="row" style="margin-bottom:20px; display:flex; align-items: center;">
+                                            <div class="col-md-11">
+                                                <h3 class="card-title" style="font-weight: 600;">Phòng @item.Phong.TenPhong</h3>
+                                            </div>
+                                            <div class="col-md-1">
+                                                @Html.ActionLink("Thêm Hàng Hóa", "ThemHangHoaPhong", "ThanhToanKaraoke", new { bookPhongOrderPhongId = item.BookPhongOrderPhongId }, new { Class = "btn btn-block btn-primary btn-sm" })
+                                            </div>
+                                        </div>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Hình Ảnh</th>
+                                                    <th>Tên </th>
+                                                    <th>Số Lượng</th>
+                                                    <th>Giá</th>
+                                                    <th>Tổng Tiền</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (item.HangHoaSuDung?.Any() == true)
+                                                {
+                                                    foreach (var hangHoa in item.HangHoaSuDung)
+                                                    {
+                                                        var tienHangHoa = hangHoa.SoLuongSuDung * hangHoa.HangHoaInfo.Gia;
+                                                        tongTienHangHoaPhong += tienHangHoa;
+                                                        hangHoa.TongTienHHPhong = tongTienHangHoaPhong;
+                                                        <tr>
+                                                            <td>
+                                                                <div class="images"><img src="../images/beer.jpg"></div>
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => hangHoa.HangHoaInfo.Ten)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => hangHoa.SoLuongSuDung)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => hangHoa.HangHoaInfo.Gia)
+                                                            </td>
+                                                            <td>
+                                                                @tienHangHoa
+                                                            </td>
+                                                            <td>
+                                                                <a asp-action="XoaHangHoaThanhToan" asp-controller="ThanhToanKaraoke" asp-route-bookPhongOrderPhongId="@item.BookPhongOrderPhongId"
+                                                                   asp-route-hangHoaId="@hangHoa.HangHoaInfo.Id" class="btn btn-danger btn-sm">
+                                                                    <i class="fas fa-trash">
+                                                                    </i>
+                                                                    Xóa
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <div style="font-weight:600;margin-top: 10px; font-size: 19px;">Tổng Tiền : @tongTienHangHoaPhong</div>
+                                    </div>
+                                    tongTienHangHoa += tongTienHangHoaPhong;
+                                }
 
+                            </div>
+                        </div>
+                    </div>
+                    <!-- tong tien thanh toan -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="content-payment">
+                                        <h3>Tổng Tiền Phòng: @tongTienPhong</h3>
+                                        <h3>Tổng Tiền Hàng Hóa: @tongTienHangHoa</h3>
+                                        <h3>Tổng Thanh Toán: @(tongTienPhong + tongTienHangHoa)</h3>
+                                        @{
+                                            Model.TongTienPhong = tongTienPhong;
+                                            Model.TongTienHangHoa = tongTienHangHoa;
+                                            Model.TongThanhToan = tongTienPhong + tongTienHangHoa;
+                                            lstPhongThanhToanId = Model.PhongThanhToan.Select(x => x.BookPhongOrderPhongId).ToList();
+                                            str = Json.Serialize(lstPhongThanhToanId).ToString();
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- thanh toan -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="content-payment">
+                                        <h3>Phương Thức Thanh Toán</h3>
+                                        <div style="padding-bottom: 30px;">
+                                            <ul class="nav nav-tabs">
+                                                <li class="tab-item active"><a href="#home" data-toggle="tab">Tiền Mặt</a></li>
+                                                <li class="tab-item"><a href="#info" data-toggle="tab">Ví Điện Tử</a></li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane fade in active" id="home">
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            <button type="button" id="thanhToan" class="btn btn-block btn-primary btn-md">Thanh Toán</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="info"><img src="../images/qr-code.png" alt="" style="width: 200px; height: 200px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
-        <div>
-            <h3>Phuong Thuc Thanh Toan</h3>
-            <ul>
-                <li>
-                    Tien Mat
-                    <a class="btn btn-info" id="thanhToan">Thanh Toan</a>
-                </li>
-                <li>Vi dien tu</li>
-            </ul>
-            <h3>Tong Tien Phong: @tongTienPhong</h3>
-            <h3>Tong Tien Hang Hoa: @tongTienHangHoa</h3>
-            <h3>Tong Thanh Toan: @(tongTienPhong + tongTienHangHoa)</h3>
-
+    </div>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="btn-group">
+                <button class="btn btn-primary">Export Bill</button>
+                <span class="close" id="close-popup">&times;</span>
+            </div>
+            <div id="hoa-don-popup">
+            </div>
         </div>
-    }    
-    if (Model.PhongThanhToan?.Any() == true)
-    {
-        lstPhongThanhToanId = Model.PhongThanhToan.Select(x => x.BookPhongOrderPhongId).ToList();
-        str=lstPhongThanhToanId.ToArray();
-    }
-    <script>
-        var bookPhongOrderPhongIds = [1, 2, 3];
-        @*@for (int i = 0; i < str.Count(); i++)
-        {
-            strr[]
-        }*@
-        
+
+    </div>
+
+    <script type="text/javascript">
+
+        var lstInt = JSON.stringify(@str);
+        console.log(lstInt);
+        var dataObj = JSON.parse('@Html.Raw(Json.Serialize(Model))');
+        console.log(dataObj);               
     $(function () {
         $("#thanhToan").on('click', function () {
             $.ajax({
                 type: "POST",
-                url: '/ThanhToanKaraoke/ThanhToanTienMat/',
-                dataType: "json",
-                contentType: "application/json",
-                data: {"bookPhongOrderPhongIds":"1,2,3"},
-                success: function () {
-                    alert("Success");
+                url: '/ThanhToanKaraoke/ThanhToanTienMat/',                                
+                data: { bookPhongIds: lstInt, thanhToanPhongKaraokeModel: JSON.stringify(dataObj) },
+                success: function (data) {
+                    console.log(data);
+                    $('#hoa-don-popup').html(data);
+                    $("#myModal").css('display', 'block');
+
                 },
-                error: function () {
-                    alert("Fail");
+                error: function (error) {
+                    console.log(error);
+                    alert("Some thing when wrong with Hoa Don View");
                 }
             });
         });
+        $('#close-popup').on('click', function () {
+            $("#myModal").css('display', 'none');
+        })        
     });
     </script>
 }

@@ -13,9 +13,9 @@ namespace KaraokePayment.Models
             PhongThanhToan = new List<PhongViewModel>();
         }
         public List<PhongViewModel> PhongThanhToan{ get; set; }
-        //public decimal TongTienPhong { get; set; }
-        //public decimal TongTienHangHoa { get; set; }
-        //public decimal TongThanhToan{ get; set; }
+        public decimal TongTienPhong { get; set; }
+        public decimal TongTienHangHoa { get; set; }
+        public decimal TongThanhToan { get; set; }        
 
     }
 }

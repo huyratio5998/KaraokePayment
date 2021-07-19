@@ -5,41 +5,63 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <!-- ds phòng -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <h3 class="card-title" style="font-size:20px">Them moi BookPhongOrder</h3>
+                                </div>
+                                <div class="col-md-1">                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <form asp-action="Create">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <div class="form-group">
+                                            <label asp-for="TongTT" class="control-label"></label>
+                                            <input asp-for="TongTT" class="form-control" />
+                                            <span asp-validation-for="TongTT" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="TrangThai" class="control-label"></label>
+                                            <input asp-for="TrangThai" class="form-control" />
+                                            <span asp-validation-for="TrangThai" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="KhachHangId" class="control-label"></label>
+                                            <select asp-for="KhachHangId" class="form-control" asp-items="ViewBag.KhachHangId"></select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="NhanVienCaLVId" class="control-label"></label>
+                                            <select asp-for="NhanVienCaLVId" class="form-control" asp-items="ViewBag.NhanVienCaLVId"></select>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" value="Create" class="btn btn-primary" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
 
-<h4>BookPhongOrder</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TongTT" class="control-label"></label>
-                <input asp-for="TongTT" class="form-control" />
-                <span asp-validation-for="TongTT" class="text-danger"></span>
+                            <div>
+                                <a asp-action="Index">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="TrangThai" class="control-label"></label>
-                <input asp-for="TrangThai" class="form-control" />
-                <span asp-validation-for="TrangThai" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="KhachHangId" class="control-label"></label>
-                <select asp-for="KhachHangId" class ="form-control" asp-items="ViewBag.KhachHangId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="NhanVienCaLVId" class="control-label"></label>
-                <select asp-for="NhanVienCaLVId" class ="form-control" asp-items="ViewBag.NhanVienCaLVId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

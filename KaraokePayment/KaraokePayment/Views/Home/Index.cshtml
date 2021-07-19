@@ -2,28 +2,18 @@
     ViewData["Title"] = "Home Page";
     string name = ViewBag.UserName ?? "";
 }
-<ul>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="CaLVs" asp-action="Index">CaLV</a>
-    </li>
-   
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Phongs" asp-action="GetPhongDaBook">GetPhongDaBook</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="NhanVienCaLVs" asp-action="Index">NhanVienCaLV</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="BookPhongOrders" asp-action="Index">BookPhongOrder</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="BookPhongOrderPhongs" asp-action="Index">BookPhongOrderPhong</a>
-    </li>
-</ul>
-<div class="text-center">
-    <h1 class="display-4">Welcome @name</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-<div>
-    <a class="" asp-controller="ThanhToanKaraoke" asp-action="ThanhToanPhongKaraoke">Thanh Toan Phong Karaoke</a>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <h1>Chào mừng @name đến vơi hệ thống quản lý karaoke</h1>
+            <div class="row" style="margin-top: 30px;">
+                <div class="col-md-2">
+                    <a href="thanh-toan-karaoke.html">
+                        <button type="button" class="btn btn-block btn-primary btn-md">Thanh Toán Phòng</button>
+                    </a>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </div>
 </div>
