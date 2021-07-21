@@ -35,8 +35,8 @@ namespace KaraokePayment.Data.Migrations
                     b.Property<decimal>("TongTT")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("TrangThai")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TrangThai")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -84,8 +84,8 @@ namespace KaraokePayment.Data.Migrations
                     b.Property<decimal>("TongTien")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("TrangThai")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TrangThai")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -330,8 +330,8 @@ namespace KaraokePayment.Data.Migrations
                     b.Property<string>("TenPhong")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TrangThai")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TrangThai")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -345,7 +345,7 @@ namespace KaraokePayment.Data.Migrations
                             Gia = 150000m,
                             IsVIP = false,
                             TenPhong = "P 101",
-                            TrangThai = "empty"
+                            TrangThai = 0
                         },
                         new
                         {
@@ -354,7 +354,7 @@ namespace KaraokePayment.Data.Migrations
                             Gia = 300000m,
                             IsVIP = true,
                             TenPhong = "P 102",
-                            TrangThai = "empty"
+                            TrangThai = 0
                         },
                         new
                         {
@@ -363,7 +363,7 @@ namespace KaraokePayment.Data.Migrations
                             Gia = 150000m,
                             IsVIP = false,
                             TenPhong = "P 103",
-                            TrangThai = "empty"
+                            TrangThai = 0
                         },
                         new
                         {
@@ -372,7 +372,7 @@ namespace KaraokePayment.Data.Migrations
                             Gia = 300000m,
                             IsVIP = false,
                             TenPhong = "P 201",
-                            TrangThai = "empty"
+                            TrangThai = 0
                         },
                         new
                         {
@@ -381,7 +381,7 @@ namespace KaraokePayment.Data.Migrations
                             Gia = 600000m,
                             IsVIP = true,
                             TenPhong = "P 202",
-                            TrangThai = "empty"
+                            TrangThai = 0
                         },
                         new
                         {
@@ -390,7 +390,7 @@ namespace KaraokePayment.Data.Migrations
                             Gia = 300000m,
                             IsVIP = false,
                             TenPhong = "P 203",
-                            TrangThai = "empty"
+                            TrangThai = 0
                         },
                         new
                         {
@@ -399,7 +399,7 @@ namespace KaraokePayment.Data.Migrations
                             Gia = 600000m,
                             IsVIP = false,
                             TenPhong = "P 301",
-                            TrangThai = "empty"
+                            TrangThai = 0
                         },
                         new
                         {
@@ -408,7 +408,7 @@ namespace KaraokePayment.Data.Migrations
                             Gia = 1200000m,
                             IsVIP = true,
                             TenPhong = "P 302",
-                            TrangThai = "empty"
+                            TrangThai = 0
                         },
                         new
                         {
@@ -417,7 +417,7 @@ namespace KaraokePayment.Data.Migrations
                             Gia = 600000m,
                             IsVIP = false,
                             TenPhong = "P 303",
-                            TrangThai = "empty"
+                            TrangThai = 0
                         });
                 });
 
@@ -690,13 +690,13 @@ namespace KaraokePayment.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "270f9859-7e96-4cbe-880b-9fa9c3df87ea",
+                            Id = "fa123bb7-10ce-454a-9408-7ef57dd8f131",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9be66c76-5d4f-4a46-bb68-1c17d0b2052b",
+                            ConcurrencyStamp = "12e5fd36-3ba0-4ced-a11b-7819fec565be",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "812cc1d4-0beb-4f49-8aaf-94d3e7c6ee02",
+                            SecurityStamp = "df6aaddf-81d5-4fab-a38e-585a87a2852f",
                             TwoFactorEnabled = false,
                             Ho = "Ngo Ba",
                             IsVIP = true,
@@ -707,13 +707,13 @@ namespace KaraokePayment.Data.Migrations
                         },
                         new
                         {
-                            Id = "7e2a44c9-4990-40c3-86ed-47880c11ca3e",
+                            Id = "a7a7feea-f4dc-4de7-a0ea-2ad1ca46713b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b130d152-1c24-435d-8f6d-e115ed38862f",
+                            ConcurrencyStamp = "64c7bc5a-d4c8-4789-a439-2f7b4dc2e1e9",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1883a210-271b-4258-9e4b-dae1d397c44e",
+                            SecurityStamp = "eef34b0e-0d80-4a1b-89ee-2c9a4a69045a",
                             TwoFactorEnabled = false,
                             Ho = "Kieu Dang",
                             IsVIP = false,
@@ -724,13 +724,13 @@ namespace KaraokePayment.Data.Migrations
                         },
                         new
                         {
-                            Id = "1c1b0576-1637-440a-9fa2-7078f63fd7d3",
+                            Id = "86263342-cde4-4dc1-9546-a0e986ff6fca",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "26b8b80f-1a14-4540-b0a8-f951ba0af442",
+                            ConcurrencyStamp = "3fb38c68-c3e8-4668-83cc-e9afbbd70baa",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "35c75df6-5e0d-4632-90f4-d2a6eefad192",
+                            SecurityStamp = "d951c9b4-13f5-4f91-9e1d-28f300fc2060",
                             TwoFactorEnabled = false,
                             Ho = "Nguyen Chung",
                             IsVIP = true,
@@ -741,13 +741,13 @@ namespace KaraokePayment.Data.Migrations
                         },
                         new
                         {
-                            Id = "abc90950-b7f8-4750-aa77-4789373928bb",
+                            Id = "32467893-6e81-4077-99cd-ed17da38c487",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "20ec8e3a-e2f4-4dfa-a6f5-10bad9560d59",
+                            ConcurrencyStamp = "0c470922-0645-4b1e-bc15-62a6d970d231",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8b3e104c-31ae-411e-a6e5-5c52078870ba",
+                            SecurityStamp = "bfc73706-c647-486a-b618-ec90df501fc2",
                             TwoFactorEnabled = false,
                             Ho = "Ngo Ba",
                             IsVIP = false,
@@ -758,13 +758,13 @@ namespace KaraokePayment.Data.Migrations
                         },
                         new
                         {
-                            Id = "b024c420-806c-4630-a1ac-76db0f2d382c",
+                            Id = "56874680-cda1-4ddf-9dbd-5a7cb1c48abe",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "51e7f336-f899-49a3-a297-68a766c9db2f",
+                            ConcurrencyStamp = "649a206e-2070-493c-8f97-d17457c727c6",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "621b8860-5281-4ac0-9dc6-00d781d74e3e",
+                            SecurityStamp = "98bdb96c-3113-439a-94ff-f28f4494b1d3",
                             TwoFactorEnabled = false,
                             Ho = "Ngo Ba",
                             IsVIP = false,
@@ -820,14 +820,14 @@ namespace KaraokePayment.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "88cfe559-4a68-45c2-82b5-4ec8071540b1",
+                            Id = "245d8f1e-0da8-45c8-8ced-b9777dc4a636",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a8689549-cb9a-46a3-8425-5a629b4a0d3c",
+                            ConcurrencyStamp = "140301db-e7ca-4875-90bd-e69ea64af325",
                             Email = "huynguyen98.clc@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a79879df-8ae4-4013-99ea-ac3859b416f0",
+                            SecurityStamp = "eef7d7be-2329-4d32-be79-00700cddd1f0",
                             TwoFactorEnabled = false,
                             CMT = "142829244",
                             DiaChiChiTiet = "10N01 - khu tai dinh cu",
@@ -842,14 +842,14 @@ namespace KaraokePayment.Data.Migrations
                         },
                         new
                         {
-                            Id = "41f50fb1-d73c-461a-b788-ee3dbac4b5ef",
+                            Id = "49ece4d1-a16d-45dd-aec2-23b3a85520ca",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9bc9b24c-99b4-436d-8468-f5f1e569e6d2",
+                            ConcurrencyStamp = "05b7219b-6bed-46b0-aa84-0792b8f52d64",
                             Email = "hung@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "48ec08e5-44b9-482a-8b9f-f7ab9623a2a1",
+                            SecurityStamp = "ff3b3113-0f6d-401d-8256-a78b7d3e07ac",
                             TwoFactorEnabled = false,
                             CMT = "123456789",
                             DiaChiChiTiet = "khu tai dinh cu",
@@ -864,14 +864,14 @@ namespace KaraokePayment.Data.Migrations
                         },
                         new
                         {
-                            Id = "0b8ccd03-8076-4e32-9754-93497ca6d9f5",
+                            Id = "54a5a4b3-a75a-441f-9b4b-d72965ac2b8d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d13deec5-9d42-4906-92fb-4c1e273b8a22",
+                            ConcurrencyStamp = "1a260458-1f37-42a5-9aec-099ed0e4caa9",
                             Email = "duc@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "efe65f34-a0ff-4e7b-9df1-da0d86fa0ece",
+                            SecurityStamp = "4ca61d8a-01ff-498c-b6d8-92897a2e4c94",
                             TwoFactorEnabled = false,
                             CMT = "115487982",
                             DiaChiChiTiet = "khu tai dinh cu",
@@ -886,14 +886,14 @@ namespace KaraokePayment.Data.Migrations
                         },
                         new
                         {
-                            Id = "62572cad-20e3-49bf-972e-9d26ba4171c2",
+                            Id = "cde4d308-0195-4125-877b-d7348ef5c887",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5fe07214-7274-426c-a5fd-fb4397ae941a",
+                            ConcurrencyStamp = "7f18d626-e9be-46a3-a769-83a0d6bb3fcb",
                             Email = "thang@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9764d41e-d0c5-488c-bb92-fbb31a2907dd",
+                            SecurityStamp = "554b1c41-7602-4612-be1f-760c46ad03b3",
                             TwoFactorEnabled = false,
                             CMT = "465487982",
                             DiaChiChiTiet = "khu tai dinh cu",
@@ -908,14 +908,14 @@ namespace KaraokePayment.Data.Migrations
                         },
                         new
                         {
-                            Id = "e707250e-16f8-4744-a69a-e67bbd24b37e",
+                            Id = "5a847a71-439b-4562-8972-f100fd106dc1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "de4a3b71-5e67-4ec2-ac66-5b10ddc9aa1d",
+                            ConcurrencyStamp = "ff8b99cc-ddb6-41fb-ac9b-d151ba09ec02",
                             Email = "lannp@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c6464a37-13c2-4106-88e5-0676fe15636a",
+                            SecurityStamp = "a96fe15f-e527-4f17-a0dc-bde5f90545d9",
                             TwoFactorEnabled = false,
                             CMT = "213123123",
                             DiaChiChiTiet = "khu tai dinh cu",

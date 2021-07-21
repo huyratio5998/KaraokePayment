@@ -9,9 +9,11 @@ using KaraokePayment.Enums;
 using KaraokePayment.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KaraokePayment.Controllers
 {
+    [Authorize]
     public class ThanhToanKaraokeController : Controller
     {
         private IPhongDAO _phongDao;
@@ -48,7 +50,9 @@ namespace KaraokePayment.Controllers
                     phongItem.Phong = new PhongInfoViewModel(await _phongDao.GetById(phongId));
                     phongItem.HangHoaSuDung = _bookPhongOrderPhongDao.GetHangHoaTheoBookPhong(bookPhongOrderPhong.Id);
                     phongItem.BookPhongOrderPhongId = bookPhongOrderPhong.Id;
-                    phongItem.ThoiGianSuDung= Math.Round((bookPhongOrderPhong.ThoiGianKetThuc - bookPhongOrderPhong.ThoiGianBatDau).TotalHours,1);
+                    var useHour = (bookPhongOrderPhong.ThoiGianKetThuc - bookPhongOrderPhong.ThoiGianBatDau).TotalHours;
+                    if (useHour <= 1) useHour = 1;
+                    phongItem.ThoiGianSuDung= Math.Round(useHour, 1);
                     phongItem.TongTienSuDung = bookPhongOrderPhong.TongTien;
                     result.PhongThanhToan.Add(phongItem);
                 }
@@ -62,7 +66,7 @@ namespace KaraokePayment.Controllers
             var themPhong =await _phongDao.GetById(phongId);
             if (themPhong == null) return BadRequest();
             var giaPhong = themPhong?.Gia ?? 0;
-            themPhong.TrangThai = PhongStatus.Paying.ToString();
+            themPhong.TrangThai = PhongStatus.Paying;
             var isSuccess= await _bookPhongOrderPhongDao.ThemPhongThanhToan(phongId,giaPhong);
             if(isSuccess) await _phongDao.Update(themPhong);
             return RedirectToAction("ThanhToanPhongKaraoke");
@@ -78,6 +82,7 @@ namespace KaraokePayment.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ThemHangHoaPhong(int bookPhongOrderPhongId, int hangHoaId, int soLuong)
         {
+            if (soLuong <= 0) soLuong = 1;
             var check = _themHangHoaDao.ThemHangHoaPhong(bookPhongOrderPhongId, hangHoaId, soLuong);
             if (!check) return BadRequest();
             return RedirectToAction("ThanhToanPhongKaraoke", "ThanhToanKaraoke");
@@ -102,7 +107,7 @@ namespace KaraokePayment.Controllers
                {
                    var phong=await _phongDao.GetById(phongId);
                    if (phong == null) return BadRequest();
-                   phong.TrangThai = PhongStatus.Occupied.ToString();
+                   phong.TrangThai = PhongStatus.Occupied;
                    await _phongDao.Update(phong);
                    if (isNext) return RedirectToAction("ThanhToanPhongKaraoke");
                    return BadRequest();
@@ -169,12 +174,12 @@ namespace KaraokePayment.Controllers
                 {
                     var phongThanhToan = await _bookPhongOrderPhongDao.GetById(bookPhongId);
                     if (phongThanhToan == null) return false;
-                    phongThanhToan.TrangThai = BookPhongOrderPhongStatus.Paid.ToString();
+                    phongThanhToan.TrangThai = BookPhongOrderPhongStatus.Paid;
                     phongThanhToan.NgaySua = DateTime.Now;
                     //
                     var phong = await _phongDao.GetById(phongThanhToan.PhongId);
                     if (phong == null) return false;
-                    phong.TrangThai = PhongStatus.Empty.ToString();
+                    phong.TrangThai = PhongStatus.Empty;
                     await _bookPhongOrderPhongDao.Update(phongThanhToan);
                     await _phongDao.Update(phong);
                     // check BookPhongOrderFinish

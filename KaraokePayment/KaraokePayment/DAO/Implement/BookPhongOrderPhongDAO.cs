@@ -24,7 +24,7 @@ namespace KaraokePayment.DAO.Implement
         {
             var bookPhong=await GetById(bookPhongOrderPhongId);
             if (bookPhong == null) return false;
-            bookPhong.TrangThai = "paid";
+            bookPhong.TrangThai =BookPhongOrderPhongStatus.Paid;
             _context.Entry(bookPhong).State = EntityState.Modified;
             _context.SaveChanges();
             return true;
@@ -53,7 +53,7 @@ namespace KaraokePayment.DAO.Implement
         {
 
             var result = _context.BookPhongOrderPhongs
-                .Where(x => x.TrangThai.Equals(BookPhongOrderPhongStatus.Paying.ToString())).ToList();
+                .Where(x => x.TrangThai.Equals(BookPhongOrderPhongStatus.Paying)).ToList();
             return result.Any() ? result : new List<BookPhongOrderPhong>();
         }
 
@@ -71,12 +71,13 @@ namespace KaraokePayment.DAO.Implement
         public async Task<bool> ThemPhongThanhToan(int phongId, decimal giaPhong)
         {
             var bookPhongOrderPhong =  _context.BookPhongOrderPhongs.AsEnumerable().Where(x=>x.PhongId==phongId).FirstOrDefault(x =>
-                (x.TrangThai.Equals(BookPhongOrderPhongStatus.Using.ToString(), StringComparison.OrdinalIgnoreCase)));
+                (x.TrangThai.Equals(BookPhongOrderPhongStatus.Using)));
             if(bookPhongOrderPhong==null) return false;
             bookPhongOrderPhong.NgaySua=DateTime.Now;
             bookPhongOrderPhong.ThoiGianKetThuc=DateTime.Now;
-            bookPhongOrderPhong.TrangThai = BookPhongOrderPhongStatus.Paying.ToString();
+            bookPhongOrderPhong.TrangThai = BookPhongOrderPhongStatus.Paying;
             var hours = (bookPhongOrderPhong.ThoiGianKetThuc - bookPhongOrderPhong.ThoiGianBatDau).TotalHours;
+            if (hours <= 1) hours = 1;
             bookPhongOrderPhong.TongTien = Convert.ToDecimal(Math.Round(hours, 1)) * giaPhong;
             await Update(bookPhongOrderPhong);
             return true;
@@ -86,7 +87,7 @@ namespace KaraokePayment.DAO.Implement
         {
             if (phongThanhToan == null) return false;
             phongThanhToan.TongTien = 0;
-            phongThanhToan.TrangThai = BookPhongOrderPhongStatus.Using.ToString();
+            phongThanhToan.TrangThai = BookPhongOrderPhongStatus.Using;
             phongThanhToan.NgaySua = DateTime.Now;
             phongThanhToan.ThoiGianKetThuc=DateTime.Now;
             await Update(phongThanhToan);
@@ -97,14 +98,13 @@ namespace KaraokePayment.DAO.Implement
         {
             if (bookPhongOrderId <= 0) return null;
             var phongOrderNotDone = _context.BookPhongOrderPhongs.AsEnumerable().FirstOrDefault(x =>
-                x.BookPhongOrderId == bookPhongOrderId && !x.TrangThai.Equals(BookPhongOrderPhongStatus.Paid.ToString(),
-                    StringComparison.OrdinalIgnoreCase));
+                x.BookPhongOrderId == bookPhongOrderId && !x.TrangThai.Equals(BookPhongOrderPhongStatus.Paid));
             if (phongOrderNotDone != null) return null;
             var tongTT = _context.BookPhongOrderPhongs.Where(x => x.BookPhongOrderId == bookPhongOrderId)
                 .Sum(x => x.TongTien);
             var result = new BookPhongOrder()
             {
-                TrangThai = BookPhongOrderStatus.Paid.ToString(),
+                TrangThai = BookPhongOrderStatus.Paid,
                 TongTT = tongTT
             };
             return result;

@@ -8,60 +8,7 @@
     var lstPhongThanhToanId = new List<int>();
     var str = "";
 }
-<style>    
-    /* The Modal (background) */
-    .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        padding-top: 100px; /* Location of the box */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */        
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        overflow:auto;
-    }
-
-    /* Modal Content */
-    .modal-content {
-        background-color: #fefefe;
-        margin: auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 60%;
-    }
-
-    /* The Close Button */
-    .close {
-        color: #aaaaaa;
-        text-align: right;
-        font-size: 28px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }    
-    .hoa-don {
-        margin-left: 0 !important;
-        min-height:600px !important;
-    }    
-
-    .btn-group {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom:8px;
-    }
-    button {
-        max-width: 150px;        
-    }
-</style>
+<link href="~/css/karaoke-style-modal.css" rel="stylesheet" />
 @if (Model == null)
 {
     <p>Khong co du lieu</p>
@@ -96,8 +43,8 @@ else
                                                 <th>Tên Phòng</th>
                                                 <th>Cỡ Phòng</th>
                                                 <th>isVip</th>
-                                                <th>Thời Gian Sử Dụng</th>
                                                 <th>Giá Phòng</th>
+                                                <th>Thời Gian Sử Dụng</th>
                                                 <th>Tổng Tiền</th>
                                                 <th></th>
                                             </tr>
@@ -299,12 +246,12 @@ else
         var lstInt = JSON.stringify(@str);
         console.log(lstInt);
         var dataObj = JSON.parse('@Html.Raw(Json.Serialize(Model))');
-        console.log(dataObj);               
+        console.log(dataObj);
     $(function () {
         $("#thanhToan").on('click', function () {
             $.ajax({
                 type: "POST",
-                url: '/ThanhToanKaraoke/ThanhToanTienMat/',                                
+                url: '/ThanhToanKaraoke/ThanhToanTienMat/',
                 data: { bookPhongIds: lstInt, thanhToanPhongKaraokeModel: JSON.stringify(dataObj) },
                 success: function (data) {
                     console.log(data);
@@ -320,7 +267,7 @@ else
         });
         $('#close-popup').on('click', function () {
             $("#myModal").css('display', 'none');
-        })        
+        })
     });
     </script>
 }

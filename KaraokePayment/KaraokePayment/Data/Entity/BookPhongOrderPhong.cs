@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KaraokePayment.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,7 +18,7 @@ namespace KaraokePayment.Data.Entity
         public DateTime ThoiGianBatDau{ get; set; }
         public DateTime ThoiGianKetThuc{ get; set; }
         public string PhuongThucTT { get; set; }
-        public string TrangThai { get; set; }
+        public BookPhongOrderPhongStatus TrangThai { get; set; }
         public DateTime NgayTao { get; set; }
         public DateTime NgaySua { get; set; }
         public decimal TongTien { get; set; }

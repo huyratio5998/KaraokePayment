@@ -5,39 +5,62 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <!-- ds phòng -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <h3 class="card-title" style="font-size:20px">Them moi CaLV</h3>
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
 
-<h4>NhanVienCaLV</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="NgayLV" class="control-label"></label>
-                <input asp-for="NgayLV" class="form-control" />
-                <span asp-validation-for="NgayLV" class="text-danger"></span>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <form asp-action="Edit">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <input type="hidden" asp-for="Id" />
+                                        <div class="form-group">
+                                            <label asp-for="NgayLV" class="control-label"></label>
+                                            <input asp-for="NgayLV" class="form-control" />
+                                            <span asp-validation-for="NgayLV" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="NhanVienId" class="control-label"></label>
+                                            <select asp-for="NhanVienId" class="form-control" asp-items="ViewBag.NhanVienId"></select>
+                                            <span asp-validation-for="NhanVienId" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="CaLvId" class="control-label"></label>
+                                            <select asp-for="CaLvId" class="form-control" asp-items="ViewBag.CaLvId"></select>
+                                            <span asp-validation-for="CaLvId" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" value="Save" class="btn btn-primary" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div>
+                                <a asp-action="Index">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="NhanVienId" class="control-label"></label>
-                <select asp-for="NhanVienId" class="form-control" asp-items="ViewBag.NhanVienId"></select>
-                <span asp-validation-for="NhanVienId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CaLvId" class="control-label"></label>
-                <select asp-for="CaLvId" class="form-control" asp-items="ViewBag.CaLvId"></select>
-                <span asp-validation-for="CaLvId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

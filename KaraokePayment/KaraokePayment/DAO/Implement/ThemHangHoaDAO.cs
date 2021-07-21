@@ -63,7 +63,7 @@ namespace KaraokePayment.DAO.Implement
             try
             {
                 var hangHoaPhongs = _context.ThemHangHoas.AsEnumerable().Where(x => x.BookPhongOrderPhongId == bookPhongOrderPhongId);
-                if (hangHoaPhongs?.Any()!=true) return false;
+                if (hangHoaPhongs?.Any()!=true) return true;
                 _context?.ThemHangHoas?.RemoveRange(hangHoaPhongs);
                 _context.SaveChanges();
                 return true;

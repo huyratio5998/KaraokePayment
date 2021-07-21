@@ -6,7 +6,7 @@ using KaraokePayment.Data.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-
+using KaraokePayment.Enums;
 namespace KaraokePayment.Data
 {
     public static class KaraokeDBInitializer
@@ -16,15 +16,15 @@ namespace KaraokePayment.Data
             #region initialize phong
 
             modelBuilder.Entity<Phong>().HasData(
-                new Phong() { Id = 1, TenPhong = "P 101", CoPhong = "small", Gia = 150000, IsVIP = false, TrangThai = "empty" },
-                new Phong() { Id = 2, TenPhong = "P 102", CoPhong = "small", Gia = 300000, IsVIP = true, TrangThai = "empty" },
-                new Phong() { Id = 3, TenPhong = "P 103", CoPhong = "small", Gia = 150000, IsVIP = false, TrangThai = "empty" },
-                new Phong() { Id = 4, TenPhong = "P 201", CoPhong = "medium", Gia = 300000, IsVIP = false, TrangThai = "empty" },
-                new Phong() { Id = 5, TenPhong = "P 202", CoPhong = "medium", Gia = 600000, IsVIP = true, TrangThai = "empty" },
-                new Phong() { Id = 6, TenPhong = "P 203", CoPhong = "medium", Gia = 300000, IsVIP = false, TrangThai = "empty" },
-                new Phong() { Id = 7, TenPhong = "P 301", CoPhong = "big", Gia = 600000, IsVIP = false, TrangThai = "empty" },
-                new Phong() { Id = 8, TenPhong = "P 302", CoPhong = "big", Gia = 1200000, IsVIP = true, TrangThai = "empty" },
-                new Phong() { Id = 9, TenPhong = "P 303", CoPhong = "big", Gia = 600000, IsVIP = false, TrangThai = "empty" }
+                new Phong() { Id = 1, TenPhong = "P 101", CoPhong = "small", Gia = 150000, IsVIP = false, TrangThai = PhongStatus.Empty},
+                new Phong() { Id = 2, TenPhong = "P 102", CoPhong = "small", Gia = 300000, IsVIP = true, TrangThai = PhongStatus.Empty},
+                new Phong() { Id = 3, TenPhong = "P 103", CoPhong = "small", Gia = 150000, IsVIP = false, TrangThai = PhongStatus.Empty},
+                new Phong() { Id = 4, TenPhong = "P 201", CoPhong = "medium", Gia = 300000, IsVIP = false, TrangThai = PhongStatus.Empty},
+                new Phong() { Id = 5, TenPhong = "P 202", CoPhong = "medium", Gia = 600000, IsVIP = true, TrangThai = PhongStatus.Empty},
+                new Phong() { Id = 6, TenPhong = "P 203", CoPhong = "medium", Gia = 300000, IsVIP = false, TrangThai = PhongStatus.Empty},
+                new Phong() { Id = 7, TenPhong = "P 301", CoPhong = "big", Gia = 600000, IsVIP = false, TrangThai = PhongStatus.Empty},
+                new Phong() { Id = 8, TenPhong = "P 302", CoPhong = "big", Gia = 1200000, IsVIP = true, TrangThai = PhongStatus.Empty},
+                new Phong() { Id = 9, TenPhong = "P 303", CoPhong = "big", Gia = 600000, IsVIP = false, TrangThai = PhongStatus.Empty}
             );
 
             #endregion

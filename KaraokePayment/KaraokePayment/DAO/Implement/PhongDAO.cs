@@ -16,7 +16,7 @@ namespace KaraokePayment.DAO.Implement
         }
         public List<Phong> GetPhongDaBook()
         {
-            var phongs = _context.Phongs.AsEnumerable().Where(x => x.TrangThai.Equals(PhongStatus.Occupied.ToString(),StringComparison.OrdinalIgnoreCase)).ToList();
+            var phongs = _context.Phongs.AsEnumerable().Where(x => x.TrangThai.Equals(PhongStatus.Occupied)).ToList();
             if (phongs != null && phongs.Any())
             {
                 return phongs;

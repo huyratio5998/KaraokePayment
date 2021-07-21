@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KaraokePayment.Data;
 using KaraokePayment.Data.Entity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KaraokePayment.Controllers
 {
+    [Authorize]
     public class BookPhongOrderPhongsController : Controller
     {
         private readonly KaraokeDbContext _context;
@@ -62,7 +64,15 @@ namespace KaraokePayment.Controllers
         {
             ViewData["BookPhongOrderId"] = new SelectList(_context.BookPhongOrders, "Id", "Id");
             ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "TenPhong");
-            return View();
+            var model = new BookPhongOrderPhong()
+            {
+                ThoiGianBatDau = DateTime.Now,
+                ThoiGianKetThuc = DateTime.Now,
+                NgayTao = DateTime.Now,
+                NgaySua = DateTime.Now,
+                TongTien=0
+            };
+            return View(model);
         }
 
         // POST: BookPhongOrderPhongs/Create
@@ -79,7 +89,7 @@ namespace KaraokePayment.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BookPhongOrderId"] = new SelectList(_context.BookPhongOrders, "Id", "Id", bookPhongOrderPhong.BookPhongOrderId);
-            ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "Id", bookPhongOrderPhong.PhongId);
+            ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "TenPhong", bookPhongOrderPhong.PhongId);
             return View(bookPhongOrderPhong);
         }
 
@@ -97,7 +107,7 @@ namespace KaraokePayment.Controllers
                 return NotFound();
             }
             ViewData["BookPhongOrderId"] = new SelectList(_context.BookPhongOrders, "Id", "Id", bookPhongOrderPhong.BookPhongOrderId);
-            ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "Id", bookPhongOrderPhong.PhongId);
+            ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "TenPhong", bookPhongOrderPhong.PhongId);
             return View(bookPhongOrderPhong);
         }
 
@@ -134,7 +144,7 @@ namespace KaraokePayment.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BookPhongOrderId"] = new SelectList(_context.BookPhongOrders, "Id", "Id", bookPhongOrderPhong.BookPhongOrderId);
-            ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "Id", bookPhongOrderPhong.PhongId);
+            ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "TenPhong", bookPhongOrderPhong.PhongId);
             return View(bookPhongOrderPhong);
         }
 

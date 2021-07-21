@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KaraokePayment.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,7 +17,7 @@ namespace KaraokePayment.Data.Entity
         public string CoPhong { get; set; }
         public bool IsVIP { get; set; }
         public decimal Gia { get; set; }
-        public string TrangThai { get; set; }
+        public PhongStatus TrangThai { get; set; }
 
         public ICollection<BookPhongOrderPhong> BookphjoBookPhongOrderPhong{ get; set; }
     }

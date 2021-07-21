@@ -19,7 +19,7 @@ namespace KaraokePayment.Models
             CoPhong = phong.CoPhong;
             IsVIP = phong.IsVIP;
             Gia = phong.Gia;
-            TrangThai = phong.TrangThai;
+            TrangThai = phong.TrangThai.ToString();
         }
         public int Id { get; set; }
         public string TenPhong { get; set; }

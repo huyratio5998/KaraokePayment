@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 using KaraokePayment.Data;
 using KaraokePayment.Data.Entity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KaraokePayment.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

@@ -9,9 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using KaraokePayment.Data;
 using KaraokePayment.Data.Entity;
 using KaraokePayment.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KaraokePayment.Controllers
 {
+    [Authorize]
     public class HangHoasController : Controller
     {
         private readonly KaraokeDbContext _context;

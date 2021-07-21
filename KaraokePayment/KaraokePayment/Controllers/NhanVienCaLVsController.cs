@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using KaraokePayment.Data;
 using KaraokePayment.Data.Entity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KaraokePayment.Controllers
 {
+    [Authorize]
     public class NhanVienCaLVsController : Controller
     {
         private readonly KaraokeDbContext _context;

@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KaraokePayment.Data;
 using KaraokePayment.Data.Entity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KaraokePayment.Controllers
 {
+    [Authorize]
     public class CaLVsController : Controller
     {
         private readonly KaraokeDbContext _context;

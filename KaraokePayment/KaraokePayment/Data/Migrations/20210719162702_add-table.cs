@@ -141,7 +141,7 @@ namespace KaraokePayment.Data.Migrations
                     CoPhong = table.Column<string>(nullable: true),
                     IsVIP = table.Column<bool>(nullable: false),
                     Gia = table.Column<decimal>(nullable: false),
-                    TrangThai = table.Column<string>(nullable: true)
+                    TrangThai = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -182,7 +182,7 @@ namespace KaraokePayment.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TongTT = table.Column<decimal>(nullable: false),
-                    TrangThai = table.Column<string>(nullable: true),
+                    TrangThai = table.Column<int>(nullable: false),
                     KhachHangId = table.Column<string>(nullable: true),
                     NhanVienCaLVId = table.Column<int>(nullable: false)
                 },
@@ -214,7 +214,7 @@ namespace KaraokePayment.Data.Migrations
                     ThoiGianBatDau = table.Column<DateTime>(nullable: false),
                     ThoiGianKetThuc = table.Column<DateTime>(nullable: false),
                     PhuongThucTT = table.Column<string>(nullable: true),
-                    TrangThai = table.Column<string>(nullable: true),
+                    TrangThai = table.Column<int>(nullable: false),
                     NgayTao = table.Column<DateTime>(nullable: false),
                     NgaySua = table.Column<DateTime>(nullable: false),
                     TongTien = table.Column<decimal>(nullable: false),
@@ -268,18 +268,18 @@ namespace KaraokePayment.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "CMT", "DiaChiChiTiet", "DiaChiId", "Ho", "IsVIP", "MaKH", "NgaySinh", "SDT", "Ten" },
-                values: new object[] { "1c1b0576-1637-440a-9fa2-7078f63fd7d3", 0, "26b8b80f-1a14-4540-b0a8-f951ba0af442", "KhachHang", null, false, false, null, null, null, null, null, false, "35c75df6-5e0d-4632-90f4-d2a6eefad192", false, null, null, null, null, "Nguyen Chung", true, "KH003", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "09999999", "Dung" });
+                values: new object[] { "86263342-cde4-4dc1-9546-a0e986ff6fca", 0, "3fb38c68-c3e8-4668-83cc-e9afbbd70baa", "KhachHang", null, false, false, null, null, null, null, null, false, "d951c9b4-13f5-4f91-9e1d-28f300fc2060", false, null, null, null, null, "Nguyen Chung", true, "KH003", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "09999999", "Dung" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "CMT", "DiaChiChiTiet", "NhanVien_DiaChiId", "Ho", "LoaiNV", "Luong", "MaNV", "NgaySinh", "NgayTao", "SDT", "Ten" },
                 values: new object[,]
                 {
-                    { "e707250e-16f8-4744-a69a-e67bbd24b37e", 0, "de4a3b71-5e67-4ec2-ac66-5b10ddc9aa1d", "NhanVien", "lannp@gmail.com", false, false, null, null, null, null, null, false, "c6464a37-13c2-4106-88e5-0676fe15636a", false, null, "213123123", "khu tai dinh cu", null, "Ngo Phuong", "phucvu", 9000000m, "NV005", new DateTime(1998, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "0989456122", "Lan" },
-                    { "62572cad-20e3-49bf-972e-9d26ba4171c2", 0, "5fe07214-7274-426c-a5fd-fb4397ae941a", "NhanVien", "thang@gmail.com", false, false, null, null, null, null, null, false, "9764d41e-d0c5-488c-bb92-fbb31a2907dd", false, null, "465487982", "khu tai dinh cu", null, "Nguyen Minh", "phucvu", 9000000m, "NV004", new DateTime(1998, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "031231232", "Thang" },
-                    { "0b8ccd03-8076-4e32-9754-93497ca6d9f5", 0, "d13deec5-9d42-4906-92fb-4c1e273b8a22", "NhanVien", "duc@gmail.com", false, false, null, null, null, null, null, false, "efe65f34-a0ff-4e7b-9df1-da0d86fa0ece", false, null, "115487982", "khu tai dinh cu", null, "Nguyen Minh", "phucvu", 9000000m, "NV003", new DateTime(1998, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "031231232", "Duc" },
-                    { "41f50fb1-d73c-461a-b788-ee3dbac4b5ef", 0, "9bc9b24c-99b4-436d-8468-f5f1e569e6d2", "NhanVien", "hung@gmail.com", false, false, null, null, null, null, null, false, "48ec08e5-44b9-482a-8b9f-f7ab9623a2a1", false, null, "123456789", "khu tai dinh cu", null, "Nguyen Van", "phucvu", 9000000m, "NV002", new DateTime(1998, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "099457645", "Hung" },
-                    { "88cfe559-4a68-45c2-82b5-4ec8071540b1", 0, "a8689549-cb9a-46a3-8425-5a629b4a0d3c", "NhanVien", "huynguyen98.clc@gmail.com", false, false, null, null, null, null, null, false, "a79879df-8ae4-4013-99ea-ac3859b416f0", false, null, "142829244", "10N01 - khu tai dinh cu", null, "Nguyen Van", "phucvu", 10000000m, "NV001", new DateTime(1998, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "0977470992", "Huy" }
+                    { "5a847a71-439b-4562-8972-f100fd106dc1", 0, "ff8b99cc-ddb6-41fb-ac9b-d151ba09ec02", "NhanVien", "lannp@gmail.com", false, false, null, null, null, null, null, false, "a96fe15f-e527-4f17-a0dc-bde5f90545d9", false, null, "213123123", "khu tai dinh cu", null, "Ngo Phuong", "phucvu", 9000000m, "NV005", new DateTime(1998, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "0989456122", "Lan" },
+                    { "cde4d308-0195-4125-877b-d7348ef5c887", 0, "7f18d626-e9be-46a3-a769-83a0d6bb3fcb", "NhanVien", "thang@gmail.com", false, false, null, null, null, null, null, false, "554b1c41-7602-4612-be1f-760c46ad03b3", false, null, "465487982", "khu tai dinh cu", null, "Nguyen Minh", "phucvu", 9000000m, "NV004", new DateTime(1998, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "031231232", "Thang" },
+                    { "54a5a4b3-a75a-441f-9b4b-d72965ac2b8d", 0, "1a260458-1f37-42a5-9aec-099ed0e4caa9", "NhanVien", "duc@gmail.com", false, false, null, null, null, null, null, false, "4ca61d8a-01ff-498c-b6d8-92897a2e4c94", false, null, "115487982", "khu tai dinh cu", null, "Nguyen Minh", "phucvu", 9000000m, "NV003", new DateTime(1998, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "031231232", "Duc" },
+                    { "49ece4d1-a16d-45dd-aec2-23b3a85520ca", 0, "05b7219b-6bed-46b0-aa84-0792b8f52d64", "NhanVien", "hung@gmail.com", false, false, null, null, null, null, null, false, "ff3b3113-0f6d-401d-8256-a78b7d3e07ac", false, null, "123456789", "khu tai dinh cu", null, "Nguyen Van", "phucvu", 9000000m, "NV002", new DateTime(1998, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "099457645", "Hung" },
+                    { "245d8f1e-0da8-45c8-8ced-b9777dc4a636", 0, "140301db-e7ca-4875-90bd-e69ea64af325", "NhanVien", "huynguyen98.clc@gmail.com", false, false, null, null, null, null, null, false, "eef7d7be-2329-4d32-be79-00700cddd1f0", false, null, "142829244", "10N01 - khu tai dinh cu", null, "Nguyen Van", "phucvu", 10000000m, "NV001", new DateTime(1998, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "0977470992", "Huy" }
                 });
 
             migrationBuilder.InsertData(
@@ -287,10 +287,10 @@ namespace KaraokePayment.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "CMT", "DiaChiChiTiet", "DiaChiId", "Ho", "IsVIP", "MaKH", "NgaySinh", "SDT", "Ten" },
                 values: new object[,]
                 {
-                    { "b024c420-806c-4630-a1ac-76db0f2d382c", 0, "51e7f336-f899-49a3-a297-68a766c9db2f", "KhachHang", null, false, false, null, null, null, null, null, false, "621b8860-5281-4ac0-9dc6-00d781d74e3e", false, null, null, null, null, "Ngo Ba", false, "KH005", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "0977470999", "Nam" },
-                    { "abc90950-b7f8-4750-aa77-4789373928bb", 0, "20ec8e3a-e2f4-4dfa-a6f5-10bad9560d59", "KhachHang", null, false, false, null, null, null, null, null, false, "8b3e104c-31ae-411e-a6e5-5c52078870ba", false, null, null, null, null, "Ngo Ba", false, "KH004", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "065332255", "Duc" },
-                    { "7e2a44c9-4990-40c3-86ed-47880c11ca3e", 0, "b130d152-1c24-435d-8f6d-e115ed38862f", "KhachHang", null, false, false, null, null, null, null, null, false, "1883a210-271b-4258-9e4b-dae1d397c44e", false, null, null, null, null, "Kieu Dang", false, "KH002", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "0554513222", "Thang" },
-                    { "270f9859-7e96-4cbe-880b-9fa9c3df87ea", 0, "9be66c76-5d4f-4a46-bb68-1c17d0b2052b", "KhachHang", null, false, false, null, null, null, null, null, false, "812cc1d4-0beb-4f49-8aaf-94d3e7c6ee02", false, null, null, null, null, "Ngo Ba", true, "KH001", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "0665324444", "Hung" }
+                    { "56874680-cda1-4ddf-9dbd-5a7cb1c48abe", 0, "649a206e-2070-493c-8f97-d17457c727c6", "KhachHang", null, false, false, null, null, null, null, null, false, "98bdb96c-3113-439a-94ff-f28f4494b1d3", false, null, null, null, null, "Ngo Ba", false, "KH005", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "0977470999", "Nam" },
+                    { "32467893-6e81-4077-99cd-ed17da38c487", 0, "0c470922-0645-4b1e-bc15-62a6d970d231", "KhachHang", null, false, false, null, null, null, null, null, false, "bfc73706-c647-486a-b618-ec90df501fc2", false, null, null, null, null, "Ngo Ba", false, "KH004", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "065332255", "Duc" },
+                    { "a7a7feea-f4dc-4de7-a0ea-2ad1ca46713b", 0, "64c7bc5a-d4c8-4789-a439-2f7b4dc2e1e9", "KhachHang", null, false, false, null, null, null, null, null, false, "eef34b0e-0d80-4a1b-89ee-2c9a4a69045a", false, null, null, null, null, "Kieu Dang", false, "KH002", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "0554513222", "Thang" },
+                    { "fa123bb7-10ce-454a-9408-7ef57dd8f131", 0, "12e5fd36-3ba0-4ced-a11b-7819fec565be", "KhachHang", null, false, false, null, null, null, null, null, false, "df6aaddf-81d5-4fab-a38e-585a87a2852f", false, null, null, null, null, "Ngo Ba", true, "KH001", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "0665324444", "Hung" }
                 });
 
             migrationBuilder.InsertData(
@@ -333,15 +333,15 @@ namespace KaraokePayment.Data.Migrations
                 columns: new[] { "Id", "CoPhong", "Gia", "IsVIP", "TenPhong", "TrangThai" },
                 values: new object[,]
                 {
-                    { 1, "small", 150000m, false, "P 101", "empty" },
-                    { 2, "small", 300000m, true, "P 102", "empty" },
-                    { 3, "small", 150000m, false, "P 103", "empty" },
-                    { 4, "medium", 300000m, false, "P 201", "empty" },
-                    { 5, "medium", 600000m, true, "P 202", "empty" },
-                    { 6, "medium", 300000m, false, "P 203", "empty" },
-                    { 7, "big", 600000m, false, "P 301", "empty" },
-                    { 8, "big", 1200000m, true, "P 302", "empty" },
-                    { 9, "big", 600000m, false, "P 303", "empty" }
+                    { 1, "small", 150000m, false, "P 101", 0 },
+                    { 2, "small", 300000m, true, "P 102", 0 },
+                    { 3, "small", 150000m, false, "P 103", 0 },
+                    { 4, "medium", 300000m, false, "P 201", 0 },
+                    { 5, "medium", 600000m, true, "P 202", 0 },
+                    { 6, "medium", 300000m, false, "P 203", 0 },
+                    { 7, "big", 600000m, false, "P 301", 0 },
+                    { 8, "big", 1200000m, true, "P 302", 0 },
+                    { 9, "big", 600000m, false, "P 303", 0 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -456,52 +456,52 @@ namespace KaraokePayment.Data.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "1c1b0576-1637-440a-9fa2-7078f63fd7d3");
+                keyValue: "32467893-6e81-4077-99cd-ed17da38c487");
 
             migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "270f9859-7e96-4cbe-880b-9fa9c3df87ea");
+                keyValue: "56874680-cda1-4ddf-9dbd-5a7cb1c48abe");
 
             migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "7e2a44c9-4990-40c3-86ed-47880c11ca3e");
+                keyValue: "86263342-cde4-4dc1-9546-a0e986ff6fca");
 
             migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "abc90950-b7f8-4750-aa77-4789373928bb");
+                keyValue: "a7a7feea-f4dc-4de7-a0ea-2ad1ca46713b");
 
             migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "b024c420-806c-4630-a1ac-76db0f2d382c");
+                keyValue: "fa123bb7-10ce-454a-9408-7ef57dd8f131");
 
             migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "0b8ccd03-8076-4e32-9754-93497ca6d9f5");
+                keyValue: "245d8f1e-0da8-45c8-8ced-b9777dc4a636");
 
             migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "41f50fb1-d73c-461a-b788-ee3dbac4b5ef");
+                keyValue: "49ece4d1-a16d-45dd-aec2-23b3a85520ca");
 
             migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "62572cad-20e3-49bf-972e-9d26ba4171c2");
+                keyValue: "54a5a4b3-a75a-441f-9b4b-d72965ac2b8d");
 
             migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "88cfe559-4a68-45c2-82b5-4ec8071540b1");
+                keyValue: "5a847a71-439b-4562-8972-f100fd106dc1");
 
             migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "e707250e-16f8-4744-a69a-e67bbd24b37e");
+                keyValue: "cde4d308-0195-4125-877b-d7348ef5c887");
 
             migrationBuilder.DropColumn(
                 name: "CMT",

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KaraokePayment.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,7 +14,7 @@ namespace KaraokePayment.Data.Entity
         [Key]
         public int Id { get; set; }
         public decimal TongTT { get; set; }
-        public string TrangThai { get; set; }
+        public BookPhongOrderStatus TrangThai { get; set; }
 
         [ForeignKey("KhachHangId")]
         public string KhachHangId { get; set; }

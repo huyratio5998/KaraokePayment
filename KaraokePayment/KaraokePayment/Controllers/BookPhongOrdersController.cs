@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KaraokePayment.Data;
 using KaraokePayment.Data.Entity;
+using KaraokePayment.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KaraokePayment.Controllers
 {
+    [Authorize]
     public class BookPhongOrdersController : Controller
     {
         private readonly KaraokeDbContext _context;
@@ -49,6 +52,7 @@ namespace KaraokePayment.Controllers
         // GET: BookPhongOrders/Create
         public IActionResult Create()
         {
+            ViewData["TrangThai"] = new SelectList(new List<string>() { BookPhongOrderStatus.NotPaid.ToString(), BookPhongOrderStatus.Paid.ToString() }, "TrangThai", "TrangThai");
             ViewData["KhachHangId"] = new SelectList(_context.Set<KhachHang>(), "Id", "Ten");
             ViewData["NhanVienCaLVId"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
             return View();
@@ -62,11 +66,11 @@ namespace KaraokePayment.Controllers
         public async Task<IActionResult> Create([Bind("Id,TongTT,TrangThai,KhachHangId,NhanVienCaLVId")] BookPhongOrder bookPhongOrder)
         {
             if (ModelState.IsValid)
-            {
+            {                
                 _context.Add(bookPhongOrder);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
+            }            
             ViewData["KhachHangId"] = new SelectList(_context.Set<KhachHang>(), "Id", "Id", bookPhongOrder.KhachHangId);
             ViewData["NhanVienCaLVId"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id", bookPhongOrder.NhanVienCaLVId);
             return View(bookPhongOrder);
