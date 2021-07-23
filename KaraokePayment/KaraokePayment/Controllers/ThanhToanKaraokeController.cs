@@ -10,6 +10,11 @@ using KaraokePayment.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
+using iTextSharp.tool.xml;
+using iTextSharp.tool.xml.pipeline.css;
 
 namespace KaraokePayment.Controllers
 {
@@ -21,8 +26,7 @@ namespace KaraokePayment.Controllers
         private IThemHangHoaDAO _themHangHoaDao;
         private IHangHoaDAO _hangHoaDao;
         private IBookPhongOrderDAO _bookPhongOrderDao;
-        private UserManager<IdentityUser> khachHang;        
-
+        private UserManager<IdentityUser> khachHang;                
         public ThanhToanKaraokeController(UserManager<IdentityUser> khachHang,IPhongDAO phongDao, IBookPhongOrderPhongDAO bookPhongOrderPhongDao, IThemHangHoaDAO themHangHoaDao, IHangHoaDAO hangHoaDao, IBookPhongOrderDAO bookPhongOrderDao)
         {
             _phongDao = phongDao;
@@ -204,8 +208,19 @@ namespace KaraokePayment.Controllers
         }
         #endregion
 
-        // Chon phuong thuc thanh toan
-        // Vi dien tu :QR code.
-        //Click Thanh toan : them hang hoa cho phong, cap nhat thong tin order, cap nhat thong tin phong
+        [HttpPost]        
+        public FileResult ExportPdf(string GridHtml)
+        {            
+            using (MemoryStream stream = new System.IO.MemoryStream())
+            {
+                StringReader sr = new StringReader(GridHtml);
+                Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 100f, 0f);
+                PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+                pdfDoc.Open();
+                XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
+                pdfDoc.Close();
+                return File(stream.ToArray(), "application/pdf", "Grid.pdf");
+            }
+        }
     }
 }

@@ -33,6 +33,7 @@
                                         <th>
                                             @Html.DisplayNameFor(model => model.MaHH)
                                         </th>
+                                        <th>@Html.DisplayNameFor(model => model.HangHoaImage)</th>
                                         <th>
                                             @Html.DisplayNameFor(model => model.Ten)
                                         </th>
@@ -53,10 +54,24 @@
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
-                                    {                                        
+                                    {
+                                        var url = $"{item.Ten}/{item.HangHoaImage}";
                                         <tr>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.MaHH)
+                                            </td>
+                                            <td>
+                                                <div class="images">
+                                                    @if (string.IsNullOrEmpty(item.HangHoaImage))
+                                                    {
+                                                        <img src="~/Karaoke-assest/Images/ProductDefaultImage.png" />
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="~/Karaoke-assest/Images/HangHoas/@url" />
+                                                    }
+                                                </div>                                               
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Ten)

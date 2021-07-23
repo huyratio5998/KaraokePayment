@@ -6,10 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20210721234752_add-hanghoa-image.cs" />
+    <Compile Remove="Data\Migrations\20210721234752_add-hanghoa-image.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210722004102_updateddd.cs" />
+    <Compile Remove="Data\Migrations\20210722004102_updateddd.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="KaraokeTemplate\Karaoke-Theme.zip" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="itextsharp.xmlworker" Version="5.5.13.2" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.15" />

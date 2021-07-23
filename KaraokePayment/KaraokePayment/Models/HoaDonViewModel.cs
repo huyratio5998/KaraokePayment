@@ -1,4 +1,5 @@
 ﻿using KaraokePayment.Data.Entity;
+using KaraokePayment.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace KaraokePayment.Models
         public HoaDonViewModel(ThanhToanKaraokeViewModel paymentModel)
         {
             NgayThanhToan = DateTime.Now;
-            TongTienTT = paymentModel.TongThanhToan;
+            TongTienTT = PaymentHelper.ConvertCurrency(paymentModel.TongThanhToan);
             HoaDonChiTiet = new List<BillDetailViewModel>();
             foreach (var item in paymentModel.PhongThanhToan)
             {
@@ -27,7 +28,7 @@ namespace KaraokePayment.Models
                 // them phong
                 var phongSP = new SanPham(item.Phong);
                 phongSP.ThoiGian = item.ThoiGianSuDung;
-                phongSP.TongTien = item.TongTienSuDung;
+                phongSP.TongTien =PaymentHelper.ConvertCurrency(item.TongTienSuDung);
                 billDetail.DanhSachSanPham.Add(phongSP);
                 // them sp cua phong
                 foreach (var hh in item.HangHoaSuDung)
@@ -44,7 +45,7 @@ namespace KaraokePayment.Models
         public List<BillDetailViewModel> HoaDonChiTiet{ get; set; }        
         public DateTime NgayThanhToan { get; set; }
         public string PhuongThucThanhToan { get; set; }        
-        public decimal TongTienTT { get; set; }
+        public string TongTienTT { get; set; }
 
     }
 }

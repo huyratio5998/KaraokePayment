@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,7 +19,9 @@ namespace KaraokePayment.Data.Entity
         public decimal Gia { get; set; }
         public DateTime NgayNhap { get; set; }
         public DateTime HanSuDung { get; set; }
-
+        public string HangHoaImage { get; set; }
         public ICollection<ThemHangHoa> ThemHangHoa { get; set; }
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
     }
 }

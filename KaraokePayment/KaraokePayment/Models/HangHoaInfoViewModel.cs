@@ -20,7 +20,8 @@ namespace KaraokePayment.Models
             SoLuong= hangHoa.SoLuong;
             Gia= hangHoa.Gia;
             NgayNhap= hangHoa.NgayNhap;
-            HanSuDung= hangHoa.HanSuDung;            
+            HanSuDung= hangHoa.HanSuDung;
+            HangHoaImage = hangHoa.HangHoaImage;
         }
         public int Id { get; set; }
         public string MaHH { get; set; }
@@ -29,5 +30,6 @@ namespace KaraokePayment.Models
         public decimal Gia { get; set; }
         public DateTime NgayNhap { get; set; }
         public DateTime HanSuDung { get; set; }
+        public string HangHoaImage { get; set; }
     }
 }

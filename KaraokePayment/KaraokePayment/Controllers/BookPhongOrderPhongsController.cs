@@ -62,6 +62,9 @@ namespace KaraokePayment.Controllers
         // GET: BookPhongOrderPhongs/Create
         public IActionResult Create()
         {
+            ViewData["NhanVienBook1Id"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
+            ViewData["NhanVienBook2Id"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
+
             ViewData["BookPhongOrderId"] = new SelectList(_context.BookPhongOrders, "Id", "Id");
             ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "TenPhong");
             var model = new BookPhongOrderPhong()
@@ -88,6 +91,8 @@ namespace KaraokePayment.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["NhanVienBook1Id"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
+            ViewData["NhanVienBook2Id"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
             ViewData["BookPhongOrderId"] = new SelectList(_context.BookPhongOrders, "Id", "Id", bookPhongOrderPhong.BookPhongOrderId);
             ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "TenPhong", bookPhongOrderPhong.PhongId);
             return View(bookPhongOrderPhong);
@@ -106,6 +111,8 @@ namespace KaraokePayment.Controllers
             {
                 return NotFound();
             }
+            ViewData["NhanVienBook1Id"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
+            ViewData["NhanVienBook2Id"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
             ViewData["BookPhongOrderId"] = new SelectList(_context.BookPhongOrders, "Id", "Id", bookPhongOrderPhong.BookPhongOrderId);
             ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "TenPhong", bookPhongOrderPhong.PhongId);
             return View(bookPhongOrderPhong);
@@ -143,6 +150,8 @@ namespace KaraokePayment.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["NhanVienBook1Id"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
+            ViewData["NhanVienBook2Id"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
             ViewData["BookPhongOrderId"] = new SelectList(_context.BookPhongOrders, "Id", "Id", bookPhongOrderPhong.BookPhongOrderId);
             ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "TenPhong", bookPhongOrderPhong.PhongId);
             return View(bookPhongOrderPhong);

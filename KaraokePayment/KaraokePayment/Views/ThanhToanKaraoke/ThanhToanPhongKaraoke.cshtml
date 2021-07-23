@@ -1,5 +1,5 @@
 ﻿@model ThanhToanKaraokeViewModel
-
+@using KaraokePayment.Helpers
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -70,7 +70,7 @@ else
                                                         @Html.DisplayFor(x => item.ThoiGianSuDung) (hours)
                                                     </td>
                                                     <td>
-                                                        @Html.DisplayFor(modelItem => item.TongTienSuDung)
+                                                        @PaymentHelper.ConvertCurrency(item.TongTienSuDung)
                                                     </td>
                                                     <td>
                                                         <a asp-action="XoaPhongThanhToan" asp-controller="ThanhToanKaraoke" asp-route-bookPhongOrderPhongId="@item.BookPhongOrderPhongId" class="btn btn-danger btn-sm">
@@ -83,8 +83,8 @@ else
                                             }
                                         </tbody>
                                     </table>
+                                    <div style="font-weight:600;margin-top: 10px; font-size: 19px;">Tổng tiền phòng: @PaymentHelper.ConvertCurrency(tongTienPhong)</div>
                                 </div>
-                                <h3>Tong Tien Phong: @tongTienPhong</h3>
                             }
                         </div>
                     </div>
@@ -137,9 +137,20 @@ else
                                                         var tienHangHoa = hangHoa.SoLuongSuDung * hangHoa.HangHoaInfo.Gia;
                                                         tongTienHangHoaPhong += tienHangHoa;
                                                         hangHoa.TongTienHHPhong = tongTienHangHoaPhong;
+                                                        var url = $"{hangHoa.HangHoaInfo.Ten}/{hangHoa.HangHoaInfo.HangHoaImage}";
                                                         <tr>
                                                             <td>
-                                                                <div class="images"><img src="../images/beer.jpg"></div>
+                                                                <div class="images">
+                                                                    @if (string.IsNullOrEmpty(hangHoa.HangHoaInfo.HangHoaImage))
+                                                                    {
+                                                                        <img src="~/Karaoke-assest/Images/ProductDefaultImage.png" />
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <img src="~/Karaoke-assest/Images/HangHoas/@url" />
+                                                                    }
+                                                                </div>
                                                             </td>
                                                             <td>
                                                                 @Html.DisplayFor(modelItem => hangHoa.HangHoaInfo.Ten)
@@ -148,10 +159,10 @@ else
                                                                 @Html.DisplayFor(modelItem => hangHoa.SoLuongSuDung)
                                                             </td>
                                                             <td>
-                                                                @Html.DisplayFor(modelItem => hangHoa.HangHoaInfo.Gia)
+                                                                @PaymentHelper.ConvertCurrency(hangHoa.HangHoaInfo.Gia)
                                                             </td>
                                                             <td>
-                                                                @tienHangHoa
+                                                                @PaymentHelper.ConvertCurrency(tienHangHoa)
                                                             </td>
                                                             <td>
                                                                 <a asp-action="XoaHangHoaThanhToan" asp-controller="ThanhToanKaraoke" asp-route-bookPhongOrderPhongId="@item.BookPhongOrderPhongId"
@@ -166,7 +177,7 @@ else
                                                 }
                                             </tbody>
                                         </table>
-                                        <div style="font-weight:600;margin-top: 10px; font-size: 19px;">Tổng Tiền : @tongTienHangHoaPhong</div>
+                                        <div style="font-weight:600;margin-top: 10px; font-size: 19px;">Tổng tiền : @PaymentHelper.ConvertCurrency(tongTienHangHoaPhong)</div>
                                     </div>
                                     tongTienHangHoa += tongTienHangHoaPhong;
                                 }
@@ -180,9 +191,9 @@ else
                             <div class="card">
                                 <div class="card-header">
                                     <div class="content-payment">
-                                        <h3>Tổng Tiền Phòng: @tongTienPhong</h3>
-                                        <h3>Tổng Tiền Hàng Hóa: @tongTienHangHoa</h3>
-                                        <h3>Tổng Thanh Toán: @(tongTienPhong + tongTienHangHoa)</h3>
+                                        <h3>Tổng Tiền Phòng: @PaymentHelper.ConvertCurrency(tongTienPhong)</h3>
+                                        <h3>Tổng Tiền Hàng Hóa: @PaymentHelper.ConvertCurrency(tongTienHangHoa)</h3>
+                                        <h3>Tổng Thanh Toán: <b>@PaymentHelper.ConvertCurrency(tongTienPhong + tongTienHangHoa)</b></h3>
                                         @{
                                             Model.TongTienPhong = tongTienPhong;
                                             Model.TongTienHangHoa = tongTienHangHoa;
@@ -232,7 +243,11 @@ else
         <!-- Modal content -->
         <div class="modal-content">
             <div class="btn-group">
-                <button class="btn btn-primary">Export Bill</button>
+                @*@using (Html.BeginForm("ExportPdf", "ThanhToanKaraoke", FormMethod.Post))
+                {
+                    <input type="hidden" name="GridHtml" />
+                    <input type="submit" id="btnSubmit" class="btn btn-primary" value="Export Bill" />
+                }*@
                 <span class="close" id="close-popup">&times;</span>
             </div>
             <div id="hoa-don-popup">
@@ -240,13 +255,21 @@ else
         </div>
 
     </div>
-
+    <!-- The Modal -->
+    @*<script type="text/javascript">
+        $(function () {
+            $("#btnSubmit").click(function () {
+                $("input[name='GridHtml']").val($("#hoa-don-popup").html());
+            });
+        });
+    </script>*@
+    <!-- The Modal -->    
     <script type="text/javascript">
 
         var lstInt = JSON.stringify(@str);
         console.log(lstInt);
         var dataObj = JSON.parse('@Html.Raw(Json.Serialize(Model))');
-        console.log(dataObj);
+        console.log(dataObj);        
     $(function () {
         $("#thanhToan").on('click', function () {
             $.ajax({
@@ -257,7 +280,11 @@ else
                     console.log(data);
                     $('#hoa-don-popup').html(data);
                     $("#myModal").css('display', 'block');
-
+                    var w = window.open(window.location.href, "_blank");
+                    w.document.open();
+                    w.document.write(data);
+                    w.document.close();
+                    w.window.print();                                       
                 },
                 error: function (error) {
                     console.log(error);

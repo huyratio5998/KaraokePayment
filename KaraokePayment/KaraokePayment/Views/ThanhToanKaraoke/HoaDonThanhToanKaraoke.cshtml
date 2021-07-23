@@ -11,9 +11,9 @@
     <p>Khong co du lieu</p>
 }
 else
-{
+{    
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper hoa-don">
+    <div onload="window.print()" class="content-wrapper hoa-don">
         <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid hoa-don-wrap">
@@ -61,7 +61,7 @@ else
                                                         @Html.DisplayFor(modelItem => sp.Gia)
                                                     </td>
                                                     <td>
-                                                        @(sp.ThoiGian>0? $"{sp.ThoiGian} (gio)": "")
+                                                        @(sp.ThoiGian>0? $"{sp.ThoiGian} (giờ)" : "")
                                                     </td>
                                                     <td>
                                                         @Html.DisplayFor(x => sp.TongTien)

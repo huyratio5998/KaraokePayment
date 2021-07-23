@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using KaraokePayment.Helpers;
 namespace KaraokePayment.Models
 {
     public class SanPham
@@ -11,23 +11,23 @@ namespace KaraokePayment.Models
         {
             Ten = phongSP.TenPhong;
             SoLuong = 1;
-            Gia = phongSP.Gia;
+            Gia = PaymentHelper.ConvertCurrency(phongSP.Gia);
             IsPhong = true;            
         }
         public SanPham(HangHoaViewModel hangHoa)
         {
             Ten = hangHoa.HangHoaInfo.Ten;
             SoLuong = hangHoa.SoLuongSuDung;
-            Gia = hangHoa.HangHoaInfo.Gia;
-            TongTien = this.SoLuong * this.Gia;
+            Gia = PaymentHelper.ConvertCurrency(hangHoa.HangHoaInfo.Gia);
+            TongTien = PaymentHelper.ConvertCurrency( this.SoLuong * hangHoa.HangHoaInfo.Gia);
             IsPhong = false;
             ThoiGian = null;
         }
         public string Ten { get; set; }
         public int SoLuong { get; set; }
-        public decimal Gia { get; set; }
+        public string Gia { get; set; }
         public double? ThoiGian { get; set; }
-        public decimal TongTien { get; set; }
+        public string TongTien { get; set; }
         public bool IsPhong { get; set; }
     }
 }

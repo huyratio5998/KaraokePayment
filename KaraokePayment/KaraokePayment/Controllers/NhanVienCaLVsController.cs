@@ -54,7 +54,8 @@ namespace KaraokePayment.Controllers
         {
             ViewData["CaLvId"] = new SelectList(_context.CaLvs, "Id", "TenCa");
             ViewData["NhanVienId"] = new SelectList(_context.Set<NhanVien>(), "Id", "Ten");
-            return View();
+            var model = new NhanVienCaLV() { NgayLV = DateTime.Now };
+            return View(model);
         }
 
         // POST: NhanVienCaLVs/Create

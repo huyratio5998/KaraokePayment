@@ -4,7 +4,7 @@
     var urlEnableDataTable =new List<string>() { "/Phongs/GetPhongDaBook", "/ThanhToanKaraoke/ThemHangHoaPhong", "/Phongs", "/BookPhongOrderPhongs"};
     enableDataTable = urlEnableDataTable.FirstOrDefault(x => x.Equals(currentUrl)) != null ? true : false;    
     var activePrepare = false;
-    List<string> urlPrepareData =new List<string>() { "/CaLVs","/Phongs/GetPhongDaBook","/NhanVienCaLVs","/BookPhongOrders","/BookPhongOrderPhongs","/Phongs" };
+    List<string> urlPrepareData =new List<string>() { "/CaLVs","/Phongs/GetPhongDaBook","/NhanVienCaLVs","/BookPhongOrders","/BookPhongOrderPhongs","/Phongs","/HangHoas" };
     activePrepare = urlPrepareData.FirstOrDefault(x => x.Equals(currentUrl)) != null ? true : false;
 }
 <!DOCTYPE html>
@@ -12,7 +12,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>karaoke</title>
+    <title>Karaoke - Ratio</title>    
+    <link href="@Url.Content("~/Karaoke-assest/Images/karaoke.png")" rel="icon" />
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
@@ -23,13 +24,14 @@
     <link rel="stylesheet" href="~/Karaoke-assest/dist/css/adminlte.min.css">
     <!-- jQuery -->
     <script src="~/Karaoke-assest/plugins/jquery/jquery.min.js"></script>
-<link href="~/css/karaoke-layout.css" rel="stylesheet" />
+    <link href="~/css/karaoke-layout.css" rel="stylesheet" />
     @if (enableDataTable)
-    {       
+    {
         <!-- DataTables -->
         <link rel="stylesheet" href="~/Karaoke-assest/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
         <link rel="stylesheet" href="~/Karaoke-assest/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-        <link rel="stylesheet" href="~/Karaoke-assest/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">      
+        <link rel="stylesheet" href="~/Karaoke-assest/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
     }
 </head>
 <body class="hold-transition sidebar-mini">
@@ -77,6 +79,14 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-area="" asp-controller="HangHoas" asp-action="Index" class="nav-link @(!string.IsNullOrEmpty(currentUrl) && currentUrl.Equals("/HangHoas") ? "active" : "")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Hàng Hóa
+                                        </p>
+                                    </a>
+                                </li>
                                 <li class="nav-item">
                                     <a asp-area="" asp-controller="CaLVs" asp-action="Index" class="nav-link @(!string.IsNullOrEmpty(currentUrl) && currentUrl.Equals("/CaLVs") ? "active" : "")">
                                         <i class="far fa-circle nav-icon"></i>
@@ -127,7 +137,7 @@
                                 </li>
                             </ul>
                         </li>
-                        
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -173,23 +183,24 @@
         <script src="~/Karaoke-assest/plugins/datatables-buttons/js/buttons.print.min.js"></script>
         <script src="~/Karaoke-assest/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
         <script>
-              $(function () {
+            $(function () {
                 $("#example1").DataTable({
-                  "responsive": true, "lengthChange": false, "autoWidth": false,
-                  "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                    "responsive": true, "lengthChange": false, "autoWidth": false,
+                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
                 $('#example2').DataTable({
-                  "paging": true,
-                  "lengthChange": false,
-                  "searching": false,
-                  "ordering": true,
-                  "info": true,
-                  "autoWidth": false,
-                  "responsive": true,
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": false,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
                 });
-              });
+            });
         </script>
     }
+    <script src="~/js/hang-hoa-image.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
