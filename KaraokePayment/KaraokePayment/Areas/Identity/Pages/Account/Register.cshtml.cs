@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using KaraokePayment.Data;
 using KaraokePayment.Data.Entity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -24,17 +25,18 @@ namespace KaraokePayment.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-
+        private KaraokeDbContext _context;
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender, KaraokeDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         [BindProperty]
@@ -79,6 +81,17 @@ namespace KaraokePayment.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    //add current user to nhanviencalv
+                    var time = DateTime.Now.Hour;
+                    int caLvId = 1;
+                    if (7 <= time && time < 11) caLvId = 1;
+                    else if (11 <= time && time < 18) caLvId = 2;
+                    else if (18 <= time && time < 22) caLvId = 3;
+                    else if (22 <= time && time < 26) caLvId = 4;                    
+                    var nvCaLV = new NhanVienCaLV() { NgayLV = DateTime.Now, NhanVienId = user.Id, CaLvId = caLvId };
+                    _context.NhanVienCaLvs.Add(nvCaLV);
+                    _context.SaveChanges();
+                    //
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using KaraokePayment.DAO.Interface;
 using KaraokePayment.Data;
 using KaraokePayment.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace KaraokePayment.DAO.Implement
 {
@@ -32,7 +33,7 @@ namespace KaraokePayment.DAO.Implement
                 else
                 {
                     _context.ThemHangHoas.Add(themHang);
-                }
+                }               
                 _context.SaveChanges();
                 return true;
             }
@@ -42,15 +43,16 @@ namespace KaraokePayment.DAO.Implement
                 return false;
             }
         }
-        public bool XoaHangHoaPhong(int bookPhongOrderPhongId, int hangHoaId)
+        public int XoaHangHoaPhong(int bookPhongOrderPhongId, int hangHoaId)
         {
             try
             {
                 var hangHoaPhong = _context.ThemHangHoas.AsEnumerable().FirstOrDefault(x =>
                     x.BookPhongOrderPhongId == bookPhongOrderPhongId && x.HangHoaId == hangHoaId);
-                if (hangHoaPhong == null) return false;
+                var soLuongHH = hangHoaPhong.SoLuong;
+                if (hangHoaPhong == null) return 0;
                 Delete(hangHoaPhong);
-                return true;
+                return soLuongHH;
             }
             catch (Exception e)
             {
@@ -63,8 +65,19 @@ namespace KaraokePayment.DAO.Implement
             try
             {
                 var hangHoaPhongs = _context.ThemHangHoas.AsEnumerable().Where(x => x.BookPhongOrderPhongId == bookPhongOrderPhongId);
+                // tra lai so luong hh
+                foreach (var item in hangHoaPhongs)
+                {
+                    var hangHoa = _context.HangHoas.FirstOrDefault(x => x.Id == item.HangHoaId);
+                    if (hangHoa != null)
+                    {
+                        hangHoa.SoLuong += item.SoLuong;
+                        _context.HangHoas.Attach(hangHoa);
+                        _context.Entry(hangHoa).State = EntityState.Modified;                        
+                    }
+                }                
                 if (hangHoaPhongs?.Any()!=true) return true;
-                _context?.ThemHangHoas?.RemoveRange(hangHoaPhongs);
+                _context.ThemHangHoas.RemoveRange(hangHoaPhongs);
                 _context.SaveChanges();
                 return true;
             }

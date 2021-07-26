@@ -19,7 +19,11 @@ namespace KaraokePayment.DAO.Implement
         public BookPhongOrderPhongDAO(KaraokeDbContext context) : base(context)
         {
         }
-
+        public string GetNhanVienByNVCaLVId(int nvCaLVId)
+        {
+            var nvName = _context.NhanVienCaLvs.Include(x => x.NhanVien).FirstOrDefault(x => x.Id == nvCaLVId);
+            return  $"{nvName.NhanVien.Ho} {nvName.NhanVien.Ten}".StringCapitalization();
+        }
         public async Task<bool> ThanhToanPhong(int bookPhongOrderPhongId)
         {
             var bookPhong=await GetById(bookPhongOrderPhongId);

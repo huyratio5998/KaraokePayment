@@ -19,6 +19,6 @@ namespace KaraokePayment.Data.Entity
         public decimal Gia { get; set; }
         public PhongStatus TrangThai { get; set; }
 
-        public ICollection<BookPhongOrderPhong> BookphjoBookPhongOrderPhong{ get; set; }
+        public ICollection<BookPhongOrderPhong> BookPhongOrderPhong{ get; set; }
     }
 }

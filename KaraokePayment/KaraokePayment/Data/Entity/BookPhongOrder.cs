@@ -21,6 +21,7 @@ namespace KaraokePayment.Data.Entity
         public KhachHang KhachHang { get; set; }
         [ForeignKey("NhanVienCaLVId")]
         public int NhanVienCaLVId { get; set; }
+        public string NhanVienAdminEmail { get; set; }
         public NhanVienCaLV NhanVienCaLV { get; set; }
     }
 }

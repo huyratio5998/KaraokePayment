@@ -24,3 +24,13 @@
 .active {
     color: red;
 }
+.btn-thanh-toan{
+    margin-top:15px;
+}
+.vi-dien-tu-img {
+    width: 200px;
+    height: 200px;    
+}
+.vi-dien-tu-img:hover {
+    cursor: pointer;
+}

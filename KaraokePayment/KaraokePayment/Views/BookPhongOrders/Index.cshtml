@@ -1,4 +1,4 @@
-﻿@model IEnumerable<KaraokePayment.Data.Entity.BookPhongOrder>
+﻿@model List<BookPhongOrderViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -31,16 +31,16 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.TongTT)
+                                            Tổng Thanh Toán
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.TrangThai)
+                                            Trạng Thái
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.KhachHang)
+                                            Khách Hàng
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.NhanVienCaLV)
+                                            Nhân Viên Admin
                                         </th>
                                         <th></th>
                                     </tr>
@@ -57,10 +57,10 @@
                                             @Html.DisplayFor(modelItem => item.TrangThai)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.KhachHang.Ten)
+                                            @Html.DisplayFor(modelItem => item.KhachHang)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.NhanVienCaLV.Id)
+                                            @Html.DisplayFor(modelItem => item.NhanVienAdmin)
                                         </td>
                                         <td>
                                             <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id">

@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using KaraokePayment.Data;
 using KaraokePayment.Data.Entity;
 using Microsoft.AspNetCore.Authorization;
+using KaraokePayment.Enums;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace KaraokePayment.Controllers
 {
@@ -17,21 +20,13 @@ namespace KaraokePayment.Controllers
     {
         private readonly KaraokeDbContext _context;
         private IBookPhongOrderPhongDAO _bookPhongOrderPhongDao;
-        public BookPhongOrderPhongsController(KaraokeDbContext context, IBookPhongOrderPhongDAO bookPhongOrderPhongDao)
+        private IPhongDAO _phongDAO;        
+        public BookPhongOrderPhongsController(KaraokeDbContext context, IBookPhongOrderPhongDAO bookPhongOrderPhongDao, IPhongDAO phongDAO)
         {
             _context = context;
             _bookPhongOrderPhongDao = bookPhongOrderPhongDao;
+            _phongDAO = phongDAO;            
         }
-        //public IActionResult ThanhToanKaraoke(int bookPhongOrderPhongId)
-        //{
-        //    _bookPhongOrderPhongDao.ThanhToanPhong(bookPhongOrderPhongId);
-        //    return View();
-        //}
-        //public IActionResult ThemHangHoaPhong(int bookPhongOrderPhongId, int hangHoaId, int soLuong)
-        //{
-        //    _bookPhongOrderPhongDao.ThemHangHoaPhong(bookPhongOrderPhongId, hangHoaId, soLuong);
-        //    return View();
-        //}
         // GET: BookPhongOrderPhongs
         public async Task<IActionResult> Index()
         {
@@ -62,11 +57,12 @@ namespace KaraokePayment.Controllers
         // GET: BookPhongOrderPhongs/Create
         public IActionResult Create()
         {
-            ViewData["NhanVienBook1Id"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
-            ViewData["NhanVienBook2Id"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
+            var nv1 = _context.Users.Where(x => x.UserName == null && x.PasswordHash == null).Join(_context.NhanVienCaLvs, user => user.Id, nvCaLV => nvCaLV.NhanVienId, (user, nvCaLV) => new { User = user, NVCaLV = nvCaLV }).Select(x=>x.NVCaLV.Id);
+            ViewData["NhanVienBook1Id"] = new SelectList(nv1);
+            ViewData["NhanVienBook2Id"] = new SelectList(nv1);
 
-            ViewData["BookPhongOrderId"] = new SelectList(_context.BookPhongOrders, "Id", "Id");
-            ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "TenPhong");
+            ViewData["BookPhongOrderId"] = new SelectList(_context.BookPhongOrders.Where(x=>x.TrangThai==BookPhongOrderStatus.NotPaid), "Id", "Id");
+            ViewData["PhongId"] = new SelectList(_context.Phongs.Where(x=>x.TrangThai==PhongStatus.Empty), "Id", "TenPhong");
             var model = new BookPhongOrderPhong()
             {
                 ThoiGianBatDau = DateTime.Now,
@@ -89,10 +85,15 @@ namespace KaraokePayment.Controllers
             {
                 _context.Add(bookPhongOrderPhong);
                 await _context.SaveChangesAsync();
+                //update phong status
+                var getPhong =await _phongDAO.GetById(bookPhongOrderPhong.PhongId);
+                getPhong.TrangThai = PhongStatus.Occupied;
+                await _phongDAO.Update(getPhong);                
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NhanVienBook1Id"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
-            ViewData["NhanVienBook2Id"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
+            var nv1 = _context.Users.Where(x => x.UserName == null && x.PasswordHash == null).Join(_context.NhanVienCaLvs, user => user.Id, nvCaLV => nvCaLV.NhanVienId, (user, nvCaLV) => new { User = user, NVCaLV = nvCaLV }).Select(x => x.NVCaLV.Id);
+            ViewData["NhanVienBook1Id"] = new SelectList(nv1);
+            ViewData["NhanVienBook2Id"] = new SelectList(nv1);
             ViewData["BookPhongOrderId"] = new SelectList(_context.BookPhongOrders, "Id", "Id", bookPhongOrderPhong.BookPhongOrderId);
             ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "TenPhong", bookPhongOrderPhong.PhongId);
             return View(bookPhongOrderPhong);
@@ -111,8 +112,9 @@ namespace KaraokePayment.Controllers
             {
                 return NotFound();
             }
-            ViewData["NhanVienBook1Id"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
-            ViewData["NhanVienBook2Id"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
+            var nv1 = _context.Users.Where(x => x.UserName == null && x.PasswordHash == null).Join(_context.NhanVienCaLvs, user => user.Id, nvCaLV => nvCaLV.NhanVienId, (user, nvCaLV) => new { User = user, NVCaLV = nvCaLV }).Select(x => x.NVCaLV.Id);
+            ViewData["NhanVienBook1Id"] = new SelectList(nv1);
+            ViewData["NhanVienBook2Id"] = new SelectList(nv1);
             ViewData["BookPhongOrderId"] = new SelectList(_context.BookPhongOrders, "Id", "Id", bookPhongOrderPhong.BookPhongOrderId);
             ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "TenPhong", bookPhongOrderPhong.PhongId);
             return View(bookPhongOrderPhong);
@@ -150,8 +152,9 @@ namespace KaraokePayment.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NhanVienBook1Id"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
-            ViewData["NhanVienBook2Id"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
+            var nv1 = _context.Users.Where(x => x.UserName == null && x.PasswordHash == null).Join(_context.NhanVienCaLvs, user => user.Id, nvCaLV => nvCaLV.NhanVienId, (user, nvCaLV) => new { User = user, NVCaLV = nvCaLV }).Select(x => x.NVCaLV.Id);
+            ViewData["NhanVienBook1Id"] = new SelectList(nv1);
+            ViewData["NhanVienBook2Id"] = new SelectList(nv1);
             ViewData["BookPhongOrderId"] = new SelectList(_context.BookPhongOrders, "Id", "Id", bookPhongOrderPhong.BookPhongOrderId);
             ViewData["PhongId"] = new SelectList(_context.Phongs, "Id", "TenPhong", bookPhongOrderPhong.PhongId);
             return View(bookPhongOrderPhong);

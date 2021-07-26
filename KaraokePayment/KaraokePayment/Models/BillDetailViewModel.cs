@@ -18,5 +18,7 @@ namespace KaraokePayment.Models
         public double ThoiGianSuDung { get; set; }
         public decimal TongTienSuDung { get; set; }
         public List<SanPham> DanhSachSanPham { get; set; }
+        public string NV1 { get; set; }
+        public string NV2 { get; set; }
     }
 }

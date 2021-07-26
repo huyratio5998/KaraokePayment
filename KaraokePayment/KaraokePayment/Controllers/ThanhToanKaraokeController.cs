@@ -15,6 +15,8 @@ using iTextSharp.text.pdf;
 using iTextSharp.text;
 using iTextSharp.tool.xml;
 using iTextSharp.tool.xml.pipeline.css;
+using KaraokePayment.Models.VNPay;
+using KaraokePayment.Helpers;
 
 namespace KaraokePayment.Controllers
 {
@@ -26,8 +28,8 @@ namespace KaraokePayment.Controllers
         private IThemHangHoaDAO _themHangHoaDao;
         private IHangHoaDAO _hangHoaDao;
         private IBookPhongOrderDAO _bookPhongOrderDao;
-        private UserManager<IdentityUser> khachHang;                
-        public ThanhToanKaraokeController(UserManager<IdentityUser> khachHang,IPhongDAO phongDao, IBookPhongOrderPhongDAO bookPhongOrderPhongDao, IThemHangHoaDAO themHangHoaDao, IHangHoaDAO hangHoaDao, IBookPhongOrderDAO bookPhongOrderDao)
+        private UserManager<IdentityUser> khachHang;
+        public ThanhToanKaraokeController(UserManager<IdentityUser> khachHang, IPhongDAO phongDao, IBookPhongOrderPhongDAO bookPhongOrderPhongDao, IThemHangHoaDAO themHangHoaDao, IHangHoaDAO hangHoaDao, IBookPhongOrderDAO bookPhongOrderDao)
         {
             _phongDao = phongDao;
             _bookPhongOrderPhongDao = bookPhongOrderPhongDao;
@@ -41,14 +43,22 @@ namespace KaraokePayment.Controllers
         /// Return View Thanh Toan
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> ThanhToanPhongKaraoke()
+        public async Task<IActionResult> ThanhToanPhongKaraoke(string vnp_Amount, string vnp_BankCode, string vnp_BankTranNo, string vnp_CardType,
+            string vnp_OrderInfo, string vnp_PayDate, string vnp_ResponseCode, string vnp_TmnCode, string vnp_TransactionNo, string vnp_TxnRef,
+            string vnp_SecureHashType, string vnp_SecureHash)
         {
+            // handling pay by vnpay
+            var isReturnSuccess = PaymentHelper.ValidatePaymentSuccess(vnp_Amount, vnp_BankCode, vnp_BankTranNo, vnp_CardType, vnp_OrderInfo, vnp_PayDate, vnp_ResponseCode, vnp_TmnCode, vnp_BankTranNo,
+                vnp_TxnRef, vnp_SecureHashType, vnp_SecureHash);
+            var boolValue = isReturnSuccess ? "true" : "false";
+            ViewBag.IsReturnSuccess = boolValue;
+            //
             var result = new ThanhToanKaraokeViewModel();
             var phongDangThanhToan = _bookPhongOrderPhongDao.GetPhongDangThanhToan();
-            if (phongDangThanhToan!=null && phongDangThanhToan.Any())
+            if (phongDangThanhToan != null && phongDangThanhToan.Any())
             {
                 foreach (var bookPhongOrderPhong in phongDangThanhToan)
-                {                    
+                {
                     var phongItem = new PhongViewModel();
                     var phongId = bookPhongOrderPhong.PhongId;
                     phongItem.Phong = new PhongInfoViewModel(await _phongDao.GetById(phongId));
@@ -56,7 +66,7 @@ namespace KaraokePayment.Controllers
                     phongItem.BookPhongOrderPhongId = bookPhongOrderPhong.Id;
                     var useHour = (bookPhongOrderPhong.ThoiGianKetThuc - bookPhongOrderPhong.ThoiGianBatDau).TotalHours;
                     if (useHour <= 1) useHour = 1;
-                    phongItem.ThoiGianSuDung= Math.Round(useHour, 1);
+                    phongItem.ThoiGianSuDung = Math.Round(useHour, 1);
                     phongItem.TongTienSuDung = bookPhongOrderPhong.TongTien;
                     result.PhongThanhToan.Add(phongItem);
                 }
@@ -66,13 +76,13 @@ namespace KaraokePayment.Controllers
 
         public async Task<IActionResult> ThemPhongThanhToan(int phongId)
         {
-            if(phongId<=0) return BadRequest();
-            var themPhong =await _phongDao.GetById(phongId);
+            if (phongId <= 0) return BadRequest();
+            var themPhong = await _phongDao.GetById(phongId);
             if (themPhong == null) return BadRequest();
             var giaPhong = themPhong?.Gia ?? 0;
             themPhong.TrangThai = PhongStatus.Paying;
-            var isSuccess= await _bookPhongOrderPhongDao.ThemPhongThanhToan(phongId,giaPhong);
-            if(isSuccess) await _phongDao.Update(themPhong);
+            var isSuccess = await _bookPhongOrderPhongDao.ThemPhongThanhToan(phongId, giaPhong);
+            if (isSuccess) await _phongDao.Update(themPhong);
             return RedirectToAction("ThanhToanPhongKaraoke");
         }
 
@@ -84,63 +94,97 @@ namespace KaraokePayment.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ThemHangHoaPhong(int bookPhongOrderPhongId, int hangHoaId, int soLuong)
+        public async Task<IActionResult> ThemHangHoaPhong(int bookPhongOrderPhongId, int hangHoaId, int soLuong)
         {
             if (soLuong <= 0) soLuong = 1;
+            var getHangHoa = await _hangHoaDao.GetById(hangHoaId);
+            var hangHoaConLai = getHangHoa.SoLuong;
+            if (hangHoaConLai < soLuong)
+                {
+                    var hangHoas = _hangHoaDao.GetHangHoaAvailable();
+                    return View("ThemHangHoaPhongError");
+                }
             var check = _themHangHoaDao.ThemHangHoaPhong(bookPhongOrderPhongId, hangHoaId, soLuong);
             if (!check) return BadRequest();
+            // tru hang hoa
+            getHangHoa.SoLuong -= soLuong;
+            await _hangHoaDao.Update(getHangHoa);
             return RedirectToAction("ThanhToanPhongKaraoke", "ThanhToanKaraoke");
         }
-
-        public IActionResult XoaHangHoaThanhToan(int bookPhongOrderPhongId, int hangHoaId)
+        //view them phong error
+        public IActionResult ThemHangHoaPhongError()
+        {           
+            return View();
+        }
+        public async Task<IActionResult> XoaHangHoaThanhToan(int bookPhongOrderPhongId, int hangHoaId)
         {
-            _themHangHoaDao.XoaHangHoaPhong(bookPhongOrderPhongId, hangHoaId);
+            var soLuongHH = _themHangHoaDao.XoaHangHoaPhong(bookPhongOrderPhongId, hangHoaId);
+            if (soLuongHH == 0) return BadRequest();
+            var getHangHoa = await _hangHoaDao.GetById(hangHoaId);
+            if (getHangHoa != null)
+            {
+                getHangHoa.SoLuong += soLuongHH;
+                await _hangHoaDao.Update(getHangHoa);
+            }
             return RedirectToAction("ThanhToanPhongKaraoke");
         }
 
         public async Task<IActionResult> XoaPhongThanhToan(int bookPhongOrderPhongId)
         {
-            var phongThanhToan =await _bookPhongOrderPhongDao.GetById(bookPhongOrderPhongId);
+            var phongThanhToan = await _bookPhongOrderPhongDao.GetById(bookPhongOrderPhongId);
             if (phongThanhToan == null) return BadRequest();
             var phongId = phongThanhToan.PhongId;
-            var updateBookPhongOrderPhong =await _bookPhongOrderPhongDao.XoaPhongThanhToan(phongThanhToan);
+            var updateBookPhongOrderPhong = await _bookPhongOrderPhongDao.XoaPhongThanhToan(phongThanhToan);
             if (updateBookPhongOrderPhong)
             {
-               var isNext= _themHangHoaDao.XoaTatCaHangHoaPhong(bookPhongOrderPhongId);
-               if (phongId >0)
-               {
-                   var phong=await _phongDao.GetById(phongId);
-                   if (phong == null) return BadRequest();
-                   phong.TrangThai = PhongStatus.Occupied;
-                   await _phongDao.Update(phong);
-                   if (isNext) return RedirectToAction("ThanhToanPhongKaraoke");
-                   return BadRequest();
-               }
+                var isNext = _themHangHoaDao.XoaTatCaHangHoaPhong(bookPhongOrderPhongId);
+                if (phongId > 0)
+                {
+                    //update phong status
+                    var phong = await _phongDao.GetById(phongId);
+                    if (phong == null) return BadRequest();
+                    phong.TrangThai = PhongStatus.Occupied;
+                    await _phongDao.Update(phong);
+                    if (isNext) return RedirectToAction("ThanhToanPhongKaraoke");
+                    return BadRequest();
+                }
             }
             return BadRequest();
         }
 
-        [HttpPost]            
-        public IActionResult ThanhToanTienMat(string bookPhongIds, string thanhToanPhongKaraokeModel)
+        [HttpPost]
+        public async Task<IActionResult> ThanhToanTienMat(string bookPhongIds, string thanhToanPhongKaraokeModel)
         {
             List<int> bookPhongOrderPhongIds = JsonConvert.DeserializeObject<List<int>>(bookPhongIds);
             if (bookPhongOrderPhongIds?.Any() != true) return BadRequest();
-            var result = HandlingThanhToanThanhCong(bookPhongOrderPhongIds);
-            if (result.Result)
+            var result =await HandlingThanhToanThanhCong(bookPhongOrderPhongIds);
+            if (result)
             {
-                var hoaDonModel = GetHoaDon(KieuThanhToan.TienMat,thanhToanPhongKaraokeModel);
+                var hoaDonModel = GetHoaDon(KieuThanhToan.TienMat, thanhToanPhongKaraokeModel);
                 return View("Views/ThanhToanKaraoke/HoaDonThanhToanKaraoke.cshtml", hoaDonModel);
             }
+
             return BadRequest();
         }
-        
-        public async Task<bool> ThanhToanViDienTu(decimal tongTien, List<int> bookPhongOrderPhongIds)
+        [HttpPost]
+        public string ThanhToanViDienTu(string tongTien, string bookPhongIds)
         {
-            await HandlingThanhToanThanhCong(bookPhongOrderPhongIds);
-            return true;
+            //
+            List<int> bookPhongOrderPhongIds = JsonConvert.DeserializeObject<List<int>>(bookPhongIds);
+            if (bookPhongOrderPhongIds?.Any() != true) return string.Empty;
+            string orderId = string.Join("-", bookPhongOrderPhongIds);
+            try
+            {
+                var resultUrl = CreateVNPayUrl(decimal.Parse(tongTien), orderId);
+                return resultUrl;
+            }
+            catch (Exception e)
+            {
+                return string.Empty;
+            }
         }
 
-        public  HoaDonViewModel GetHoaDon(string phuongThucTT, string thanhToanPhongKaraokeModel)
+        public HoaDonViewModel GetHoaDon(string phuongThucTT, string thanhToanPhongKaraokeModel)
         {
             try
             {
@@ -152,7 +196,12 @@ namespace KaraokePayment.Controllers
                 // get KH info
                 foreach (var item in hoaDon.HoaDonChiTiet)
                 {
-                    var bookPhongOrderId = _bookPhongOrderPhongDao.GetById(item.BookPhongOrderPhongId)?.Result?.BookPhongOrderId;
+                    var bookPhongOrderPhong = _bookPhongOrderPhongDao.GetById(item.BookPhongOrderPhongId)?.Result;
+                    var nvCaLV1Id = bookPhongOrderPhong.NhanVienBook1Id;
+                    var nvCaLV2Id = bookPhongOrderPhong.NhanVienBook2Id;
+                    item.NV1 = _bookPhongOrderPhongDao.GetNhanVienByNVCaLVId(nvCaLV1Id);
+                    item.NV2 = _bookPhongOrderPhongDao.GetNhanVienByNVCaLVId(nvCaLV2Id);
+                    var bookPhongOrderId = bookPhongOrderPhong?.BookPhongOrderId;
                     if (bookPhongOrderId == null || bookPhongOrderId <= 0) continue;
                     string khID = _bookPhongOrderDao.GetById((int)bookPhongOrderId)?.Result?.KhachHangId;
                     if (string.IsNullOrEmpty(khID)) continue;
@@ -160,14 +209,35 @@ namespace KaraokePayment.Controllers
                     item.KhachHang = (KhachHang)khInfo;
                 }
                 var currentUser = khachHang.GetUserAsync(User).Result;
-                hoaDon.NhanVien = currentUser !=null?  $"{currentUser.UserName}":"";
+                hoaDon.NhanVien = currentUser != null ? $"{currentUser.UserName}" : "";
                 return hoaDon;
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 throw e;
             }
-                      
+
         }
+        #region VNPay
+        public string CreateVNPayUrl(decimal tongTien, string orderId)
+        {
+            var description = $"Thanh toan Karaoke ngay:{DateTime.Now.ToString("dd/MM/yyyy")} Huyratio";
+            //Get Config Info
+            string vnp_Returnurl = VNPaySetting.vnp_Returnurl;
+            string vnp_Url = VNPaySetting.vnp_Url;
+            string vnp_TmnCode = VNPaySetting.vnp_TmnCode;
+            string vnp_HashSecret = VNPaySetting.vnp_HashSecret;
+            if (string.IsNullOrEmpty(vnp_TmnCode) || string.IsNullOrEmpty(vnp_HashSecret)) return string.Empty;
+            //Build URL for VNPAY
+            string tongTienTT = (tongTien * 100).ToString("G29");
+            var requestApi = new UrlRequestApi(vnp_TmnCode, tongTienTT, description, vnp_Returnurl, orderId);
+            VnPayLibrary vnpay = new VnPayLibrary(requestApi);
+
+            string paymentUrl = vnpay.CreateRequestUrl(vnp_Url, vnp_HashSecret);
+            return paymentUrl;
+            //Response.Redirect(paymentUrl);
+        }
+        #endregion
         #region Logic Inside
         public async Task<bool> HandlingThanhToanThanhCong(List<int> bookPhongOrderPhongIds)
         {
@@ -201,16 +271,15 @@ namespace KaraokePayment.Controllers
                 }
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw e;
-            }           
+            }
         }
-        #endregion
-
-        [HttpPost]        
+        // not use
+        [HttpPost]
         public FileResult ExportPdf(string GridHtml)
-        {            
+        {
             using (MemoryStream stream = new System.IO.MemoryStream())
             {
                 StringReader sr = new StringReader(GridHtml);
@@ -222,5 +291,8 @@ namespace KaraokePayment.Controllers
                 return File(stream.ToArray(), "application/pdf", "Grid.pdf");
             }
         }
+        #endregion
+
+
     }
 }

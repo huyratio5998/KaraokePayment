@@ -1,14 +1,16 @@
 ﻿@model HoaDonViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Hóa đơn";
     Layout = null;
     var tongSL = 0;
+    var khachHangs = Model.HoaDonChiTiet.GroupBy(x => x.KhachHang.Id);
+    var phongStyle = "is-phong-highlight";
 }
 
 @if (Model == null)
 {
-    <p>Khong co du lieu</p>
+    <p>Không có dữ liệu</p>
 }
 else
 {    
@@ -21,63 +23,90 @@ else
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h2>Hóa Đơn</h2>
+                                <h2>HÓA ĐƠN</h2>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <div class="item">- Nhâm Viên Admin: @Model.NhanVien</div>
-                                <div class="item">- Mã Đơn Hàng: B00101</div>
-                                <div>- Ngày Thanh Toán : @Model.NgayThanhToan</div>
-                                <div class="item">- Phương Thức Thanh Toán: @Model.PhuongThucThanhToan</div>
-                                <div>Khach hang tra tien: @Model.NguoiThanhToan</div>
-                                @foreach (var item in Model.HoaDonChiTiet)
+                                <div class="item">- Nhân Viên Quản Lý: <b>@Model.NhanVien</b></div>                                
+                                <div>- Ngày Thanh Toán: @Model.NgayThanhToan.ToString("dd/MM/yyyy h:mm:ss tt")</div>
+                                <div class="item">- Phương Thức Thanh Toán: @Model.PhuongThucThanhToan</div>                                
+                                @foreach (var kh in khachHangs)
                                 {
+                                    var nvDictionary = new Dictionary<string, string>();
+                                    decimal tongTienKH = 0;
+                                    var firstChild = kh.First();                                    
                                     <div class="row" style="margin: 30px 0 10px;">
-                                        <div class="col-md-6">Tên KH: @(item.KhachHang.Ho+" "+item.KhachHang.Ten)</div>
-                                        <div class="col-md-6">SDT: @item.KhachHang.SDT</div>
+                                        <div class="col-md-6">Khách Hàng: <b>@(firstChild.KhachHang.Ho + " " + firstChild.KhachHang.Ten)</b> </div>
+                                        <div class="col-md-6">SĐT: @firstChild.KhachHang.SDT</div>
                                     </div>
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Sản Phẩm</th>
-                                                <th>Số Lượng </th>
-                                                <th>Giá</th>
-                                                <th>Thời Gian Sử Dụng</th>
-                                                <th>Tổng Tiền</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var sp in item.DanhSachSanPham)
+                                    <div class="row">
+                                        <div style=" margin-left: 14px;">
+                                            Nhân Viên Phục Vụ Phòng:                                            
+                                            @foreach (var item in kh)
                                             {
-                                                tongSL += sp.SoLuong;
+                                                var tenNVPhucVu = $"{ item.NV1}, {item.NV2}";
+                                                if (!nvDictionary.ContainsKey(tenNVPhucVu))
+                                                {
+                                                    nvDictionary.Add(tenNVPhucVu, item.Phong.TenPhong);
+                                                }
+                                                else
+                                                {
+                                                    string phongDicAdd = nvDictionary[tenNVPhucVu];
+                                                    nvDictionary[tenNVPhucVu] = $"{phongDicAdd}, {item.Phong.TenPhong}";
+                                                }                                                
+                                            }                                            
+                                            @foreach (var item in nvDictionary)
+                                            {                                                                                                
+                                                <div style=" margin-left: 14px;"><b>- @item.Value:</b> @item.Key</div>                                                
+                                            }                                           
+                                        </div>                                            
+                                        </div>
+                                        <table class="table table-bordered">
+                                            <thead>
                                                 <tr>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => sp.Ten)
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => sp.SoLuong)
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => sp.Gia)
-                                                    </td>
-                                                    <td>
-                                                        @(sp.ThoiGian>0? $"{sp.ThoiGian} (giờ)" : "")
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(x => sp.TongTien)
-                                                    </td>
+                                                    <th>Sản Phẩm</th>
+                                                    <th>Số Lượng </th>
+                                                    <th>Giá</th>
+                                                    <th>Thời Gian Sử Dụng</th>
+                                                    <th>Tổng Tiền</th>
                                                 </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in kh)
+                                                {
+                                                    foreach (var sp in item.DanhSachSanPham)
+                                                    {
+                                                        tongSL += sp.SoLuong;
+                                                        tongTienKH += decimal.Parse(sp.TongTien.Replace("VND", "").Replace(".", "").Trim());
+                                                        <tr class="@(sp.IsPhong? phongStyle : "")">
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => sp.Ten)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => sp.SoLuong)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => sp.Gia)
+                                                            </td>
+                                                            <td>
+                                                                @(sp.ThoiGian>0? $"{sp.ThoiGian} (giờ)" : "")
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(x => sp.TongTien)
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <h6>Tổng Tiền: @KaraokePayment.Helpers.PaymentHelper.ConvertCurrency(tongTienKH)</h6>
+                                        }
 
-                                            }
-
-                                        </tbody>
-                                    </table>
-                                }
-                                <div class="row" style="margin-top: 30px;">
-                                    <div class="col-md-6" style="font-weight: 600;">Tổng Số Lượng @tongSL</div>
-                                    <div class="col-md-6" style="font-weight: 600;">Tổng Tiền : @Model.TongTienTT</div>
-                                </div>
-                            </div>
+                                        <div class="row" style="margin-top: 30px;">
+                                            <div class="col-md-6" style="font-weight: 600;">Tổng Số Lượng @tongSL</div>
+                                            <div class="col-md-6" style="font-weight: 600;">Tổng Tiền Thanh Toán: @Model.TongTienTT</div>
+                                        </div>
+                                    </div>
                         </div>
                     </div>
                 </div>

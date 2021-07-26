@@ -45,10 +45,14 @@
 
 .btn-group {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
+    justify-content: flex-end;    
 }
 
 button {
     max-width: 150px;
+}
+
+.is-phong-highlight {
+    color: green;
+    font-size: 17px;
 }

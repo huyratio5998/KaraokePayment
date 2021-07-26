@@ -6,7 +6,7 @@
     decimal tongTienPhong = 0;
     decimal tongTienHangHoa = 0;
     var lstPhongThanhToanId = new List<int>();
-    var str = "";
+    var str = "";    
 }
 <link href="~/css/karaoke-style-modal.css" rel="stylesheet" />
 @if (Model == null)
@@ -42,7 +42,7 @@ else
                                             <tr>
                                                 <th>Tên Phòng</th>
                                                 <th>Cỡ Phòng</th>
-                                                <th>isVip</th>
+                                                <th>Vip</th>
                                                 <th>Giá Phòng</th>
                                                 <th>Thời Gian Sử Dụng</th>
                                                 <th>Tổng Tiền</th>
@@ -58,13 +58,13 @@ else
                                                         @Html.DisplayFor(modelItem => item.Phong.TenPhong)
                                                     </td>
                                                     <td>
-                                                        @Html.DisplayFor(modelItem => item.Phong.CoPhong)
+                                                        @item.Phong.CoPhong.FirstCharToUpper()
                                                     </td>
                                                     <td>
                                                         @Html.DisplayFor(modelItem => item.Phong.IsVIP)
                                                     </td>
                                                     <td>
-                                                        @Html.DisplayFor(modelItem => item.Phong.Gia)
+                                                        @PaymentHelper.ConvertCurrency(item.Phong.Gia)
                                                     </td>
                                                     <td>
                                                         @Html.DisplayFor(x => item.ThoiGianSuDung) (hours)
@@ -83,7 +83,7 @@ else
                                             }
                                         </tbody>
                                     </table>
-                                    <div style="font-weight:600;margin-top: 10px; font-size: 19px;">Tổng tiền phòng: @PaymentHelper.ConvertCurrency(tongTienPhong)</div>
+                                    <div style="font-weight:600;margin-top: 10px; font-size: 19px;">Tổng Tiền Phòng: @PaymentHelper.ConvertCurrency(tongTienPhong)</div>
                                 </div>
                             }
                         </div>
@@ -201,6 +201,8 @@ else
                                             lstPhongThanhToanId = Model.PhongThanhToan.Select(x => x.BookPhongOrderPhongId).ToList();
                                             str = Json.Serialize(lstPhongThanhToanId).ToString();
                                         }
+                                        <input type="hidden" id="tongTien" value="@Model.TongThanhToan" />
+                                        <input type="hidden" id="isVNPaySuccess" value="@ViewBag.IsReturnSuccess" />
                                     </div>
                                 </div>
                             </div>
@@ -213,20 +215,20 @@ else
                                 <div class="card-header">
                                     <div class="content-payment">
                                         <h3>Phương Thức Thanh Toán</h3>
-                                        <div style="padding-bottom: 30px;">
+                                        <div style="padding-bottom: 20px;">
                                             <ul class="nav nav-tabs">
                                                 <li class="tab-item active"><a href="#home" data-toggle="tab">Tiền Mặt</a></li>
-                                                <li class="tab-item"><a href="#info" data-toggle="tab">Ví Điện Tử</a></li>
+                                                <li class="tab-item"><a href="#viDienTu" data-toggle="tab">Ví Điện Tử</a></li>
                                             </ul>
                                             <div class="tab-content">
-                                                <div class="tab-pane fade in active" id="home">
+                                                <div class="tab-pane fade in" id="home">
                                                     <div class="row">
                                                         <div class="col-md-2">
-                                                            <button type="button" id="thanhToan" class="btn btn-block btn-primary btn-md">Thanh Toán</button>
+                                                            <button type="button" id="tienMat" class="btn btn-block btn-primary btn-md btn-thanh-toan">Thanh Toán</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="tab-pane" id="info"><img src="../images/qr-code.png" alt="" style="width: 200px; height: 200px;"></div>
+                                                <div class="tab-pane" id="viDienTu"><img src="~/Karaoke-assest/Images/qr-code.png" alt="" class="vi-dien-tu-img"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -264,14 +266,17 @@ else
         });
     </script>*@
     <!-- The Modal -->    
-    <script type="text/javascript">
-
+<script type="text/javascript">    
         var lstInt = JSON.stringify(@str);
         console.log(lstInt);
         var dataObj = JSON.parse('@Html.Raw(Json.Serialize(Model))');
-        console.log(dataObj);        
+        console.log(dataObj);
+        var tongTienTT = $('#tongTien').val();
+        console.log("tongtien: "+tongTienTT);
+    var isVNPaySuccess = $('#isVNPaySuccess').val();    
     $(function () {
-        $("#thanhToan").on('click', function () {
+        
+        $("#tienMat").on('click', function () {
             $.ajax({
                 type: "POST",
                 url: '/ThanhToanKaraoke/ThanhToanTienMat/',
@@ -284,7 +289,7 @@ else
                     w.document.open();
                     w.document.write(data);
                     w.document.close();
-                    w.window.print();                                       
+                    w.window.print();
                 },
                 error: function (error) {
                     console.log(error);
@@ -292,9 +297,31 @@ else
                 }
             });
         });
+        $("#viDienTu").on('click', function () {
+            $.ajax({
+                type: "POST",
+                url: '/ThanhToanKaraoke/ThanhToanViDienTu/',
+                data: { tongTien: tongTienTT, bookPhongIds: lstInt},
+                success: function (data) {
+                    if (data != '' && data != null) {
+                        console.log(data);
+                        window.location = data;
+                    }                   
+                },
+                error: function (error) {
+                    console.log(error);
+                    alert("Some thing when wrong with VNPay");
+                }
+            });
+        });
+
         $('#close-popup').on('click', function () {
-            $("#myModal").css('display', 'none');
-        })
+            window.location = '/';
+            /*$("#myModal").css('display', 'none');*/
+        });
+        if (isVNPaySuccess=='true') {            
+            $('#tienMat').trigger('click');
+        }
     });
-    </script>
+</script>
 }

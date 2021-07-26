@@ -17,5 +17,6 @@ namespace KaraokePayment.DAO.Interface
         Task<bool> ThemPhongThanhToan(int phongId, decimal giaPhong);
         Task<bool> XoaPhongThanhToan(BookPhongOrderPhong phongThanhToan);
         BookPhongOrder CheckBookPhongOrderFinish(int bookPhongOrderId);
+        string GetNhanVienByNVCaLVId(int nvCaLVId);
     }
 }

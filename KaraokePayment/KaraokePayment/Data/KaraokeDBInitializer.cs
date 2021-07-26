@@ -47,7 +47,7 @@ namespace KaraokePayment.Data
             var nv1 = new NhanVien()
             {
                 Id = Guid.NewGuid().ToString(),
-                Ho = "Nguyen Van",
+                Ho = "Nguyễn Văn",
                 Ten = "Huy",
                 SDT = "0977470992",
                 NgaySinh = new DateTime(1998, 09, 05),
@@ -62,12 +62,12 @@ namespace KaraokePayment.Data
             var nv2 = new NhanVien()
             {
                 Id = Guid.NewGuid().ToString(),
-                Ho = "Nguyen Van",
-                Ten = "Hung",
+                Ho = "Nguyễn Văn",
+                Ten = "Bảy",
                 SDT = "099457645",
                 NgaySinh = new DateTime(1998, 09, 05),
                 CMT = "123456789",
-                Email = "hung@gmail.com",
+                Email = "bay@gmail.com",
                 DiaChiChiTiet = "khu tai dinh cu",
                 MaNV = "NV002",
                 Luong = 9000000,
@@ -77,8 +77,8 @@ namespace KaraokePayment.Data
             var nv3 = new NhanVien()
             {
                 Id = Guid.NewGuid().ToString(),
-                Ho = "Nguyen Minh",
-                Ten = "Duc",
+                Ho = "Nguyễn Minh",
+                Ten = "Đức",
                 SDT = "031231232",
                 NgaySinh = new DateTime(1998, 09, 05),
                 CMT = "115487982",
@@ -92,8 +92,8 @@ namespace KaraokePayment.Data
             var nv4 = new NhanVien()
             {
                 Id = Guid.NewGuid().ToString(),
-                Ho = "Nguyen Minh",
-                Ten = "Thang",
+                Ho = "Nguyễn Minh",
+                Ten = "Thắng",
                 SDT = "031231232",
                 NgaySinh = new DateTime(1998, 09, 05),
                 CMT = "465487982",
@@ -107,12 +107,12 @@ namespace KaraokePayment.Data
             var nv5 = new NhanVien()
             {
                 Id = Guid.NewGuid().ToString(),
-                Ho = "Ngo Phuong",
-                Ten = "Lan",
+                Ho = "Ngô Phương",
+                Ten = "Linh",
                 SDT = "0989456122",
                 NgaySinh = new DateTime(1998, 02, 04),
                 CMT = "213123123",
-                Email = "lannp@gmail.com",
+                Email = "linh@gmail.com",
                 DiaChiChiTiet = "khu tai dinh cu",
                 MaNV = "NV005",
                 Luong = 9000000,
@@ -130,17 +130,19 @@ namespace KaraokePayment.Data
                 {
                     Id = 1, MaHH = "HH001", Ten = "Bim Bim Oshi Cay", Gia = 10000,
                     HanSuDung = new DateTime(2022, 09, 09),
-                    NgayNhap = new DateTime(2021, 05, 05), SoLuong = 50
+                    NgayNhap = new DateTime(2021, 05, 05), SoLuong = 50,
+                    HangHoaImage= "bimbimoshicay.jpg"
                 },
                 new HangHoa()
                 {
                     Id = 2,
                     MaHH = "HH002",
-                    Ten = "Dia Hoa Qua",
+                    Ten = "Đĩa Hoa Quả",
                     Gia = 20000,
                     HanSuDung = new DateTime(2022, 09, 09),
                     NgayNhap = new DateTime(2021, 05, 05),
-                    SoLuong = 50
+                    SoLuong = 50,
+                    HangHoaImage = "fruit.jpg"
                 },
                 new HangHoa()
                 {
@@ -150,17 +152,19 @@ namespace KaraokePayment.Data
                     Gia = 20000,
                     HanSuDung = new DateTime(2022, 09, 09),
                     NgayNhap = new DateTime(2021, 05, 05),
-                    SoLuong = 50
+                    SoLuong = 50,
+                    HangHoaImage = "bimbimostar.jpg"
                 },
                 new HangHoa()
                 {
                     Id = 4,
                     MaHH = "HH004",
-                    Ten = "Bia Sai Gon",
+                    Ten = "Bia Sài Gòn",
                     Gia = 40000,
                     HanSuDung = new DateTime(2022, 09, 09),
                     NgayNhap = new DateTime(2021, 05, 05),
-                    SoLuong = 1000
+                    SoLuong = 1000,
+                    HangHoaImage = "biasaigon.jpg"
                 },
                 new HangHoa()
                 {
@@ -170,8 +174,20 @@ namespace KaraokePayment.Data
                     Gia = 45000,
                     HanSuDung = new DateTime(2022, 09, 09),
                     NgayNhap = new DateTime(2021, 05, 05),
-                    SoLuong = 1000
-                }
+                    SoLuong = 1000,
+                    HangHoaImage = "biaheineken.jpg"
+                },
+                 new HangHoa()
+                 {
+                     Id = 6,
+                     MaHH = "HH006",
+                     Ten = "Bia Hà Nội",
+                     Gia = 40000,
+                     HanSuDung = new DateTime(2022, 09, 09),
+                     NgayNhap = new DateTime(2021, 05, 05),
+                     SoLuong = 1000,
+                     HangHoaImage = "biahanoi.PNG"
+                 }
             );
 
             #endregion
@@ -181,27 +197,27 @@ namespace KaraokePayment.Data
             modelBuilder.Entity<KhachHang>().HasData(
                 new KhachHang()
                 {
-                    Id = Guid.NewGuid().ToString(), Ho = "Ngo Ba", Ten = "Hung", SDT = "0665324444", MaKH = "KH001",
+                    Id = Guid.NewGuid().ToString(), Ho = "Ngô Bá", Ten = "Hùng", SDT = "0665324444", MaKH = "KH001",
                     IsVIP = true
                 },
                 new KhachHang()
                 {
-                    Id = Guid.NewGuid().ToString(), Ho = "Kieu Dang", Ten = "Thang", SDT = "0554513222", MaKH = "KH002",
+                    Id = Guid.NewGuid().ToString(), Ho = "Kiều Đăng", Ten = "Thắng", SDT = "0554513222", MaKH = "KH002",
                     IsVIP = false
                 },
                 new KhachHang()
                 {
-                    Id = Guid.NewGuid().ToString(), Ho = "Nguyen Chung", Ten = "Dung", SDT = "09999999", MaKH = "KH003",
+                    Id = Guid.NewGuid().ToString(), Ho = "Nguyễn Văn", Ten = "Khánh", SDT = "09999999", MaKH = "KH003",
                     IsVIP = true
                 },
                 new KhachHang()
                 {
-                    Id = Guid.NewGuid().ToString(), Ho = "Ngo Ba", Ten = "Duc", SDT = "065332255", MaKH = "KH004",
+                    Id = Guid.NewGuid().ToString(), Ho = "Ngô Bá", Ten = "Khá", SDT = "065332255", MaKH = "KH004",
                     IsVIP = false
                 },
                 new KhachHang()
                 {
-                    Id = Guid.NewGuid().ToString(), Ho = "Ngo Ba", Ten = "Nam", SDT = "0977470999", MaKH = "KH005",
+                    Id = Guid.NewGuid().ToString(), Ho = "Ngô Phương", Ten = "Nam", SDT = "0977470999", MaKH = "KH005",
                     IsVIP = false
                 }
             );

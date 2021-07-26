@@ -9,6 +9,9 @@ using KaraokePayment.Data;
 using KaraokePayment.Data.Entity;
 using KaraokePayment.Enums;
 using Microsoft.AspNetCore.Authorization;
+using KaraokePayment.Models;
+using KaraokePayment.Helpers;
+using Microsoft.AspNetCore.Identity;
 
 namespace KaraokePayment.Controllers
 {
@@ -16,17 +19,32 @@ namespace KaraokePayment.Controllers
     public class BookPhongOrdersController : Controller
     {
         private readonly KaraokeDbContext _context;
-
-        public BookPhongOrdersController(KaraokeDbContext context)
+        private UserManager<IdentityUser> _userAdmin;
+        public BookPhongOrdersController(KaraokeDbContext context, UserManager<IdentityUser> userAdmin)
         {
             _context = context;
+            _userAdmin = userAdmin;
         }
 
         // GET: BookPhongOrders
         public async Task<IActionResult> Index()
         {
             var karaokeDbContext = _context.BookPhongOrders.Include(b => b.KhachHang).Include(b => b.NhanVienCaLV);
-            return View(await karaokeDbContext.ToListAsync());
+            var bookPhongOrders = new List<BookPhongOrderViewModel>();            
+            foreach (var item in karaokeDbContext.ToList())
+            {
+                var model = new BookPhongOrderViewModel()
+                {
+                    Id = item.Id,
+                    KhachHang = StringHelper.StringCapitalization($"{item.KhachHang.Ho} {item.KhachHang.Ten}"),
+                    NhanVienAdmin = item.NhanVienAdminEmail,
+                    TongTT = item.TongTT,
+                    TrangThai = item.TrangThai
+                };
+                bookPhongOrders.Add(model);
+            }
+            
+            return View(bookPhongOrders);
         }
 
         // GET: BookPhongOrders/Details/5
@@ -51,10 +69,8 @@ namespace KaraokePayment.Controllers
 
         // GET: BookPhongOrders/Create
         public IActionResult Create()
-        {
-            ViewData["TrangThai"] = new SelectList(new List<string>() { BookPhongOrderStatus.NotPaid.ToString(), BookPhongOrderStatus.Paid.ToString() }, "TrangThai", "TrangThai");
-            ViewData["KhachHangId"] = new SelectList(_context.Set<KhachHang>(), "Id", "Ten");
-            ViewData["NhanVienCaLVId"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id");
+        {            
+            ViewData["KhachHangId"] = new SelectList(_context.Set<KhachHang>(), "Id", "Ten");            
             return View();
         }
 
@@ -63,16 +79,19 @@ namespace KaraokePayment.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TongTT,TrangThai,KhachHangId,NhanVienCaLVId")] BookPhongOrder bookPhongOrder)
+        public async Task<IActionResult> Create([Bind("Id,TongTT,TrangThai,KhachHangId")] BookPhongOrder bookPhongOrder)
         {
             if (ModelState.IsValid)
-            {                
+            {
+                var currentUser = _userAdmin.GetUserAsync(User).Result;
+                bookPhongOrder.NhanVienAdminEmail = currentUser.Email;
+                var currentAdminCaLvId = _context.NhanVienCaLvs.FirstOrDefault(x => x.NhanVienId == currentUser.Id).Id;
+                bookPhongOrder.NhanVienCaLVId = currentAdminCaLvId;
                 _context.Add(bookPhongOrder);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }            
-            ViewData["KhachHangId"] = new SelectList(_context.Set<KhachHang>(), "Id", "Id", bookPhongOrder.KhachHangId);
-            ViewData["NhanVienCaLVId"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id", bookPhongOrder.NhanVienCaLVId);
+            ViewData["KhachHangId"] = new SelectList(_context.Set<KhachHang>(), "Id", "Id", bookPhongOrder.KhachHangId);            
             return View(bookPhongOrder);
         }
 
@@ -89,8 +108,7 @@ namespace KaraokePayment.Controllers
             {
                 return NotFound();
             }
-            ViewData["KhachHangId"] = new SelectList(_context.Set<KhachHang>(), "Id", "Id", bookPhongOrder.KhachHangId);
-            ViewData["NhanVienCaLVId"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id", bookPhongOrder.NhanVienCaLVId);
+            ViewData["KhachHangId"] = new SelectList(_context.Set<KhachHang>(), "Id", "Id", bookPhongOrder.KhachHangId);            
             return View(bookPhongOrder);
         }
 
@@ -99,7 +117,7 @@ namespace KaraokePayment.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TongTT,TrangThai,KhachHangId,NhanVienCaLVId")] BookPhongOrder bookPhongOrder)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TongTT,TrangThai,KhachHangId")] BookPhongOrder bookPhongOrder)
         {
             if (id != bookPhongOrder.Id)
             {
@@ -126,8 +144,7 @@ namespace KaraokePayment.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KhachHangId"] = new SelectList(_context.Set<KhachHang>(), "Id", "Id", bookPhongOrder.KhachHangId);
-            ViewData["NhanVienCaLVId"] = new SelectList(_context.NhanVienCaLvs, "Id", "Id", bookPhongOrder.NhanVienCaLVId);
+            ViewData["KhachHangId"] = new SelectList(_context.Set<KhachHang>(), "Id", "Id", bookPhongOrder.KhachHangId);            
             return View(bookPhongOrder);
         }
 

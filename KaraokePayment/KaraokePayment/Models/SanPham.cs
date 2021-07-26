@@ -9,14 +9,14 @@ namespace KaraokePayment.Models
     {
         public SanPham(PhongInfoViewModel phongSP)
         {
-            Ten = phongSP.TenPhong;
+            Ten = phongSP.TenPhong.StringCapitalization();
             SoLuong = 1;
             Gia = PaymentHelper.ConvertCurrency(phongSP.Gia);
             IsPhong = true;            
         }
         public SanPham(HangHoaViewModel hangHoa)
         {
-            Ten = hangHoa.HangHoaInfo.Ten;
+            Ten = hangHoa.HangHoaInfo.Ten.StringCapitalization();
             SoLuong = hangHoa.SoLuongSuDung;
             Gia = PaymentHelper.ConvertCurrency(hangHoa.HangHoaInfo.Gia);
             TongTien = PaymentHelper.ConvertCurrency( this.SoLuong * hangHoa.HangHoaInfo.Gia);

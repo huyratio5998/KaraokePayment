@@ -22,7 +22,7 @@
 
     public static class KieuThanhToan
     {
-        public static string TienMat="TienMat";
-        public static string ViDienTu = "ViDienTu";
+        public static string TienMat="Tiền Mặt";
+        public static string ViDienTu = "Ví Điện Tử";
     }
 }

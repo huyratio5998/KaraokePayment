@@ -16,6 +16,7 @@ using KaraokePayment.DAO;
 using Microsoft.AspNetCore.Http;
 using KaraokePayment.Data.Entity;
 using KaraokePayment.DAO.Interface;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace KaraokePayment
 {
@@ -39,6 +40,11 @@ namespace KaraokePayment
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();            
             services.AddRepositories();
             services.AddControllersWithViews();
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
             services.AddRazorPages();
         }
 
@@ -56,6 +62,7 @@ namespace KaraokePayment
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseForwardedHeaders();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
