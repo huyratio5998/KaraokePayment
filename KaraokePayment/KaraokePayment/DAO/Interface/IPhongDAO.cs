@@ -8,7 +8,6 @@ namespace KaraokePayment.DAO.Interface
 {
     public interface IPhongDAO : IDAO<Phong>
     {
-        List<Phong> GetPhongDaBook();
-        Phong GetPhongTheoTen(string name);
+        List<Phong> GetPhongDaBook();        
     }
 }

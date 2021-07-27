@@ -23,35 +23,8 @@ namespace KaraokePayment.DAO.Implement
         {
             var nvName = _context.NhanVienCaLvs.Include(x => x.NhanVien).FirstOrDefault(x => x.Id == nvCaLVId);
             return  $"{nvName.NhanVien.Ho} {nvName.NhanVien.Ten}".StringCapitalization();
-        }
-        public async Task<bool> ThanhToanPhong(int bookPhongOrderPhongId)
-        {
-            var bookPhong=await GetById(bookPhongOrderPhongId);
-            if (bookPhong == null) return false;
-            bookPhong.TrangThai =BookPhongOrderPhongStatus.Paid;
-            _context.Entry(bookPhong).State = EntityState.Modified;
-            _context.SaveChanges();
-            return true;
-
-        }
-
-        public List<BookPhongOrderPhong> GetHoaDon(List<int> bookPhongOrderPhongId)
-        {
-            var lstHoaDon = new List<BookPhongOrderPhong>();
-            foreach (var item in bookPhongOrderPhongId)
-            {
-                var hoaDon =_context.BookPhongOrderPhongs.Where(x => x.Id == item).ToList();
-                if(hoaDon!=null && hoaDon.Any()) lstHoaDon.AddRange(hoaDon);
-            }
-
-            return lstHoaDon;
-        }
-
-        public Task<BookPhongOrderPhong> GetBookPhongInfo(int bookPhongOrderPhongId)
-        {
-            var bookPhongInfo = GetById(bookPhongOrderPhongId);
-            return bookPhongInfo;
-        }
+        }      
+      
 
         public List<BookPhongOrderPhong> GetPhongDangThanhToan()
         {
@@ -112,6 +85,6 @@ namespace KaraokePayment.DAO.Implement
                 TongTT = tongTT
             };
             return result;
-        }
+        }       
     }
 }

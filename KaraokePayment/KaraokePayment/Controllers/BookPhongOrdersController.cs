@@ -117,7 +117,7 @@ namespace KaraokePayment.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TongTT,TrangThai,KhachHangId")] BookPhongOrder bookPhongOrder)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TongTT,TrangThai,KhachHangId,NhanVienCaLVId,NhanVienAdminEmail")] BookPhongOrder bookPhongOrder)
         {
             if (id != bookPhongOrder.Id)
             {

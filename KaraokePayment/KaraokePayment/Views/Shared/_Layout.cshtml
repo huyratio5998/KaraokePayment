@@ -183,7 +183,18 @@
             $(function () {
                 $("#example1").DataTable({
                     "responsive": true, "lengthChange": false, "autoWidth": false,
-                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                    "language": {
+                        "emptyTable": "Danh sách rỗng",
+                        "paginate": {
+                            "previous": "Trước",
+                            "next": "Sau"
+                        },
+                        "infoEmpty": "Không có dữ liệu",
+                        "search": "Tìm kiếm",
+                        "info": "Bản ghi thứ _START_ - _END_ của _TOTAL_ bản."
+                    },
+                    
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
                 $('#example2').DataTable({
                     "paging": true,
@@ -192,7 +203,7 @@
                     "ordering": true,
                     "info": true,
                     "autoWidth": false,
-                    "responsive": true,
+                    "responsive": true,                    
                 });
             });
         </script>

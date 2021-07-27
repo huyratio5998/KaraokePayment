@@ -8,7 +8,6 @@ namespace KaraokePayment.DAO.Interface
 {
     public interface IHangHoaDAO : IDAO<HangHoa>
     {
-        List<HangHoa> GetHangHoaAvailable();
-        Task<List<HangHoa>> GetHangHoaTheoTen(string tenHH);
+        List<HangHoa> GetHangHoaAvailable();        
     }
 }

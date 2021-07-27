@@ -23,15 +23,6 @@ namespace KaraokePayment.DAO.Implement
             }
 
             return new List<Phong>();
-        }
-
-        public Phong GetPhongTheoTen(string name)
-        {
-            var phong = _context.Phongs.FirstOrDefault(x =>
-                x.TenPhong.Equals(name, StringComparison.OrdinalIgnoreCase));
-            return phong;
-        }
-
-       
+        }       
     }
 }

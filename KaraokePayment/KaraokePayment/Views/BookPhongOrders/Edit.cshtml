@@ -29,6 +29,8 @@
                                     <form asp-action="Edit">
                                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                         <input type="hidden" asp-for="Id" />
+                                        <input type="hidden" asp-for="NhanVienAdminEmail" />
+                                        <input type="hidden" asp-for="NhanVienCaLVId" />
                                         <div class="form-group">
                                             <label asp-for="TongTT" class="control-label"></label>
                                             <input asp-for="TongTT" class="form-control" />
@@ -43,7 +45,7 @@
                                             <label asp-for="KhachHangId" class="control-label"></label>
                                             <select asp-for="KhachHangId" class="form-control" asp-items="ViewBag.KhachHangId"></select>
                                             <span asp-validation-for="KhachHangId" class="text-danger"></span>
-                                        </div>                                        
+                                        </div>
                                         <div class="form-group">
                                             <input type="submit" value="Save" class="btn btn-primary" />
                                         </div>
